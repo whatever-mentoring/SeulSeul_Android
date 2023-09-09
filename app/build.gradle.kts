@@ -106,4 +106,5 @@ dependencies {
 
     // accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:${property("accompanist_version")}")
+
 }
