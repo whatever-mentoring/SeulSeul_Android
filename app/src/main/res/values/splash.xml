@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Splash" parent="Theme.SplashScreen">
+    <style name="Theme.Splash" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_background</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.SeulSeul</item>
