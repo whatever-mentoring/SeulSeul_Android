@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="56dp">
+
+        <View
+            android:id="@+id/item_subway_transfer_view_connect_top_line"
+            android:layout_width="28dp"
+            android:layout_height="12dp"
+            android:background="@drawable/rotate_dotted_line_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_subway_transfer_iv_walk_man"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="@id/item_subway_transfer_view_connect_top_line"
+            app:layout_constraintStart_toStartOf="@id/item_subway_transfer_view_connect_top_line"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_transfer_view_connect_top_line" />
+
+        <View
+            android:id="@+id/item_subway_transfer_view_connect_bottom_line"
+            android:layout_width="28dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rotate_dotted_line_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_transfer_iv_walk_man" />
+
+        <TextView
+            android:id="@+id/item_subway_transfer_tv_walk_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:textColor="@color/grey_200"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_transfer_iv_walk_man"
+            app:layout_constraintStart_toEndOf="@id/item_subway_transfer_iv_walk_man"
+            app:layout_constraintTop_toTopOf="@id/item_subway_transfer_iv_walk_man"
+            tools:text="도보 3분" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
