@@ -1,3 +1,13 @@
 <resources>
+
+    <!--권한 허용 페이지-->
     <string name="app_name">SeulSeul</string>
+    <string name="permission_title">앱 접근 권한을\n꼭 허용해주세요.</string>
+    <string name="permission_info">슬슬은 정보통신망법 준수 및 차별화된 막차 알림\n서비스를 제공하기 위해 꼭 필요한 아래 기능에\n접근하고 있습니다.</string>
+    <string name="permission_bell_title">알림 수신 (필수)</string>
+    <string name="permission_bell_info">막차 시간 알림 및 앱 실행 권고 알림</string>
+    <string name="permission_location_title">위치 (필수)</string>
+    <string name="permission_location_info">내 현재 위치 및 거주지 위치 확인</string>
+    <string name="permission_btn">확인</string>
+    <string name="permission_explain">•  서비스 제공에 권한이 필요한 경우만 동의를 받고 있습니다.\n•  비허용 시에도 서비스 이용이 제한적으로 가능합니다.</string>
 </resources>
