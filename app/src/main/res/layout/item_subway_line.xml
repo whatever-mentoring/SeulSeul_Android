@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="6dp">
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
+            tools:text="21:12" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_start_station_img"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/img_circle_station_50"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_start_time"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_start_station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
+            tools:text="역삼" />
+
+        <View
+            android:id="@+id/item_subway_line_view_connect_line"
+            android:layout_width="5dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="26dp"
+            android:background="@color/green_500_main"
+            app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_detail_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_200"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_name"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_line_tv_start_station_name"
+            tools:text="강남역 방면 | 빠른 환승 6-2" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_end_station_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_end_station_img"
+            tools:text="21:23" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_end_station_img"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/img_circle_station_50"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_view_connect_line"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_end_station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_end_station_img"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_end_station_img"
+            tools:text="사당" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

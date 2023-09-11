@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="18dp">
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1시간 28분" />
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/grey_400"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_header_tv_total_time"
+            app:layout_constraintStart_toEndOf="@id/item_subway_header_tv_total_time"
+            app:layout_constraintTop_toTopOf="@id/item_subway_header_tv_total_time"
+            tools:text="오후 21:12 ~ 오후 22:40" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
