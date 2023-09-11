@@ -85,23 +85,38 @@
         app:layout_constraintStart_toStartOf="@id/permission_tv_locationTitle"
         app:layout_constraintTop_toBottomOf="@id/permission_tv_locationTitle" />
 
-    <TextView
-        android:id="@+id/permission_tv_explain"
+    <LinearLayout
+        android:id="@+id/permission_layout_explain_container"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="92dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="28dp"
-        android:layout_marginEnd="20dp"
         android:background="@drawable/bg_gray_r4"
-        android:gravity="start"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        android:text="@string/permission_explain"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/permission_iv_location"
-        app:layout_constraintTop_toBottomOf="@id/permission_tv_locationInfo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permission_tv_locationInfo">
 
+        <TextView
+            android:id="@+id/permission_tv_explain1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/permission_explain1"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/permission_tv_explain2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/permission_explain2"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
@@ -111,8 +126,8 @@
         android:text="@string/permission_btn"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/permission_tv_explain"
-        app:layout_constraintStart_toStartOf="@+id/permission_tv_explain" />
+        app:layout_constraintEnd_toEndOf="@+id/permission_layout_explain_container"
+        app:layout_constraintStart_toStartOf="@+id/permission_layout_explain_container" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
