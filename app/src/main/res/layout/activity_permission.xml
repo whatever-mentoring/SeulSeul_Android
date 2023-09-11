@@ -92,7 +92,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/bg_gray_r4"
-        android:gravity="start||center_vertical"
+        android:gravity="start"
         android:paddingStart="16dp"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
