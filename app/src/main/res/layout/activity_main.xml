@@ -12,8 +12,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="8dp"
-        android:padding="12dp"
         android:layout_marginEnd="20dp"
+        android:padding="12dp"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,10 +24,10 @@
         android:id="@+id/home_tv_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="56dp"
         android:text="9.4 일"
         android:textSize="20sp"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,9 +35,9 @@
         android:id="@+id/home_tv_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:text="설정된 알림 없음"
         android:textSize="28sp"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_tv_day" />
     <!-- 날짜 끝 -->
@@ -47,16 +47,16 @@
         android:id="@+id/home_tv_location_setting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_gray_r4"
         android:drawableStart="@drawable/img_24dp"
         android:drawablePadding="4dp"
-        android:text="현재 거주하는 위치를 설정해주세요"
-        android:paddingVertical="12dp"
         android:paddingHorizontal="12dp"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingVertical="12dp"
+        android:text="현재 거주하는 위치를 설정해주세요"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_tv_alarm" />
     <!-- 현재 거주 위치 설정 끝 -->
 
@@ -65,16 +65,16 @@
         android:id="@+id/home_tv_alarm_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/bg_gray_r4"
         android:drawableStart="@drawable/img_24dp"
         android:drawablePadding="4dp"
-        android:text="알람추가하기"
-        android:paddingVertical="12dp"
         android:paddingHorizontal="12dp"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingVertical="12dp"
+        android:text="알람추가하기"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_tv_location_setting" />
     <!-- 알람 추가 버튼 끝 -->
 
@@ -105,21 +105,21 @@
         android:id="@+id/home_view_line"
         android:layout_width="0dp"
         android:layout_height="6dp"
-        android:background="@color/grey_100"
-        app:layout_constraintTop_toBottomOf="@+id/home_tv_empty_text"
         android:layout_marginTop="20dp"
+        android:background="@color/grey_100"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/home_tv_alarm_add" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_rv_subway_route"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingVertical="6dp"
         android:paddingHorizontal="20dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:paddingVertical="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_view_line"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/home_view_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
