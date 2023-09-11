@@ -188,6 +188,8 @@
         android:id="@+id/home_rv_subway_route"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingVertical="6dp"
+        android:paddingHorizontal="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/home_view_line"
