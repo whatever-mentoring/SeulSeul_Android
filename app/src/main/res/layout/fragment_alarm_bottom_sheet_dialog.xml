@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="view"
+            type="com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_cl_alarm_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_white_r40"
+        android:paddingHorizontal="24dp">
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_slide_bar"
+            android:layout_width="72dp"
+            android:layout_height="4dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 시간 설정 시작 -->
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_essential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="*"
+            android:textColor="@color/gradient_blue"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_view_slide_bar" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_title_time_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림 희망 시간"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/home_cl_alarm_bottom_sheet_tv_essential"
+            app:layout_constraintTop_toTopOf="@id/home_cl_alarm_bottom_sheet_tv_essential" />
+
+        <LinearLayout
+            android:id="@+id/home_cl_alarm_bottom_sheet_ll_before_one_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 기준"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_bottom_sheet_tv_before_one_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="1시간 전 알림"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/home_cl_alarm_bottom_sheet_iv_before_one_hour_check"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/ic_launcher_background" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/home_cl_alarm_bottom_sheet_ll_before_one_hour_half"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 기준"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_bottom_sheet_tv_before_one_hour_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="1시간 30분전 알림"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/home_cl_alarm_bottom_sheet_iv_before_one_hour_half_check"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/ic_launcher_background" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_line_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/home_cl_alarm_bottom_sheet_ll_before_two_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 기준"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_bottom_sheet_tv_before_two_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="2시간 전 알림"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/home_cl_alarm_bottom_sheet_iv_before_two_hour_check"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/ic_launcher_background" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_line_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/home_cl_alarm_bottom_sheet_ll_before_two_hour_half"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 기준"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_bottom_sheet_tv_before_two_hour_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="2시간 30분전 알림"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/home_cl_alarm_bottom_sheet_iv_before_two_hour_half_check"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/ic_launcher_background" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_line_4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/home_cl_alarm_bottom_sheet_ll_before_three_hour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="막차 기준"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_bottom_sheet_tv_before_three_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="3시간 전 알림"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/home_cl_alarm_bottom_sheet_iv_before_three_hour_check"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/ic_launcher_background" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/home_cl_alarm_bottom_sheet_flow_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:constraint_referenced_ids="home_cl_alarm_bottom_sheet_ll_before_one_hour, home_cl_alarm_bottom_sheet_view_line_1, home_cl_alarm_bottom_sheet_ll_before_one_hour_half, home_cl_alarm_bottom_sheet_view_line_2, home_cl_alarm_bottom_sheet_ll_before_two_hour, home_cl_alarm_bottom_sheet_view_line_3, home_cl_alarm_bottom_sheet_ll_before_two_hour_half, home_cl_alarm_bottom_sheet_view_line_4, home_cl_alarm_bottom_sheet_ll_before_three_hour"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_tv_title_time_setting" />
+
+        <!-- 반복 설정 시작 -->
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_title_time_term"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="알림 반복"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_flow_time" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="10분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="20분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_30"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="30분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_40"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="40분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_50"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="50분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_60"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="60분마다"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/home_cl_alarm_bottom_sheet_flow_term"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:constraint_referenced_ids="home_cl_alarm_bottom_sheet_tv_term_10, home_cl_alarm_bottom_sheet_tv_term_20, home_cl_alarm_bottom_sheet_tv_term_30,home_cl_alarm_bottom_sheet_tv_term_40, home_cl_alarm_bottom_sheet_tv_term_50, home_cl_alarm_bottom_sheet_tv_term_60"
+            app:flow_horizontalGap="12dp"
+            app:flow_maxElementsWrap="3"
+            app:flow_verticalGap="12dp"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_tv_title_time_term" />
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_setting_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@color/grey_100"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="알림 설정"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:onClick="@{() -> view.closeAlarmSetting()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
