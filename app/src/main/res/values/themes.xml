@@ -5,7 +5,11 @@
         <item name="colorPrimary">@color/green_500_main</item>
     </style>
 
-    <style name="Theme.SeulSeul" parent="Base.Theme.SeulSeul" />
+    <style name="Theme.SeulSeul" parent="Base.Theme.SeulSeul">
+        <!-- Status Bar -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
     <!-- Bottom Sheet Style -->
     <style name="RoundCornerBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
