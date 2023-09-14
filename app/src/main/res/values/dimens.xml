@@ -27,6 +27,8 @@
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_20">20dp</dimen>
 
+    <dimen name="padding_main_button">13dp</dimen>
+
     <!-- radius -->
     <dimen name="radius_main_button">4dp</dimen>
     <dimen name="radius_other_button">8dp</dimen>
