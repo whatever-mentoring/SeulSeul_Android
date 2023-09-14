@@ -13,10 +13,10 @@
 
     <color name="gradient_blue">#00A7B2</color>
 
-    <color name="grey_10">#F5F5F5</color>
-    <color name="grey_50">#E2E2E2</color>
-    <color name="grey_100">#CCCCCC</color>
-    <color name="grey_200">#999999</color>
-    <color name="grey_300">#666666</color>
-    <color name="grey_400">#333333</color>
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_200">#E2E2E2</color>
+    <color name="grey_300">#CCCCCC</color>
+    <color name="grey_400">#999999</color>
+    <color name="grey_500">#666666</color>
+    <color name="grey_600">#333333</color>
 </resources>
