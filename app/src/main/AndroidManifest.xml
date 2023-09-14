@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Splash"
+        android:theme="@style/Theme.SeulSeul"
         tools:targetApi="31">
         <activity
             android:name=".presentation.MainActivity"
