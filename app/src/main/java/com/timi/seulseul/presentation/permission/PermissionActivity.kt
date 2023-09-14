@@ -4,9 +4,12 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
@@ -26,7 +29,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             }
 
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                showUpgradeToExactLocationDialog()
+                showFirstPermissionDialog()
             }
 
             else -> {
@@ -114,7 +117,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                     hasFineLocationPermission -> goToMainActivity()
 
                     !hasFineLocationPermission && hasCoarseLocationPermission ->
-                        showUpgradeToExactLocationDialog()
+                        showFirstPermissionDialog()
 
                     !hasFineLocationPermission && !hasCoarseLocationPermission ->
                         locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
@@ -128,40 +131,40 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
     }
 
-    //정확한 위치로 업그레이드 요청하는 경우
-    private fun showUpgradeToExactLocationDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("대략적인 위치 권한으로는 정확한 알림을 받을 수 없습니다.")
-            .setMessage("정확한 알림을 받기 위해서는 정확한 위치 권한이 필요합니다.")
-            .setPositiveButton("업그레이드") { _, _ ->
-                requestExactLocationPermissions()
-            }
-    }
-
-    //정확한 위치 권한 요청
-    private fun requestExactLocationPermissions() {
-        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-    }
-
     // 이번만 허용 혹은 거부를 눌렀을 경우
     private fun showFirstPermissionDialog() {
         AlertDialog.Builder(this)
-            .setTitle("정확한 알림을 받아보기 위해서는 위치 권한을 항상 허용해주세요")
+            .setMessage("정확한 알림을 받아보기  위해서는\n위치 권한을 항상 허용해주세요")
             .setPositiveButton("확인") { _, _ ->
-                locationPermissionRequest.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
+                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", packageName, null)
+                })
             }.show()
     }
 
     //MainActivity 이동
     private fun goToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+
+        //Android 10(API 29이상)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val hasBackgroundLocationAccess = ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!hasBackgroundLocationAccess) {
+                showFirstPermissionDialog()
+            } else {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+        } else {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
     }
+
 
 
 }
