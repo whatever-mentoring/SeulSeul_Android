@@ -1,125 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 설정 시작 -->
-    <ImageView
-        android:id="@+id/home_iv_setting"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!-- 설정 끝 -->
+    <data>
+        <variable
+            name="view"
+            type="com.timi.seulseul.presentation.MainActivity" />
+    </data>
 
-    <!-- 날짜 시작 -->
-    <TextView
-        android:id="@+id/home_tv_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="56dp"
-        android:text="9.4 일"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/home_tv_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="설정된 알림 없음"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_tv_day" />
-    <!-- 날짜 끝 -->
-
-    <!-- 현재 거주 위치 설정 시작 -->
-    <TextView
-        android:id="@+id/home_tv_location_setting"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/bg_gray_r4"
-        android:drawableStart="@drawable/img_24dp"
-        android:drawablePadding="4dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="12dp"
-        android:text="현재 거주하는 위치를 설정해주세요"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_tv_alarm" />
-    <!-- 현재 거주 위치 설정 끝 -->
+        android:layout_height="match_parent"
+        tools:context=".presentation.MainActivity">
 
-    <!-- 알람 추가 버튼 시작 -->
-    <TextView
-        android:id="@+id/home_tv_alarm_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_gray_r4"
-        android:drawableStart="@drawable/img_24dp"
-        android:drawablePadding="4dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="12dp"
-        android:text="알람추가하기"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_tv_location_setting" />
-    <!-- 알람 추가 버튼 끝 -->
+        <!-- 설정 시작 -->
+        <ImageView
+            android:id="@+id/home_iv_setting"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!-- 설정 끝 -->
 
+        <!-- 날짜 시작 -->
+        <TextView
+            android:id="@+id/home_tv_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="56dp"
+            android:text="9.4 일"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 아직 경로를 볼 시간이 아니에요 시작 -->
-    <ImageView
-        android:id="@+id/home_iv_empty_img"
-        android:layout_width="129dp"
-        android:layout_height="129dp"
-        android:layout_marginTop="64dp"
-        android:src="@drawable/ic_launcher_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_tv_alarm_add" />
+        <TextView
+            android:id="@+id/home_tv_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="설정된 알림 없음"
+            android:textSize="28sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_day" />
+        <!-- 날짜 끝 -->
 
-    <TextView
-        android:id="@+id/home_tv_empty_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아직 경로를 볼 시간이 아니에요"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_iv_empty_img" />
-    <!-- 아직 경로를 볼 시간이 아니에요 끝 -->
+        <!-- 현재 거주 위치 설정 시작 -->
+        <TextView
+            android:id="@+id/home_tv_location_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_gray_r4"
+            android:drawableStart="@drawable/img_24dp"
+            android:drawablePadding="4dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:text="현재 거주하는 위치를 설정해주세요"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_tv_alarm" />
+        <!-- 현재 거주 위치 설정 끝 -->
 
-    <View
-        android:id="@+id/home_view_line"
-        android:layout_width="0dp"
-        android:layout_height="6dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey_100"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_tv_alarm_add" />
+        <!-- 알람 추가 버튼 시작 -->
+        <TextView
+            android:id="@+id/home_tv_alarm_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_gray_r4"
+            android:drawableStart="@drawable/img_24dp"
+            android:drawablePadding="4dp"
+            android:onClick="@{() -> view.showAlarmSetting()}"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="12dp"
+            android:text="알람추가하기"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_tv_location_setting" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_rv_subway_route"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_view_line" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_cl_alarm_setting"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_gray_r4"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_location_setting">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/home_cl_title_last_subway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/grey_400"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="막차 기준"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/home_cl_before_alarm_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="1시간 전"
+                android:textColor="@color/grey_400"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_cl_title_last_subway" />
+
+            <TextView
+                android:id="@+id/home_cl_alarm_term"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:text="30분 간격으로 알림"
+                android:textColor="@color/grey_400"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/home_cl_before_alarm_time" />
+
+            <Switch
+                android:id="@+id/home_cl_alarm_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:switchMinWidth="60dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- 알람 추가 버튼 끝 -->
+
+        <!-- 아직 경로를 볼 시간이 아니에요 시작 -->
+        <ImageView
+            android:id="@+id/home_iv_empty_img"
+            android:layout_width="129dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_tv_alarm_add" />
+
+        <TextView
+            android:id="@+id/home_tv_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아직 경로를 볼 시간이 아니에요"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_iv_empty_img" />
+        <!-- 아직 경로를 볼 시간이 아니에요 끝 -->
+
+        <View
+            android:id="@+id/home_view_line"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/grey_300"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/home_cl_alarm_setting" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_rv_subway_route"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="6dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_view_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

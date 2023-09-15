@@ -5,5 +5,39 @@
         <item name="colorPrimary">@color/green_500_main</item>
     </style>
 
-    <style name="Theme.SeulSeul" parent="Base.Theme.SeulSeul" />
+    <style name="Theme.SeulSeul" parent="Base.Theme.SeulSeul">
+        <!-- Status Bar -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Bottom Sheet Style -->
+    <style name="RoundCornerBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundCornerModalStyle</item>
+    </style>
+
+    <style name="RoundCornerModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Main Green Button Style -->
+    <style name="NormalGreenButtonTheme" parent="Widget.AppCompat.TextView">
+        <item name="android:padding">@dimen/padding_main_button</item>
+        <item name="android:background">@drawable/bg_green_500_main_r4</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+    </style>
+
+    <!-- Main Grey Button Style -->
+    <style name="NormalGreyButtonTheme" parent="Widget.AppCompat.TextView">
+        <item name="android:padding">@dimen/padding_main_button</item>
+        <item name="android:background">@drawable/bg_grey_200_r4</item>
+        <item name="android:textSize">@dimen/font_size_16</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/pretendard_semi_bold</item>
+    </style>
+
 </resources>

@@ -103,8 +103,4 @@ dependencies {
 
     // splashscreen
     implementation("androidx.core:core-splashscreen:${property("splash_version")}")
-
-    // accompanist
-    implementation("com.google.accompanist:accompanist-systemuicontroller:${property("accompanist_version")}")
-
 }
