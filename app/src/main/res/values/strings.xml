@@ -1,8 +1,7 @@
 <resources>
-
-    <!--권한 허용 페이지-->
     <string name="app_name">SeulSeul</string>
 
+    <!--권한 허용 페이지-->
     <string name="permission_title">앱 접근 권한을\n꼭 허용해주세요.</string>
     <string name="permission_info">슬슬은 정보통신망법 준수 및 차별화된 막차 알림\n서비스를 제공하기 위해 꼭 필요한 아래 기능에\n접근하고 있습니다.</string>
     <string name="permission_bell_title">알림 수신 (필수)</string>
@@ -13,8 +12,22 @@
     <string name="permission_explain1">•  서비스 제공에 권한이 필요한 경우만 동의를 받고 있습니다.</string>
     <string name="permission_explain2">•  비허용 시에도 서비스 이용이 제한적으로 가능합니다.</string>
 
+    <!-- 메인 홈 페이지 -->
     <string name="home_location_setting">현재 거주하는 위치를 설정해주세요</string>
     <string name="home_status_alarm">설정된 알림 없음</string>
     <string name="home_add_alarm">알람 추가하기</string>
     <string name="home_empty_view_title">아직 경로를 볼 시간이 아니에요\n알림 설정 시간을 기준으로 경로를 제공합니다</string>
+
+    <!-- 알림 바텀 시트 -->
+    <string name="alarm_bottom_sheet_essential">*</string>
+    <string name="alarm_bottom_sheet_preferred_time">알림 희망 시간</string>
+    <string name="item_alarm_preferred_time_last_subway_title">막차 기준</string>
+    <string name="alarm_bottom_sheet_time_term">알림 반복</string>
+    <string name="alarm_bottom_sheet_time_term_10">10분마다</string>
+    <string name="alarm_bottom_sheet_time_term_20">20분마다</string>
+    <string name="alarm_bottom_sheet_time_term_30">30분마다</string>
+    <string name="alarm_bottom_sheet_time_term_40">40분마다</string>
+    <string name="alarm_bottom_sheet_time_term_50">50분마다</string>
+    <string name="alarm_bottom_sheet_time_term_60">60분마다</string>
+
 </resources>
