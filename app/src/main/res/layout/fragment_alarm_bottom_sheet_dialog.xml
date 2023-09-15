@@ -26,148 +26,175 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/home_cl_alarm_bottom_sheet_ll_title_time_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24"
+        
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/home_cl_alarm_bottom_sheet_scroll"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
             android:layout_marginTop="@dimen/margin_40"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_view_slide_bar"
+            app:layout_constraintBottom_toTopOf="@id/home_cl_alarm_bottom_sheet_tv_setting_ok"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_view_slide_bar">
+            app:layout_constraintEnd_toEndOf="parent">
+            
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_bold"
-                android:text="@string/alarm_bottom_sheet_essential"
-                android:textColor="@color/green_500_main"
-                android:textSize="@dimen/font_size_20" />
+                <LinearLayout
+                    android:id="@+id/home_cl_alarm_bottom_sheet_ll_title_time_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_4"
-                android:fontFamily="@font/pretendard_bold"
-                android:text="@string/alarm_bottom_sheet_preferred_time"
-                android:textColor="@color/black"
-                android:textSize="@dimen/font_size_20" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="@string/alarm_bottom_sheet_essential"
+                        android:textColor="@color/green_500_main"
+                        android:textSize="@dimen/font_size_20" />
 
-        <include
-            android:id="@+id/home_cl_alarm_bottom_sheet_include_preferred_time"
-            layout="@layout/item_alarm_preferred_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_20"
-            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_ll_title_time_setting" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_4"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="@string/alarm_bottom_sheet_preferred_time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size_20" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_title_time_term"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_40"
-            android:fontFamily="@font/pretendard_bold"
-            android:text="@string/alarm_bottom_sheet_time_term"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_size_20"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_include_preferred_time" />
+                <include
+                    android:id="@+id/home_cl_alarm_bottom_sheet_include_preferred_time"
+                    layout="@layout/layout_alarm_preferred_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_20"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_ll_title_time_setting" />
 
-        <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/home_cl_alarm_bottom_sheet_flow_term"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_24"
-            android:layout_marginTop="@dimen/margin_20"
-            android:orientation="horizontal"
-            app:constraint_referenced_ids="home_cl_alarm_bottom_sheet_tv_term_10, home_cl_alarm_bottom_sheet_tv_term_20, home_cl_alarm_bottom_sheet_tv_term_30, home_cl_alarm_bottom_sheet_tv_term_40, home_cl_alarm_bottom_sheet_tv_term_50, home_cl_alarm_bottom_sheet_tv_term_60"
-            app:flow_horizontalGap="@dimen/margin_12"
-            app:flow_maxElementsWrap="3"
-            app:flow_verticalGap="@dimen/margin_12"
-            app:flow_wrapMode="aligned"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_tv_title_time_term" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_title_time_term"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_40"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="@string/alarm_bottom_sheet_time_term"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_include_preferred_time" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_10"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14" />
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/home_cl_alarm_bottom_sheet_flow_term"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:orientation="horizontal"
+                    app:constraint_referenced_ids="home_cl_alarm_bottom_sheet_tv_term_10, home_cl_alarm_bottom_sheet_tv_term_20, home_cl_alarm_bottom_sheet_tv_term_30, home_cl_alarm_bottom_sheet_tv_term_40, home_cl_alarm_bottom_sheet_tv_term_50, home_cl_alarm_bottom_sheet_tv_term_60"
+                    app:flow_horizontalGap="@dimen/margin_12"
+                    app:flow_maxElementsWrap="3"
+                    app:flow_verticalGap="@dimen/margin_12"
+                    app:flow_wrapMode="aligned"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_tv_title_time_term" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_20"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_20"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14"
-            tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_10"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_30"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_30"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14"
-            tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_20"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_20"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_40"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_40"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14"
-            tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_30"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_50"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_50"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14"
-            tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_40"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_40"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_60"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_grey_100_r8"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:padding="12dp"
-            android:text="@string/alarm_bottom_sheet_time_term_60"
-            android:textColor="@color/grey_500"
-            android:textSize="@dimen/font_size_14"
-            tools:ignore="MissingConstraints" />
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_50"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_50"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_term_60"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/alarm_bottom_sheet_time_term_60"
+                    android:textColor="@color/grey_500"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="73dp"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_flow_term"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            
+        </androidx.core.widget.NestedScrollView>
 
         <TextView
             android:id="@+id/home_cl_alarm_bottom_sheet_tv_setting_ok"
