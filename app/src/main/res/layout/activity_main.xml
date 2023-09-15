@@ -191,7 +191,16 @@
                 android:id="@+id/home_view_line"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
-                android:background="@color/grey_100" />
+                android:background="@color/grey_100"
+                android:visibility="visible"/>
+
+            <include
+                android:id="@+id/home_include_subway_route_title_bar"
+                layout="@layout/layout_subway_route_title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:visibility="gone"/>
         </LinearLayout>
         <!-- 고민중 -->
 
@@ -232,8 +241,6 @@
             android:id="@+id/home_rv_subway_route"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="6dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
