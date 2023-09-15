@@ -58,6 +58,15 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (!hasAllPermissions()) {
+            increaseDeniedCount()
+        }
+    }
+
+
 
     private fun checkPermissionForLocation() {
         if (hasAllPermissions()) {
