@@ -11,6 +11,7 @@ import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
 import com.timi.seulseul.presentation.MainActivity
@@ -47,6 +48,10 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Splash Screen
+        installSplashScreen().apply {
+            // Splash Screen을 설치하고 설정할 수 있다.
+        }
         super.onCreate(savedInstanceState)
         binding.permissionBtnOk.setOnClickListener {
             checkPermissionForLocation()

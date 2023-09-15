@@ -17,10 +17,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var bottomSheetFragment : BottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Splash Screen
-        installSplashScreen().apply {
-            // Splash Screen을 설치하고 설정할 수 있다.
-        }
+
         super.onCreate(savedInstanceState)
 
         binding.view = this
