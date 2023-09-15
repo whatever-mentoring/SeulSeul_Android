@@ -20,20 +20,28 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
 
+    companion object {
+        private const val PREFS_NAME = "PermissionPrefs"
+        private const val KEY_DENIED_COUNT = "deniedCount"
+    }
+
+    //SharedPreferences 초기화
+    private val prefs by lazy { getSharedPreferences(PREFS_NAME, MODE_PRIVATE) }
+
+
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        when {
-            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                goToMainActivity()
-            }
-
-            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+        if (permissions.values.all { it }) {
+            goToMainActivity()
+        } else {
+            val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+            if (deniedCount == 0) {
+                increaseDeniedCount()
                 showFirstPermissionDialog()
-            }
-
-            else -> {
-                showFirstPermissionDialog()
+            } else if (deniedCount == 1) {
+                increaseDeniedCount()
+                showSecondPermissionDialog()
             }
         }
     }
@@ -45,126 +53,110 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
     }
 
-    // 위치 권한 허용
+
     private fun checkPermissionForLocation() {
+        if (hasAllPermissions()) {
+            goToMainActivity()
+        } else if (prefs.getInt(KEY_DENIED_COUNT, -1) >= 1) {
+            showSecondPermissionDialog()
+        } else {
+            val hasFineLocationPermission = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+            val shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+            if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
+                locationPermissionRequest.launch(getRequiredPermissions())
+            } else {
+                goToMainActivity()
+            }
+        }
+
+    }
+
+    private fun hasFineLocationPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasAllPermissions(): Boolean =
+        getRequiredPermissions().all {
+            ContextCompat.checkSelfPermission(
+                this, it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+
+    private fun getRequiredPermissions(): Array<String> =
         when {
-            //Android 9 이하(API 28 이하)
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> {
-                val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
 
-                if (!hasFineLocationPermission) {
-                    locationPermissionRequest.launch(
-                        arrayOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        )
-                    )
-                } else if (hasFineLocationPermission) {
-                    goToMainActivity()
-                } else {
-                    showFirstPermissionDialog()
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q -> arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+
+            else -> arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+    private fun showFirstPermissionDialog() {
+        val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+
+        if (deniedCount == 1) {
+            AlertDialog.Builder(this)
+                .setMessage("정확한 알림을 받아보기 위해서는 위치 권한을 항상 허용해주세요")
+                .setPositiveButton("확인") { _, _ ->
+                    locationPermissionRequest.launch(getRequiredPermissions())
                 }
-            }
-
-            //Android 10(API 29)
-            Build.VERSION.SDK_INT == Build.VERSION_CODES.Q -> {
-                val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-
-                val hasBackgroundLocationPermission = if (hasFineLocationPermission) {
-                    ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    ) == PackageManager.PERMISSION_GRANTED
-                } else false
-
-                when {
-                    hasFineLocationPermission && hasBackgroundLocationPermission -> goToMainActivity()
-
-                    !hasFineLocationPermission || !hasBackgroundLocationPermission ->
-                        locationPermissionRequest.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                            )
-                        )
-
-                    else -> showFirstPermissionDialog()
-                }
-            }
-
-
-            else -> {
-
-                //Android 11 이상(API 30이상)
-
-                val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-
-                val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-
-                when {
-                    hasFineLocationPermission -> goToMainActivity()
-
-                    !hasFineLocationPermission && hasCoarseLocationPermission ->
-                        showFirstPermissionDialog()
-
-                    !hasFineLocationPermission && !hasCoarseLocationPermission ->
-                        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
-
-                    else -> showFirstPermissionDialog()
-
-
-                }
-            }
-
+                .show()
         }
     }
 
-    // 이번만 허용 혹은 거부를 눌렀을 경우
-    private fun showFirstPermissionDialog() {
+    private fun showSecondPermissionDialog() {
         AlertDialog.Builder(this)
-            .setMessage("정확한 알림을 받아보기  위해서는\n위치 권한을 항상 허용해주세요")
-            .setPositiveButton("확인") { _, _ ->
-                startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            .setMessage("설정에서 위치 권한을 항상 허용해주세요")
+            .setPositiveButton("설정으로 이동") { _, _ ->
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                     data = Uri.fromParts("package", packageName, null)
-                })
+                }
+                startActivity(intent)
             }.show()
     }
 
-    //MainActivity 이동
     private fun goToMainActivity() {
+        if (!hasFineLocationPermission()) {
+            showFirstPermissionDialog()
+        } else if (!isAlwaysAllow()) {
+            showSecondPermissionDialog()
+        } else {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+    }
 
-        //Android 10(API 29이상)
+    private fun increaseDeniedCount() {
+        val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+        prefs.edit().apply {
+            putInt(KEY_DENIED_COUNT, deniedCount + 1)
+            apply()
+        }
+    }
+
+    private fun isAlwaysAllow(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val hasBackgroundLocationAccess = ActivityCompat.checkSelfPermission(
+            ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-
-            if (!hasBackgroundLocationAccess) {
-                showFirstPermissionDialog()
-            } else {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
         } else {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            true
         }
-
-    }
-
-
-
 }
