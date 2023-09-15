@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/item_subway_header_view_line_top"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_subway_route_info_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_100"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/padding_20"
+            android:paddingVertical="@dimen/padding_8"
+            android:text="막차 경로 안내"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_header_view_line_top" />
+
+        <View
+            android:id="@+id/item_subway_header_view_line_bottom"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/grey_200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_header_tv_subway_route_info_title" />
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_least_transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:background="@drawable/bg_white_grey_300_stroke_r20"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/padding_8"
+            android:paddingVertical="@dimen/padding_2"
+            android:text="최소환승"
+            android:textColor="@color/grey_400"
+            android:textSize="@dimen/font_size_12"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_header_tv_subway_route_info_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_subway_header_tv_subway_route_info_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
