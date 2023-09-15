@@ -62,7 +62,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     private fun checkPermissionForLocation() {
         if (hasAllPermissions()) {
             goToMainActivity()
-        } else if (prefs.getInt(KEY_DENIED_COUNT, -1) >= 1) {
+        } else if (prefs.getInt(KEY_DENIED_COUNT, 0) >= 2) {
             showSecondPermissionDialog()
         } else {
             val hasFineLocationPermission = ContextCompat.checkSelfPermission(
