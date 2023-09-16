@@ -1,10 +1,12 @@
 package com.timi.seulseul.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityMainBinding
+import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +23,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.view = this
 
         initBottomSheetFragment()
+
+        binding.goApitestBtn.setOnClickListener {
+            startActivity(Intent(this, ApiTestActivity::class.java))
+        }
     }
 
     private fun initBottomSheetFragment() {
