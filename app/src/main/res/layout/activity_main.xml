@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="view"
             type="com.timi.seulseul.presentation.MainActivity" />
@@ -12,189 +13,239 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         tools:context=".presentation.MainActivity">
 
-        <!-- 설정 시작 -->
+        <TextView
+            android:id="@+id/home_tv_location_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:background="@drawable/bg_white_green_stroke_r20"
+            android:drawableStart="@drawable/ic_home_location"
+            android:drawablePadding="@dimen/padding_8"
+            android:fontFamily="@font/pretendard_medium"
+            android:paddingHorizontal="@dimen/padding_8"
+            android:paddingVertical="@dimen/padding_10"
+            android:text="@string/home_location_setting"
+            android:textColor="@color/grey_300"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toStartOf="@id/home_iv_setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/home_iv_setting"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_launcher_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:src="@drawable/ic_home_setting"
+            app:layout_constraintBottom_toBottomOf="@id/home_tv_location_setting"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <!-- 설정 끝 -->
+            app:layout_constraintTop_toTopOf="@id/home_tv_location_setting" />
 
-        <!-- 날짜 시작 -->
         <TextView
             android:id="@+id/home_tv_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="56dp"
-            android:text="9.4 일"
-            android:textSize="20sp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_20"
+            android:background="@drawable/bg_black_r8"
+            android:drawableStart="@drawable/ic_home_day_unchecked"
+            android:drawablePadding="@dimen/padding_4"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:paddingVertical="@dimen/padding_4"
+            android:paddingStart="@dimen/padding_6"
+            android:paddingEnd="@dimen/padding_8"
+            android:text="9월 4일"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_location_setting" />
 
         <TextView
             android:id="@+id/home_tv_alarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="설정된 알림 없음"
-            android:textSize="28sp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_4"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@string/home_status_alarm"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_tv_day" />
-        <!-- 날짜 끝 -->
 
-        <!-- 현재 거주 위치 설정 시작 -->
-        <TextView
-            android:id="@+id/home_tv_location_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/bg_gray_r4"
-            android:drawableStart="@drawable/img_24dp"
-            android:drawablePadding="4dp"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="12dp"
-            android:text="현재 거주하는 위치를 설정해주세요"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_tv_alarm" />
-        <!-- 현재 거주 위치 설정 끝 -->
-
-        <!-- 알람 추가 버튼 시작 -->
-        <TextView
-            android:id="@+id/home_tv_alarm_add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_gray_r4"
-            android:drawableStart="@drawable/img_24dp"
-            android:drawablePadding="4dp"
-            android:onClick="@{() -> view.showAlarmSetting()}"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="12dp"
-            android:text="알람추가하기"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_tv_location_setting" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/home_cl_alarm_setting"
+        <!-- 고민중 -->
+        <LinearLayout
+            android:id="@+id/home_ll_alarm_buttons"
             android:layout_width="0dp"
-            android:layout_height="130dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/bg_gray_r4"
-            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_tv_location_setting">
+            app:layout_constraintTop_toBottomOf="@id/home_tv_alarm">
 
             <TextView
-                android:id="@+id/home_cl_title_last_subway"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/grey_400"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="막차 기준"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/home_cl_before_alarm_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:text="1시간 전"
+                android:id="@+id/home_tv_alarm_add"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_main_button"
+                android:layout_marginHorizontal="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:background="@drawable/bg_grey_100_r8"
+                android:drawableStart="@drawable/ic_home_add"
+                android:drawablePadding="@dimen/padding_4"
+                android:fontFamily="@font/pretendard_medium"
+                android:gravity="center_vertical"
+                android:onClick="@{() -> view.showAlarmSetting()}"
+                android:paddingHorizontal="@dimen/padding_8"
+                android:text="@string/home_add_alarm"
                 android:textColor="@color/grey_400"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/home_cl_title_last_subway" />
+                android:textSize="@dimen/font_size_14"
+                android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/home_cl_alarm_term"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_cl_alarm_setting"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:layout_marginHorizontal="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:background="@drawable/bg_grey_200_r8"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/home_cl_iv_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:src="@drawable/ic_home_alarm_default"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/home_cl_ll_alarm_time_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/home_cl_iv_alarm"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/home_cl_ll_tv_title_last_subway"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_grey_100_r4"
+                        android:fontFamily="@font/pretendard_semi_bold"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/padding_4"
+                        android:paddingVertical="@dimen/padding_2"
+                        android:text="막차 기준"
+                        android:textColor="@color/grey_300"
+                        android:textSize="@dimen/font_size_12" />
+
+                    <TextView
+                        android:id="@+id/home_cl_ll_tv_before_alarm_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="1시간 전"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_20" />
+
+                    <TextView
+                        android:id="@+id/home_cl_ll_tv_alarm_term"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_4"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="30분 간격으로 알림"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size_14" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <Switch
+                    android:id="@+id/home_cl_switch_alarm_on_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:layout_marginEnd="15dp"
+                    android:background="@null"
+                    android:switchMinWidth="60dp"
+                    android:thumb="@drawable/selector_switch_thumb"
+                    android:track="@drawable/selector_switch_track"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/home_view_line"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@color/grey_100"
+                android:visibility="visible"/>
+
+            <include
+                android:id="@+id/home_include_subway_route_title_bar"
+                layout="@layout/layout_subway_route_title_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="4dp"
-                android:text="30분 간격으로 알림"
-                android:textColor="@color/grey_400"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/home_cl_before_alarm_time" />
+                android:layout_marginTop="@dimen/margin_8"
+                android:visibility="gone"/>
+        </LinearLayout>
+        <!-- 고민중 -->
 
-            <Switch
-                android:id="@+id/home_cl_alarm_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:switchMinWidth="60dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <!-- 알람 추가 버튼 끝 -->
-
-        <!-- 아직 경로를 볼 시간이 아니에요 시작 -->
-        <ImageView
-            android:id="@+id/home_iv_empty_img"
-            android:layout_width="129dp"
-            android:layout_height="129dp"
-            android:layout_marginTop="64dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_tv_alarm_add" />
-
-        <TextView
-            android:id="@+id/home_tv_empty_text"
+        <LinearLayout
+            android:id="@+id/home_ll_empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="아직 경로를 볼 시간이 아니에요"
-            android:textSize="16sp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_iv_empty_img" />
-        <!-- 아직 경로를 볼 시간이 아니에요 끝 -->
+            app:layout_constraintTop_toBottomOf="@id/home_ll_alarm_buttons">
 
-        <View
-            android:id="@+id/home_view_line"
-            android:layout_width="0dp"
-            android:layout_height="6dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/grey_300"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_cl_alarm_setting" />
+            <ImageView
+                android:id="@+id/home_iv_empty_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_home_location_pin" />
+
+            <TextView
+                android:id="@+id/home_tv_empty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/home_empty_view_title"
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_iv_empty_img" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_rv_subway_route"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="6dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_view_line" />
+            app:layout_constraintTop_toBottomOf="@id/home_ll_alarm_buttons" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

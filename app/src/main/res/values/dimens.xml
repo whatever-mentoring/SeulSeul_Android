@@ -2,10 +2,13 @@
 <resources>
 
     <!-- margin -->
+    <dimen name="margin_2">2dp</dimen>
     <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_6">6dp</dimen>
     <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_14">14dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_16">16dp</dimen>
     <dimen name="margin_18">18dp</dimen>
     <dimen name="margin_20">20dp</dimen>
@@ -23,6 +26,7 @@
     <dimen name="padding_4">4dp</dimen>
     <dimen name="padding_6">6dp</dimen>
     <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
     <dimen name="padding_12">12dp</dimen>
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_20">20dp</dimen>
@@ -30,10 +34,10 @@
     <dimen name="padding_main_button">13dp</dimen>
 
     <!-- radius -->
-    <dimen name="radius_main_button">4dp</dimen>
-    <dimen name="radius_other_button">8dp</dimen>
-    <dimen name="radius_location_button">20dp</dimen>
-    <dimen name="radius_bottom_sheet">40dp</dimen>
+    <dimen name="radius_4">4dp</dimen>
+    <dimen name="radius_8">8dp</dimen>
+    <dimen name="radius_20">20dp</dimen>
+    <dimen name="radius_40">40dp</dimen>
 
     <!-- font size -->
     <dimen name="font_size_12">12sp</dimen>
