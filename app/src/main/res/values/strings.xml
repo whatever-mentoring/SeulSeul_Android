@@ -4,7 +4,6 @@
     <!-- FCM -->
     <string name="default_notification_channel_id">슬슬</string>
     <string name="channel_name">슬슬</string>
-    <string name="channel_description">슬슬 막차 알림 입니다.</string>
 
     <!--권한 허용 페이지-->
     <string name="permission_title">앱 접근 권한을\n꼭 허용해주세요.</string>
