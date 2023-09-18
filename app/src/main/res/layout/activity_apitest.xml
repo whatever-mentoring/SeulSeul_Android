@@ -1,19 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="apitest"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- DELETE Section -->
+            <EditText
+                android:id="@+id/delete_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="id to DELETE"
+                android:minHeight="48dp" />
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DELETE User" />
+
+            <!-- POST Section -->
+            <EditText
+                android:id="@+id/post_edittext_userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="User ID to POST" />
+
+            <EditText
+                android:id="@+id/post_edittext_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="ID to POST" />
+
+            <EditText
+                android:id="@+id/post_edittext_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="Title to POST" />
+
+            <EditText
+                android:id="@+id/post_edittext_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="Body to POST" />
+
+            <Button
+                android:id="@+id/post_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="POST User" />
+
+            <!-- PATCH Section -->
+            <EditText
+                android:id="@+id/patch_edittext_userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="User ID to PATCH" />
+
+            <EditText
+                android:id="@+id/patch_edittext_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="ID to PATCH" />
+
+            <EditText
+                android:id="@+id/patch_edittext_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="Title to PATCH" />
+
+            <EditText
+                android:id="@+id/patch_edittext_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:hint="Body to PATCH" />
+
+            <Button
+                android:id="@+id/patch_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PATCH User" />
+
+            <!-- GET Section -->
+
+            <Button
+                android:id="@+id/get_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GET User" />
+
+            <TextView
+                android:id="@+id/get_userid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="userid"/>
+
+            <TextView
+                android:id="@+id/get_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="id"/>
+
+            <TextView
+                android:id="@+id/get_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="title"/>
+
+            <TextView
+                android:id="@+id/get_body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="body"/>
+        </LinearLayout>
+    </ScrollView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
