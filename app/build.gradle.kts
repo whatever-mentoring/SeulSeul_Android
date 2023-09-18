@@ -6,6 +6,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlinx-serialization")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -103,4 +104,9 @@ dependencies {
 
     // splashscreen
     implementation("androidx.core:core-splashscreen:${property("splash_version")}")
+
+    // firebase
+    implementation(platform("com.google.firebase:firebase-bom:${property("firebase_version")}"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }
