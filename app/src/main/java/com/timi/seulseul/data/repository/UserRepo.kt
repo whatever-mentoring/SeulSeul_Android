@@ -21,7 +21,7 @@ class UserRepository @Inject constructor(
 
 
     //DELETE
-    suspend fun deleteUser(id: String): Response<Unit> {
+    suspend fun deleteUser(id: String?): Response<Unit> {
         return apiService.deleteUser(id)
     }
 

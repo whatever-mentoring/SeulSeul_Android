@@ -15,14 +15,13 @@ interface ApiService {
     @GET("v1/test")
     suspend fun getUsers(): Response<List<User>>
 
-
     //POST 새로운 데이터를 생성하는 것이기 때문에 @Body가 필요하다!
     @POST("v1/test")
     suspend fun postUser(@Body user: User): Response<User>
 
     //DELETE id값이 글 개수니깐 하나씩 삭제해야지 ㅇㅇ
     @DELETE("v1/test/{id}")
-    suspend fun deleteUser(@Path("id") id: String): Response<Unit>
+    suspend fun deleteUser(@Path("id") id: String?): Response<Unit>
 
     //PATCH 수정할 데이터만 본문에 포함시킨다!
     @PATCH("v1/test")
