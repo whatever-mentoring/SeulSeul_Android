@@ -32,4 +32,12 @@
     <string name="alarm_bottom_sheet_time_term_50">50분마다</string>
     <string name="alarm_bottom_sheet_time_term_60">60분마다</string>
 
+    <!--상세 주소 설정 페이지 -->
+    <string name="location_detail_title">상세 정보 입력</string>
+    <string name="location_detail_home">본가</string>
+    <string name="location_detail_one_room">자취방</string>
+    <string name="location_detail_dormitory">기숙사</string>
+    <string name="location_detail_etc">기타</string>
+    <string name="location_detail_complete">완료</string>
+
 </resources>
