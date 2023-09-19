@@ -8,7 +8,7 @@ import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
-import com.timi.seulseul.presentation.location.LocationActivity
+import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
