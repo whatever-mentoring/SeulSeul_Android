@@ -5,132 +5,220 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/permission_tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="80dp"
-            android:text="@string/permission_title"
-            android:textSize="28sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/permission_tv_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/permission_info"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@id/permission_tv_title"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_title" />
-
-        <!--알림 수신-->
-        <ImageView
-            android:id="@+id/permission_iv_bell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_info" />
-
-
-        <TextView
-            android:id="@+id/permission_tv_bellTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:text="@string/permission_bell_title"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/permission_iv_bell"
-            app:layout_constraintTop_toTopOf="@+id/permission_iv_bell" />
-
-        <TextView
-            android:id="@+id/permission_tv_bellInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="@string/permission_bell_info"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/permission_tv_bellTitle"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_bellTitle" />
-
-        <!--위치 허용-->
-        <ImageView
-            android:id="@+id/permission_iv_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            app:layout_constraintStart_toStartOf="@id/permission_iv_bell"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_bellInfo" />
-
-
-        <TextView
-            android:id="@+id/permission_tv_locationTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="@string/permission_location_title"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@id/permission_iv_location"
-            app:layout_constraintStart_toStartOf="@+id/permission_tv_bellInfo"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_bellInfo" />
-
-        <TextView
-            android:id="@+id/permission_tv_locationInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/permission_location_info"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/permission_tv_locationTitle"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_locationTitle" />
-
-        <LinearLayout
-            android:id="@+id/permission_layout_explain_container"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="92dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/bg_gray_r4"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            app:layout_constraintBottom_toTopOf="@+id/permission_btn_ok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/permission_tv_locationInfo">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.125">
 
             <TextView
-                android:id="@+id/permission_tv_explain1"
-                android:layout_width="match_parent"
+                android:id="@+id/permission_tv_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/permission_explain1"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:layout_marginStart="@dimen/margin_20"
+                android:fontFamily="@font/pretendard_semi_bold"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/permission_title"
+                android:textColor="@color/grey_600"
+                android:textSize="@dimen/font_size_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/permission_tv_explain2"
+                android:id="@+id/permission_tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16"
+                android:fontFamily="@font/pretendard_medium"
+                android:lineSpacingExtra="3dp"
+                android:text="@string/permission_info"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintStart_toStartOf="@id/permission_tv_title"
+                app:layout_constraintTop_toBottomOf="@id/permission_tv_title" />
+
+            <!--알림 수신-->
+            <ImageView
+                android:id="@+id/permission_iv_bell"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="@dimen/margin_20"
+                android:layout_marginTop="44dp"
+                android:src="@drawable/ic_permission_alarm"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/permission_tv_info" />
+
+
+            <TextView
+                android:id="@+id/permission_tv_bellTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_16"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@string/permission_bell_title"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintStart_toEndOf="@id/permission_iv_bell"
+                app:layout_constraintTop_toTopOf="@+id/permission_iv_bell" />
+
+            <TextView
+                android:id="@+id/permission_tv_bellInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="@string/permission_bell_info"
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintBottom_toBottomOf="@+id/permission_iv_bell"
+                app:layout_constraintStart_toStartOf="@id/permission_tv_bellTitle"
+                app:layout_constraintTop_toBottomOf="@id/permission_tv_bellTitle" />
+
+            <!--위치 허용-->
+            <ImageView
+                android:id="@+id/permission_iv_location"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="34dp"
+                android:src="@drawable/ic_permission_location"
+                app:layout_constraintStart_toStartOf="@id/permission_iv_bell"
+                app:layout_constraintTop_toBottomOf="@id/permission_tv_bellInfo" />
+
+
+            <TextView
+                android:id="@+id/permission_tv_locationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="@string/permission_location_title"
+                android:textColor="@color/grey_500"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintStart_toEndOf="@id/permission_iv_location"
+                app:layout_constraintTop_toTopOf="@id/permission_iv_location" />
+
+            <TextView
+                android:id="@+id/permission_tv_locationInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_regular"
+                android:text="@string/permission_location_info"
+                android:textColor="@color/grey_400"
+                android:textSize="@dimen/font_size_14"
+                app:layout_constraintBottom_toBottomOf="@id/permission_iv_location"
+                app:layout_constraintStart_toStartOf="@id/permission_tv_locationTitle"
+                app:layout_constraintTop_toBottomOf="@+id/permission_tv_locationTitle" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/permission_layout_explain_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="4sp"
-                android:text="@string/permission_explain2"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:layout_marginHorizontal="@dimen/margin_20"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/bg_gray_r4"
+                android:backgroundTint="@color/grey_100"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/margin_12"
+                android:paddingVertical="@dimen/padding_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/permission_iv_location">
 
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/permission_tv_bullet1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:text="@string/permission_bullet"
+                    android:textColor="@color/grey_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/permission_explain1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@string/permission_explain1"
+                    android:textColor="@color/grey_500"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/permission_tv_bullet1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/permission_tv_bullet2"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:text="@string/permission_bullet"
+                    android:textColor="@color/grey_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/permission_explain1" />
+
+                <TextView
+                    android:id="@+id/permission_explain2"
+                    android:layout_width="0dp"
+                    android:layout_height="22dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/permission_explain2"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/font_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/permission_tv_bullet2"
+                    app:layout_constraintTop_toTopOf="@+id/permission_tv_bullet2" />
+
+                <TextView
+                    android:id="@+id/permission_tv_bullet3"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:text="@string/permission_bullet"
+                    android:textColor="@color/grey_500"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/permission_explain2" />
+
+                <TextView
+                    android:id="@+id/permission_explain3"
+                    android:layout_width="0dp"
+                    android:layout_height="22dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center_vertical"
+                    android:text="@string/permission_explain3"
+                    android:textColor="@color/grey_500"
+                    android:textSize="@dimen/font_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/permission_tv_bullet3"
+                    app:layout_constraintTop_toTopOf="@id/permission_tv_bullet3" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <Button
             android:id="@+id/permission_btn_ok"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginHorizontal="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_24"
             android:background="@drawable/bg_gray_r4"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:text="@string/permission_btn"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/permission_layout_explain_container"
-            app:layout_constraintStart_toStartOf="@+id/permission_layout_explain_container" />
-
+            android:textSize="@dimen/font_size_16"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
