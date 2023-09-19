@@ -18,80 +18,70 @@ class ApiTestViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    // LiveData for a single user
-    private val _selectedUser = MutableLiveData<User>()
-    val selectedUser: LiveData<User> get() = _selectedUser
+    private val _userLiveData = MutableLiveData<User?>()
+    val userLiveData: LiveData<User?> get() = _userLiveData
+
+
+//    init {
+//        getUser("1")
+//    }
+
+    // GET
+    fun getUser(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = userRepository.getUser(id)
+            if (response.isSuccessful) {
+                Log.d("ViewModel", "Get User Successful")
+                _userLiveData.postValue(response.body())
+            } else {
+                // Handle the error.
+                Log.d("ViewModel", "Get User failed with code ${response.code()}")
+            }
+        }
+    }
 
     // POST
-    val userIdPost = MutableLiveData("")
-    val idPost = MutableLiveData("")
-    val titlePost = MutableLiveData("")
-    val bodyPost = MutableLiveData("")
-
-    // DELETE
-    val idDelete = MutableLiveData("")
+    fun postUser(userId: String, id: String, title: String, body: String) {
+        val newUser = User(userId = userId, id = id, title = title, body = body)
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = userRepository.postUser(newUser)
+            if (response.isSuccessful) {
+                Log.d("ViewModel", "Post User Successful")
+                _userLiveData.postValue(response.body())
+            } else {
+                // Handle the error.
+                Log.d("ViewModel", "Post User failed with code ${response.code()}")
+            }
+        }
+    }
 
     // PATCH
-    val userIdPatch = MutableLiveData("")
-    val idPatch = MutableLiveData("")
-    val titlePatch = MutableLiveData("")
-    val bodyPatch = MutableLiveData("")
-
-    fun getUsers() {
+    fun patchUser(userId: String, id: String, title: String, body: String) {
+        val updatedUser = User(userId = userId, id = id, title = title, body = body)
         viewModelScope.launch(Dispatchers.IO) {
-            val response = userRepository.getUsers()
+            val response = userRepository.patchUser(updatedUser)
             if (response.isSuccessful) {
-                Log.d("ViewModel", "Get users successful")
-                // Save the first user to _selectedUser.
-                response.body()?.firstOrNull()?.let { _selectedUser.postValue(it) }
+                Log.d("ViewModel", "Patch User Successful")
+                _userLiveData.postValue(response.body())
             } else {
-                Log.e("ViewModel", "Get users failed with code ${response.code()}")
+                // Handle the error.
+                Log.d("ViewModel", "Patch User failed with code ${response.code()}")
             }
         }
     }
 
-    // POST
-    fun postUser(user: User) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = userRepository.postUser(user)
-            if (response.isSuccessful) {
-
-                // You might want to add the new user to your local list here.
-                // Or perhaps you need to refresh the entire list from the server.
-            } else {
-                // Handle error
-            }
-        }
-    }
-
-    fun deleteUser(id: String?) {
+    // DELETE
+    fun deleteUser(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = userRepository.deleteUser(id)
             if (response.isSuccessful) {
-                // You might want to remove this user from your local list here.
-                // Or perhaps you need to refresh the entire list from the server.
-                getUsers()
+                Log.d("ViewModel", "Delete User Successful")
+                _userLiveData.postValue(null)
             } else {
-                // Handle error
+                // Handle the error.
+                Log.d("ViewModel", "Delete User failed with code ${response.code()}")
             }
-
         }
     }
-
-    fun patchUser(user: User) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = userRepository.patchUser(user)
-            if (response.isSuccessful) {
-
-                // Or perhaps you need to refresh the entire list from the server.
-                getUsers()
-
-            } else {
-                // Handle error
-            }
-
-        }
-    }
-
 
 }
