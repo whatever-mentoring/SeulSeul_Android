@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!-- res/values-v26/themes.xml -->
+<!-- res/values-v26/themes.xml -->
 <resources>
 
     <style name="AppTheme.SplashScreen" parent="Theme.SplashScreen">
