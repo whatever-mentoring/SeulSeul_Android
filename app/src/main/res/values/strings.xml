@@ -31,5 +31,10 @@
     <string name="alarm_bottom_sheet_time_term_40">40분마다</string>
     <string name="alarm_bottom_sheet_time_term_50">50분마다</string>
     <string name="alarm_bottom_sheet_time_term_60">60분마다</string>
+    <string name="alarm_bottom_sheet_time_before_one">막차 기준 \u0020\u0020 1시간 전 알림</string>
+    <string name="alarm_bottom_sheet_time_before_one_half">막차 기준 \u0020\u0020 1시간 30분 전 알림</string>
+    <string name="alarm_bottom_sheet_time_before_two">막차 기준 \u0020\u0020 2시간 전 알림</string>
+    <string name="alarm_bottom_sheet_time_before_two_half">막차 기준 \u0020\u0020 2시간 30분 전 알림</string>
+    <string name="alarm_bottom_sheet_time_before_three">막차 기준 \u0020\u0020 3시간 전 알림</string>
 
 </resources>
