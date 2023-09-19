@@ -32,4 +32,7 @@
     <string name="alarm_bottom_sheet_time_term_50">50분마다</string>
     <string name="alarm_bottom_sheet_time_term_60">60분마다</string>
 
+    <!--주소 검색 페이지-->
+    <string name="location_title">주소 설정</string>
+
 </resources>

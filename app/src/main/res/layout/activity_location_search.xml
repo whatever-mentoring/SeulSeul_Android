@@ -27,10 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semi_bold"
-            android:text="주소 설정"
+            android:text="@string/location_title"
             android:textColor="@color/grey_500"
             android:textSize="@dimen/font_size_16"
-            app:layout_constraintBottom_toBottomOf="@id/location_iv_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/location_iv_back" />
