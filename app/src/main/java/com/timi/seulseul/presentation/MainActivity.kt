@@ -1,8 +1,6 @@
 package com.timi.seulseul.presentation
 
 import android.os.Bundle
-import android.view.View
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.timi.seulseul.R
