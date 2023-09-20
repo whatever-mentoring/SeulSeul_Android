@@ -9,11 +9,12 @@ import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
+import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private lateinit var bottomSheetFragment : BottomSheetDialogFragment
+    private lateinit var bottomSheetFragment: BottomSheetDialogFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -23,6 +24,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         initBottomSheetFragment()
 
+        binding.homeTvLocationSetting.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.goApitestBtn.setOnClickListener {
             startActivity(Intent(this, ApiTestActivity::class.java))
         }
@@ -30,11 +36,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initBottomSheetFragment() {
         bottomSheetFragment = AlarmBottomSheetFragment()
-        bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.RoundCornerBottomSheetDialogTheme)
+        bottomSheetFragment.setStyle(
+            DialogFragment.STYLE_NORMAL,
+            R.style.RoundCornerBottomSheetDialogTheme
+        )
     }
 
     fun showAlarmSetting() {
-        if(!bottomSheetFragment.isAdded) {
+        if (!bottomSheetFragment.isAdded) {
             bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
     }

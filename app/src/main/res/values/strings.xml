@@ -32,4 +32,9 @@
     <string name="alarm_bottom_sheet_time_term_50">50분마다</string>
     <string name="alarm_bottom_sheet_time_term_60">60분마다</string>
 
+    <!--주소 검색 페이지-->
+    <string name="location_title">주소 설정</string>
+    <string name="location_searchHint">예) 판교역로 235, 분당 주공, 삼평동 681</string>
+    <string name="location_address">도로명 :&#160;</string>
+
 </resources>
