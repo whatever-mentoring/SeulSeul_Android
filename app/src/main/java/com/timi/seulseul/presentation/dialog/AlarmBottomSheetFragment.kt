@@ -31,59 +31,48 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
             _binding = this
             binding.view = this@AlarmBottomSheetFragment
             binding.lifecycleOwner = this@AlarmBottomSheetFragment
-            Timber.d("onCreateView : $alarmTime / $alarmTerm")
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initBottomSheet()
         initListener()
-
-        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT // full screen 으로 만들기 위해 필요1
-
-        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED // full screen 으로 만들기 위해 필요2
 
         alarmTime = prefs.getInt("alarmTime", 0)
         alarmTerm = prefs.getInt("alarmTerm", 0)
         Timber.d("onViewCreated : $alarmTime / $alarmTerm")
 
-        // 이전 데이터가 있다면
+        // 데이터 체크
         setAlarmData()
 
+        // radioButton 세팅
         checkAlarmTime()
         checkAlarmTerm()
-
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        slideBottomSheet()
-                        Timber.d("hidden")
-                    }
-                }
-            }
-            override fun onSlide(bottomSheet: View, slideOffset: Float) { }
-        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.d("onDestroyView : $alarmTime / $alarmTerm")
         _binding = null
     }
 
-    private fun initListener() {
+    private fun initBottomSheet() {
+        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT // full screen 으로 만들기 위해 필요1
+
+        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED // full screen 으로 만들기 위해 필요2
+    }
+
+    fun initListener() {
         binding.homeClAlarmBottomSheetTvSettingOk.setOnClickListener{
             buttonClickListener.onOkBtnClicked()
-            closeBottomSheet()
-            dismiss()
+            closeBottomSheet() // 알림 설정 버튼 눌렀을 떄
         }
     }
 
-    fun setAlarmData() {
+    private fun setAlarmData() {
         when(alarmTime) {
             60 -> binding.itemPreferredTimeRbBeforeOneHour.isChecked = true
             90 -> binding.itemPreferredTimeRbBeforeOneHourHalf.isChecked = true
@@ -92,9 +81,6 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
             180 -> binding.itemPreferredTimeRbBeforeThreeHour.isChecked = true
         }
 
-        binding.homeClAlarmBottomSheetTvSettingOk.setBackgroundResource(R.drawable.bg_green_500_main_r4)
-        binding.homeClAlarmBottomSheetTvSettingOk.isEnabled = true
-
         when(alarmTerm) {
             10 -> binding.itemTimeTermRb10.isChecked = true
             20 -> binding.itemTimeTermRb20.isChecked = true
@@ -102,6 +88,15 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
             40 -> binding.itemTimeTermRb40.isChecked = true
             50 -> binding.itemTimeTermRb50.isChecked = true
             60 -> binding.itemTimeTermRb60.isChecked = true
+        }
+
+        // 알림 설정 유무 따른 버튼 설정
+        if (alarmTime != 0) {
+            binding.homeClAlarmBottomSheetTvSettingOk.setBackgroundResource(R.drawable.bg_green_500_main_r4)
+            binding.homeClAlarmBottomSheetTvSettingOk.isEnabled = true
+        } else {
+            binding.homeClAlarmBottomSheetTvSettingOk.setBackgroundResource(R.drawable.bg_grey_200_r4)
+            binding.homeClAlarmBottomSheetTvSettingOk.isEnabled = false
         }
     }
 
@@ -120,9 +115,6 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
             if (i > -1) {
                 binding.homeClAlarmBottomSheetTvSettingOk.setBackgroundResource(R.drawable.bg_green_500_main_r4)
                 binding.homeClAlarmBottomSheetTvSettingOk.isEnabled = true
-            } else {
-                binding.homeClAlarmBottomSheetTvSettingOk.setBackgroundResource(R.drawable.bg_grey_200_r4)
-                binding.homeClAlarmBottomSheetTvSettingOk.isEnabled = false
             }
         }
     }
@@ -156,19 +148,11 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    // 알림 설정 버튼 눌렀을 떄
-    fun closeBottomSheet() {
+    private fun closeBottomSheet() {
         prefs.edit().putInt("alarmTime", alarmTime).apply()
         prefs.edit().putInt("alarmTerm", alarmTerm).apply()
         prefs.edit().putBoolean("alarmOn", true).apply()
         Timber.d("closeBottomSheet : $alarmTime / $alarmTerm")
-    }
-
-    // 그냥 바텀시트 내렸을 때
-    fun slideBottomSheet() {
-        Timber.d("slideBottomSheet : $alarmTime / $alarmTerm")
-
-        dismiss()
     }
 
     interface OnButtonClickListener {
