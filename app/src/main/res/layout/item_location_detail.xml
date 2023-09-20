@@ -11,8 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/margin_16"
-        android:background="@drawable/border_location_bottom">
+        android:background="@drawable/border_location_bottom"
+        android:paddingVertical="@dimen/padding_16">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/location_detail_container"
@@ -89,14 +89,6 @@
             app:layout_goneMarginTop="@dimen/margin_4"
             tools:text="경기 성남시 분당구 판교역로 235(에이치스퀘어엔동)" />
 
-        <!--뷰에 나타나는 최상위 constraintlayout에서 bottom margin이 적용이 안 됨-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:background="@drawable/border_location_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_tv_long_address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
