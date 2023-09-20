@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="view"
             type="com.timi.seulseul.presentation.MainActivity" />
@@ -78,7 +77,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_tv_day" />
 
-        <!-- 고민중 -->
         <LinearLayout
             android:id="@+id/home_ll_alarm_buttons"
             android:layout_width="0dp"
@@ -113,7 +111,7 @@
                 android:layout_height="128dp"
                 android:layout_marginHorizontal="@dimen/margin_20"
                 android:layout_marginBottom="@dimen/margin_20"
-                android:background="@drawable/bg_grey_200_r8"
+                android:background="@drawable/bg_green_500_main_r8"
                 android:visibility="gone">
 
                 <ImageView
@@ -121,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_15"
-                    android:src="@drawable/ic_home_alarm_default"
+                    android:src="@drawable/ic_home_alarm_click"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -145,8 +143,8 @@
                         android:gravity="center"
                         android:paddingHorizontal="@dimen/padding_4"
                         android:paddingVertical="@dimen/padding_2"
-                        android:text="막차 기준"
-                        android:textColor="@color/grey_300"
+                        android:text="@string/home_alarm_on_off_title"
+                        android:textColor="@color/green_500_main"
                         android:textSize="@dimen/font_size_12" />
 
                     <TextView
@@ -179,6 +177,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@null"
                     android:switchMinWidth="60dp"
+                    android:checked="true"
                     android:thumb="@drawable/selector_switch_thumb"
                     android:track="@drawable/selector_switch_track"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +201,6 @@
                 android:layout_marginTop="@dimen/margin_8"
                 android:visibility="gone"/>
         </LinearLayout>
-        <!-- 고민중 -->
 
         <LinearLayout
             android:id="@+id/home_ll_empty_view"
