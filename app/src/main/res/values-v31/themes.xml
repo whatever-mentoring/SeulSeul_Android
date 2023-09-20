@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/values-v31/themes.xml -->
+<resources>
+    <style name="AppTheme.SplashScreen" parent="Theme.SplashScreen">
+        <!--배경 색-->
+        <item name="android:windowSplashScreenBackground">@color/green_400</item>
+        <!--아이콘-->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_seulseul_foreground</item>
+
+        <!--Animation이 그려지는 Max 시간. 해당 시간이 지나면 애니메이션이 동작하는 도중이라도 마지막 결과로 이동한다.-->
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.SeulSeul</item>
+    </style>
+</resources>
