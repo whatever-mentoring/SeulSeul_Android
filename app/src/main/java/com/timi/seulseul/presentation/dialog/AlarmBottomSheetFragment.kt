@@ -74,16 +74,25 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun changeTextColor() {
-        val builder = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeOneHour.text.toString())
+        val builder1 = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeOneHour.text.toString())
+        val builder2 = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeOneHourHalf.text.toString())
+        val builder3 = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeTwoHour.text.toString())
+        val builder4 = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeTwoHourHalf.text.toString())
+        val builder5 = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeThreeHour.text.toString())
 
         val colorGrey = ForegroundColorSpan(Color.parseColor("#666666"))
-        builder.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        binding.itemPreferredTimeRbBeforeOneHour.text = builder
-        binding.itemPreferredTimeRbBeforeOneHourHalf.text = builder
-        binding.itemPreferredTimeRbBeforeTwoHour.text = builder
-        binding.itemPreferredTimeRbBeforeTwoHourHalf.text = builder
-        binding.itemPreferredTimeRbBeforeThreeHour.text = builder
+        builder1.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder2.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder3.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder4.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder5.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.itemPreferredTimeRbBeforeOneHour.text = builder1
+        binding.itemPreferredTimeRbBeforeOneHourHalf.text = builder2
+        binding.itemPreferredTimeRbBeforeTwoHour.text = builder3
+        binding.itemPreferredTimeRbBeforeTwoHourHalf.text = builder4
+        binding.itemPreferredTimeRbBeforeThreeHour.text = builder5
     }
 
     private fun initListener() {
