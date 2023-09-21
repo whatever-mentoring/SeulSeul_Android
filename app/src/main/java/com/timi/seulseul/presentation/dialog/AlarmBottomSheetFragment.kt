@@ -1,9 +1,14 @@
 package com.timi.seulseul.presentation.dialog
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.timi.seulseul.MainApplication.Companion.prefs
@@ -64,6 +69,21 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
 
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_EXPANDED // full screen 으로 만들기 위해 필요2
+
+        changeTextColor() // RadioButton 앞에 '막차 기준' 색 변경
+    }
+
+    private fun changeTextColor() {
+        val builder = SpannableStringBuilder(binding.itemPreferredTimeRbBeforeOneHour.text.toString())
+
+        val colorGrey = ForegroundColorSpan(Color.parseColor("#666666"))
+        builder.setSpan(colorGrey, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        binding.itemPreferredTimeRbBeforeOneHour.text = builder
+        binding.itemPreferredTimeRbBeforeOneHourHalf.text = builder
+        binding.itemPreferredTimeRbBeforeTwoHour.text = builder
+        binding.itemPreferredTimeRbBeforeTwoHourHalf.text = builder
+        binding.itemPreferredTimeRbBeforeThreeHour.text = builder
     }
 
     private fun initListener() {
