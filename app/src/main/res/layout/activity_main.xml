@@ -68,6 +68,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_tv_location_setting" />
 
+        <Button
+            android:id="@+id/go_apitest_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:background="@color/white"
+            android:text="APITEST"
+            app:layout_constraintTop_toTopOf="@+id/home_tv_day"
+            app:layout_constraintStart_toEndOf="@+id/home_tv_day"
+            app:layout_constraintBottom_toBottomOf="@+id/home_tv_day"
+            />
+
         <TextView
             android:id="@+id/home_tv_alarm"
             android:layout_width="wrap_content"

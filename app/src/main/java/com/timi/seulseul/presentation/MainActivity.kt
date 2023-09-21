@@ -1,5 +1,6 @@
 package com.timi.seulseul.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -7,8 +8,10 @@ import androidx.fragment.app.DialogFragment
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
+import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
+import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -22,6 +25,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.apply {
             view = this@MainActivity // xml과 연결
             lifecycleOwner = this@MainActivity
+        }
+
+        binding.homeTvLocationSetting.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.goApitestBtn.setOnClickListener {
+            startActivity(Intent(this, ApiTestActivity::class.java))
         }
 
         // 초기 알림 설정 여부 확인
