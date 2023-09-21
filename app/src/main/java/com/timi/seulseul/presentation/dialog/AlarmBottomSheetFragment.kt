@@ -151,7 +151,7 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
     private fun closeBottomSheet() {
         prefs.edit().putInt("alarmTime", alarmTime).apply()
         prefs.edit().putInt("alarmTerm", alarmTerm).apply()
-        prefs.edit().putBoolean("alarmOn", true).apply()
+        //prefs.edit().putBoolean("alarmOn", true).apply()
         Timber.d("closeBottomSheet : $alarmTime / $alarmTerm")
     }
 

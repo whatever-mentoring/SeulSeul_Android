@@ -112,6 +112,7 @@
                 android:layout_marginHorizontal="@dimen/margin_20"
                 android:layout_marginBottom="@dimen/margin_20"
                 android:background="@drawable/bg_green_500_main_r8"
+                android:onClick="@{() -> view.showAlarmSetting()}"
                 android:visibility="gone">
 
                 <ImageView
@@ -208,6 +209,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintVertical_bias="0.45"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
