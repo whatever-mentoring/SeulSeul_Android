@@ -8,6 +8,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlinx-serialization")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -53,6 +54,7 @@ val hilt_version:String by project
 val viewpager2_version:String by project
 val timber_version:String by project
 val splash_version:String by project
+val firebase_version:String by project
 
 dependencies {
 
@@ -64,7 +66,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
 
     // lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
@@ -99,4 +100,9 @@ dependencies {
 
     // splashscreen
     implementation("androidx.core:core-splashscreen:$splash_version")
+
+    // firebase
+    implementation(platform("com.google.firebase:firebase-bom:$firebase_version"))
+    implementation("com.google.firebase:firebase-messaging-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 }

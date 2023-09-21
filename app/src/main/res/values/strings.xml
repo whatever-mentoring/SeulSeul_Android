@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">SeulSeul</string>
+    <string name="app_name">슬슬</string>
+
+    <!-- FCM -->
+    <string name="default_notification_channel_id">슬슬</string>
+    <string name="channel_name">슬슬</string>
 
     <!--권한 허용 페이지-->
     <string name="permission_title">앱 접근 권한을\n꼭 허용해주세요.</string>
@@ -39,5 +43,11 @@
     <string name="location_detail_dormitory">기숙사</string>
     <string name="location_detail_etc">기타</string>
     <string name="location_detail_complete">완료</string>
+
+    <!--주소 검색 페이지-->
+    <string name="location_title">주소 설정</string>
+    <string name="location_searchHint">예) 판교역로 235, 분당 주공, 삼평동 681</string>
+    <string name="location_address">도로명 :&#160;</string>
+
 
 </resources>
