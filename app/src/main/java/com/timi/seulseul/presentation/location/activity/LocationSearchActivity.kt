@@ -27,7 +27,7 @@ class LocationSearchActivity :
             }
         }
 
-        webView.loadUrl("http://seulseul-35d52.wep.app")
+        webView.loadUrl("https://seulseul-35d52.web.app")
     }
 
     inner class BridgeInterface() {
