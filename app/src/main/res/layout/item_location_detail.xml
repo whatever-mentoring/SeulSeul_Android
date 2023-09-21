@@ -28,7 +28,7 @@
                 android:id="@+id/location_iv_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_location_detail_home_click"
+                android:src="@drawable/ic_location_setting_home_label"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent "
                 app:layout_constraintTop_toTopOf="parent" />

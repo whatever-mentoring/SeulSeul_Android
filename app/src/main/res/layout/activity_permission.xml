@@ -144,6 +144,7 @@
                     android:id="@+id/permission_explain1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:lineSpacingExtra="3dp"
                     android:fontFamily="@font/pretendard_medium"
                     android:text="@string/permission_explain1"
                     android:textColor="@color/grey_500"

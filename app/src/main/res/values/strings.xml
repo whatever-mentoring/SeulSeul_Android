@@ -44,9 +44,18 @@
     <string name="alarm_bottom_sheet_time_before_three">막차 기준 \u0020\u0020 3시간 전 알림</string>
     <string name="alarm_bottom_sheet_btn_ok">알림 설정</string>
 
+    <!--상세 주소 설정 페이지 -->
+    <string name="location_detail_title">상세 정보 입력</string>
+    <string name="location_detail_home">본가</string>
+    <string name="location_detail_one_room">자취방</string>
+    <string name="location_detail_dormitory">기숙사</string>
+    <string name="location_detail_etc">기타</string>
+    <string name="location_detail_complete">완료</string>
+
     <!--주소 검색 페이지-->
     <string name="location_title">주소 설정</string>
     <string name="location_searchHint">예) 판교역로 235, 분당 주공, 삼평동 681</string>
     <string name="location_address">도로명 :&#160;</string>
+
 
 </resources>
