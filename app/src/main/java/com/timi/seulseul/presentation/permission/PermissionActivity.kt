@@ -14,11 +14,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
 import com.timi.seulseul.presentation.MainActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
@@ -88,6 +91,9 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             // 알림 권한을 요청
             notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
+
+        //TODO: 로직 변경 필요 (알림 권한 받은 후 fcm_token 받아 sp에 저장)
+        getFcmToken()
     }
 
     private fun checkPermissionForLocation() {
@@ -121,7 +127,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             this,
             Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
-
 
     private fun hasAllPermissions(): Boolean =
         getRequiredPermissions().all {
@@ -219,4 +224,20 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         } else {
             true
         }
+
+    private fun getFcmToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Timber.d("Fetching FCM registeration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // 토큰값 가져오기
+            val token = task.result
+            Timber.d(token)
+
+            //TODO: prefs 선언 중복 제거될 경우 주석 제거
+            //prefs.edit().putString("fcm_token", token).commit()
+        })
+    }
 }
