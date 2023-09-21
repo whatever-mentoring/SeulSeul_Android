@@ -35,50 +35,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/location_iv_back" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/location_search_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_20"
-            android:layout_marginTop="@dimen/margin_24"
-            android:background="@drawable/border_location_bottom"
-            android:paddingVertical="@dimen/padding_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_tv_title">
-
-            <TextView
-                android:id="@+id/location_tv_search_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_medium"
-                android:lineSpacingExtra="2dp"
-                android:text="@string/location_searchHint"
-                android:textColor="@color/grey_300"
-                android:textSize="@dimen/font_size_12"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_location_search"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <WebView
             android:id="@+id/location_search_webView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_20"
             android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_search_bar" />
+            app:layout_constraintTop_toBottomOf="@id/location_tv_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
