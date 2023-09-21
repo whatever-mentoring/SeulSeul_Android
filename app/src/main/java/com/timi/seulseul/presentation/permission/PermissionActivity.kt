@@ -9,7 +9,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.tasks.OnCompleteListener
@@ -24,27 +26,40 @@ import timber.log.Timber
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
 
-    companion object {
-        private const val PREFS_NAME = "PermissionPrefs"
-        private const val KEY_DENIED_COUNT = "deniedCount"
-    }
+    private var notificationDeniedCount = 0
+    private var locationDeniedCount = 0
 
-    //SharedPreferences 초기화
-    private val prefs by lazy { getSharedPreferences(PREFS_NAME, MODE_PRIVATE) }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private val notificationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            // 알림 권한을 허용한 경우
+            checkPermissionForLocation()
+        } else {
+            // 알림 권한을 거부한 경우
+            notificationDeniedCount++
+            if (notificationDeniedCount == 1) {
+                showFirstNotificationPermissionDialog()
+            } else if (notificationDeniedCount >= 2) {
+                showSecondNotificationPermissionDialog()
+            }
+        }
+    }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         if (permissions.values.all { it }) {
+            // 위치 권한을 허용한 경우
             goToMainActivity()
         } else {
-            val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
-            if (deniedCount == 0) {
-                increaseDeniedCount()
-                showFirstPermissionDialog()
-            } else if (deniedCount == 1) {
-                increaseDeniedCount()
-                showSecondPermissionDialog()
+            // 위치 권한을 거부한 경우
+            locationDeniedCount++
+            if (locationDeniedCount == 1) {
+                showFirstLocationPermissionDialog()
+            } else if (locationDeniedCount >= 2) {
+                showSecondLocationPermissionDialog()
             }
         }
     }
@@ -56,28 +71,37 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
         super.onCreate(savedInstanceState)
         binding.permissionBtnOk.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // 버튼 클릭 시에만 알림 권한 요청
+                checkPermissionForNotification()
+            } else {
+                // TIRAMISU 이전 버전에서는 위치 권한 요청
+                checkPermissionForLocation()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkPermissionForNotification() {
+        val notificationManager = NotificationManagerCompat.from(this)
+        if (notificationManager.areNotificationsEnabled()) {
+            // 알림 권한이 허용되어 있으면 위치 권한을 확인
             checkPermissionForLocation()
+        } else {
+            // 알림 권한을 요청
+            notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
         //TODO: 로직 변경 필요 (알림 권한 받은 후 fcm_token 받아 sp에 저장)
         getFcmToken()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (!hasAllPermissions()) {
-            increaseDeniedCount()
-        }
-    }
-
-
-
     private fun checkPermissionForLocation() {
         if (hasAllPermissions()) {
+            // 위치 권한이 허용되어 있으면 메인 화면으로 이동
             goToMainActivity()
-        } else if (prefs.getInt(KEY_DENIED_COUNT, 0) >= 2) {
-            showSecondPermissionDialog()
+        } else if (locationDeniedCount >= 2) {
+            showSecondLocationPermissionDialog()
         } else {
             val hasFineLocationPermission = ContextCompat.checkSelfPermission(
                 this,
@@ -94,8 +118,8 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             } else {
                 goToMainActivity()
             }
-        }
 
+        }
     }
 
     private fun hasFineLocationPermission(): Boolean =
@@ -123,23 +147,52 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
 
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(
+                Manifest.permission.POST_NOTIFICATIONS,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+
             else -> arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
         }
 
-    private fun showFirstPermissionDialog() {
-        val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+    private fun hasLocationPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 
-        if (deniedCount == 1) {
-            AlertDialog.Builder(this)
-                .setMessage("정확한 알림을 받아보기 위해서는 위치 권한을 항상 허용해주세요")
-                .setPositiveButton("확인") { _, _ ->
-                    locationPermissionRequest.launch(getRequiredPermissions())
-                }
-                .show()
-        }
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun showFirstNotificationPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("앱 실행을 위해서는 알림 권한을 설정해야 합니다")
+            .setPositiveButton("확인") { _, _ ->
+                notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }.show()
     }
 
-    private fun showSecondPermissionDialog() {
+    private fun showSecondNotificationPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("설정에서 알림 권한을 허용해주세요")
+            .setPositiveButton("설정으로 이동") { _, _ ->
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", packageName, null)
+                }
+                startActivity(intent)
+            }.show()
+    }
+
+    private fun showFirstLocationPermissionDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("정확한 알림을 받아보기 위해서는 위치 권한을 항상 허용해주세요")
+            .setPositiveButton("확인") { _, _ ->
+                locationPermissionRequest.launch(getRequiredPermissions())
+            }
+            .show()
+    }
+
+    private fun showSecondLocationPermissionDialog() {
         AlertDialog.Builder(this)
             .setMessage("설정에서 위치 권한을 항상 허용해주세요")
             .setPositiveButton("설정으로 이동") { _, _ ->
@@ -153,19 +206,12 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     private fun goToMainActivity() {
         if (!hasFineLocationPermission()) {
-            showFirstPermissionDialog()
+            showSecondLocationPermissionDialog()
         } else if (!isAlwaysAllow()) {
-            showSecondPermissionDialog()
+            showSecondLocationPermissionDialog()
         } else {
             startActivity(Intent(this, MainActivity::class.java))
-        }
-    }
-
-    private fun increaseDeniedCount() {
-        val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
-        prefs.edit().apply {
-            putInt(KEY_DENIED_COUNT, deniedCount + 1)
-            apply()
+            finish()
         }
     }
 

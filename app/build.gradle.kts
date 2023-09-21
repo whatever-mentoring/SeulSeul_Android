@@ -1,8 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+
     id("kotlin-parcelize")
     id("kotlinx-serialization")
     id("androidx.navigation.safeargs.kotlin")
@@ -44,10 +46,20 @@ android {
     }
 }
 
+val lifecycle_version:String by project
+val retrofit_version:String by project
+val coroutine_version:String by project
+val navigation_version:String by project
+val hilt_version:String by project
+val viewpager2_version:String by project
+val timber_version:String by project
+val splash_version:String by project
+val firebase_version:String by project
+
 dependencies {
 
     // init
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -56,57 +68,41 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${property("lifecycle_version")}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${property("lifecycle_version")}")
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:${property("lifecycle_version")}")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${property("lifecycle_version")}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version}")
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version}")
+
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.activity:activity-ktx:1.7.2")
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:${property("retrofit_version")}")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:${property("retrofit_version")}")
-    // implementation("com.squareup.retrofit2:converter-moshi:${property("retrofit_version")}")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
     // coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${property("coroutine_version")}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${property("coroutine_version")}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version")
 
     // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:${property("navigation_version")}")
-    implementation("androidx.navigation:navigation-ui-ktx:${property("navigation_version")}")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigation_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigation_version")
 
-    // hilt
-    implementation("com.google.dagger:hilt-android:${property("hilt_version")}")
-    kapt("com.google.dagger:hilt-android-compiler:${property("hilt_version")}")
-
-    // okhttp
-    implementation("com.squareup.okhttp3:okhttp:${property("okhttp_version")}")
-    implementation("com.squareup.okhttp3:logging-interceptor:${property("okhttp_version")}")
-
-    // serialization converter
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${property("serialization_converter_version")}")
-
-    // serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("serialization_version")}")
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
     // viewpager2
-    implementation("androidx.viewpager2:viewpager2:${property("viewpager2_version")}")
-
-    // glide
-    implementation("com.github.bumptech.glide:glide:${property("glide_version")}")
-    kapt("com.github.bumptech.glide:compiler:${property("glide_version")}")
-
-    // Coil
-    implementation("io.coil-kt:coil:${property("coil_version")}")
-    implementation("io.coil-kt:coil-compose:${property("coil_version")}")
+    implementation("androidx.viewpager2:viewpager2:$viewpager2_version")
 
     // timber
-    implementation("com.jakewharton.timber:timber:${property("timber_version")}")
+    implementation("com.jakewharton.timber:timber:$timber_version")
 
     // splashscreen
-    implementation("androidx.core:core-splashscreen:${property("splash_version")}")
+    implementation("androidx.core:core-splashscreen:$splash_version")
 
     // firebase
-    implementation(platform("com.google.firebase:firebase-bom:${property("firebase_version")}"))
+    implementation(platform("com.google.firebase:firebase-bom:$firebase_version"))
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 }
