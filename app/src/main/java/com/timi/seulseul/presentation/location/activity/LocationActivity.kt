@@ -10,8 +10,12 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.locationTvSearchHint.setOnClickListener {
+        binding.locationSearchBar.setOnClickListener {
             startActivity(Intent(this,LocationSearchActivity::class.java))
+        }
+
+        binding.locationIvBack.setOnClickListener {
+            finish()
         }
     }
 

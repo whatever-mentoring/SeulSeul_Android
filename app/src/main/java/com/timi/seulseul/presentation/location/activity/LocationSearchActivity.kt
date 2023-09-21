@@ -16,6 +16,10 @@ class LocationSearchActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.locationIvBack.setOnClickListener {
+            finish()
+        }
+
         val webView : WebView = binding.locationSearchWebView
 
         webView.settings.javaScriptEnabled = true
