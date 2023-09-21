@@ -13,7 +13,6 @@ import timber.log.Timber
 
 class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
 
-
     private var _binding: FragmentAlarmBottomSheetDialogBinding? = null
     private val binding get() = _binding!!
 
@@ -37,9 +36,13 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // bottom sheet full screen 설정
         initBottomSheet()
+
+        // 알림 설정 버튼 눌렀을 떄
         initListener()
 
+        // 기존 알림 데이터 가져오기
         alarmTime = prefs.getInt("alarmTime", 0)
         alarmTerm = prefs.getInt("alarmTerm", 0)
         Timber.d("onViewCreated : $alarmTime / $alarmTerm")
@@ -65,10 +68,15 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED // full screen 으로 만들기 위해 필요2
     }
 
-    fun initListener() {
+    private fun initListener() {
         binding.homeClAlarmBottomSheetTvSettingOk.setOnClickListener{
-            buttonClickListener.onOkBtnClicked()
-            closeBottomSheet() // 알림 설정 버튼 눌렀을 떄
+            // 설정한 알림 데이터 저장
+            prefs.edit().putInt("alarmTime", alarmTime).apply()
+            prefs.edit().putInt("alarmTerm", alarmTerm).apply()
+            Timber.d("closeBottomSheet : $alarmTime / $alarmTerm")
+
+            // main으로 설정한 데이터 전달
+            buttonClickListener.onOkBtnClicked(alarmTime, alarmTerm)
         }
     }
 
@@ -148,15 +156,8 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun closeBottomSheet() {
-        prefs.edit().putInt("alarmTime", alarmTime).apply()
-        prefs.edit().putInt("alarmTerm", alarmTerm).apply()
-        //prefs.edit().putBoolean("alarmOn", true).apply()
-        Timber.d("closeBottomSheet : $alarmTime / $alarmTerm")
-    }
-
     interface OnButtonClickListener {
-        fun onOkBtnClicked()
+        fun onOkBtnClicked(time : Int, term : Int)
     }
 
     // 클릭 이벤트 설정

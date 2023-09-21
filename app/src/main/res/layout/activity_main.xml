@@ -7,6 +7,10 @@
         <variable
             name="view"
             type="com.timi.seulseul.presentation.MainActivity" />
+        
+        <variable
+            name="alarm"
+            type="com.timi.seulseul.data.model.Alarm" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -154,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_8"
                         android:fontFamily="@font/pretendard_bold"
-                        android:text="1시간 전"
+                        android:text="@{alarm.alarmTime/60 + `시간 전`}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size_20" />
 
@@ -164,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_4"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="30분 간격으로 알림"
+                        android:text="@{alarm.alarmTerm + `분 간격으로 알림`}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size_14" />
 

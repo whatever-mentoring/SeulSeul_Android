@@ -5,16 +5,19 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.timi.seulseul.R
+import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.d("create")
 
         binding.apply {
             view = this@MainActivity // xml과 연결
@@ -30,9 +33,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun checkAlarmSetting() {
         val alarmTime = prefs.getInt("alarmTime", 0)
+        val alarmTerm = prefs.getInt("alarmTerm", 0)
 
         if (alarmTime != 0) {
             setAlarmAfter()
+            binding.alarm = Alarm(alarmTime, alarmTerm)
             checkSwitchSetting() // 알림 설정 이후 스위치 On, Off 여부 확인
         } else {
             setAlarmBefore()
@@ -56,8 +61,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val bottomSheetFragment = AlarmBottomSheetFragment()
         bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.RoundCornerBottomSheetDialogTheme)
 
+        if (!bottomSheetFragment.isAdded) {
+            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+        }
+
         bottomSheetFragment.setButtonClickListener(object : AlarmBottomSheetFragment.OnButtonClickListener {
-            override fun onOkBtnClicked() {
+            override fun onOkBtnClicked(time: Int, term: Int) {
                 bottomSheetFragment.dismiss()
                 setAlarmAfter()
 
@@ -67,12 +76,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 } else {
                     prefs.edit().putBoolean("alarmOn", false).apply()
                 }
+
+                // 설정한 알림 데이터 연결
+                binding.alarm = Alarm(time, term)
             }
         })
-
-        if (!bottomSheetFragment.isAdded) {
-            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
-        }
     }
 
     private fun setAlarmAfter() {
@@ -113,5 +121,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey_200))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_default)
     }
-
 }
