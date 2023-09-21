@@ -20,6 +20,7 @@
     <string name="home_add_alarm">알람 추가하기</string>
     <string name="home_empty_view_title">아직 경로를 볼 시간이 아니에요\n알림 설정 시간을 기준으로 경로를 제공합니다</string>
     <string name="home_alarm_on_off_title">막차 기준</string>
+    <string name="home_alarm_term_empty">반복 없이 1회 알림</string>
 
     <!-- 알림 바텀 시트 -->
     <string name="alarm_bottom_sheet_essential">*</string>

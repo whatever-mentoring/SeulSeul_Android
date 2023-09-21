@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_4"
                         android:fontFamily="@font/pretendard_medium"
-                        android:text="@{alarm.alarmTerm + `분 간격으로 알림`}"
+                        android:text="@{alarm.alarmTerm == 0 ? @string/home_alarm_term_empty : alarm.alarmTerm+`분 간격으로 알림` }"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size_14" />
 

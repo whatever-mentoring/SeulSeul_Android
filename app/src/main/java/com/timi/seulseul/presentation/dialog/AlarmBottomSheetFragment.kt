@@ -16,8 +16,6 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentAlarmBottomSheetDialogBinding? = null
     private val binding get() = _binding!!
 
-    private var isChecking = true
-
     private var alarmTime : Int = 0
     private var alarmTerm : Int = 0
 
@@ -90,12 +88,12 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         when(alarmTerm) {
-            10 -> binding.itemTimeTermRb10.isChecked = true
-            20 -> binding.itemTimeTermRb20.isChecked = true
-            30 -> binding.itemTimeTermRb30.isChecked = true
-            40 -> binding.itemTimeTermRb40.isChecked = true
-            50 -> binding.itemTimeTermRb50.isChecked = true
-            60 -> binding.itemTimeTermRb60.isChecked = true
+            10 -> binding.itemTimeTermCb10.isChecked = true
+            20 -> binding.itemTimeTermCb20.isChecked = true
+            30 -> binding.itemTimeTermCb30.isChecked = true
+            40 -> binding.itemTimeTermCb40.isChecked = true
+            50 -> binding.itemTimeTermCb50.isChecked = true
+            60 -> binding.itemTimeTermCb60.isChecked = true
         }
 
         // 알림 설정 유무 따른 버튼 설정
@@ -129,30 +127,89 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
 
     // 알림 반복
     private fun checkAlarmTerm() {
-        binding.homeClAlarmBottomSheetRgTerm1.setOnCheckedChangeListener { group, i ->
-            if (i != -1 && isChecking) {
-                isChecking = false
-                binding.homeClAlarmBottomSheetRgTerm2.clearCheck()
-            }
-            isChecking = true
-            when(i) {
-                R.id.item_time_term_rb_10 -> alarmTerm = 10
-                R.id.item_time_term_rb_20 -> alarmTerm = 20
-                R.id.item_time_term_rb_30 -> alarmTerm = 30
+        binding.itemTimeTermCb10.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 10
+                binding.itemTimeTermCb20.isChecked = false
+                binding.itemTimeTermCb30.isChecked = false
+                binding.itemTimeTermCb40.isChecked = false
+                binding.itemTimeTermCb50.isChecked = false
+                binding.itemTimeTermCb60.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
             }
         }
 
-        binding.homeClAlarmBottomSheetRgTerm2.setOnCheckedChangeListener { group, i ->
-            if (i != -1 && isChecking) {
-                isChecking = false
-                binding.homeClAlarmBottomSheetRgTerm1.clearCheck()
+        binding.itemTimeTermCb20.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 20
+                binding.itemTimeTermCb10.isChecked = false
+                binding.itemTimeTermCb30.isChecked = false
+                binding.itemTimeTermCb40.isChecked = false
+                binding.itemTimeTermCb50.isChecked = false
+                binding.itemTimeTermCb60.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
             }
-            isChecking = true
-            when(i) {
-                R.id.item_time_term_rb_40 -> alarmTerm = 40
-                R.id.item_time_term_rb_50 -> alarmTerm = 50
-                R.id.item_time_term_rb_60 -> alarmTerm = 60
+        }
+
+        binding.itemTimeTermCb30.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 30
+                binding.itemTimeTermCb10.isChecked = false
+                binding.itemTimeTermCb20.isChecked = false
+                binding.itemTimeTermCb40.isChecked = false
+                binding.itemTimeTermCb50.isChecked = false
+                binding.itemTimeTermCb60.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
             }
+        }
+
+        binding.itemTimeTermCb40.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 40
+                binding.itemTimeTermCb10.isChecked = false
+                binding.itemTimeTermCb20.isChecked = false
+                binding.itemTimeTermCb30.isChecked = false
+                binding.itemTimeTermCb50.isChecked = false
+                binding.itemTimeTermCb60.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
+            }
+        }
+
+        binding.itemTimeTermCb50.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 50
+                binding.itemTimeTermCb10.isChecked = false
+                binding.itemTimeTermCb20.isChecked = false
+                binding.itemTimeTermCb30.isChecked = false
+                binding.itemTimeTermCb40.isChecked = false
+                binding.itemTimeTermCb60.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
+            }
+        }
+
+        binding.itemTimeTermCb60.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                alarmTerm = 60
+                binding.itemTimeTermCb10.isChecked = false
+                binding.itemTimeTermCb20.isChecked = false
+                binding.itemTimeTermCb30.isChecked = false
+                binding.itemTimeTermCb40.isChecked = false
+                binding.itemTimeTermCb50.isChecked = false
+            } else {
+                checkAlarmTermEmpty()
+            }
+        }
+    }
+
+    private fun checkAlarmTermEmpty() {
+        if (!binding.itemTimeTermCb10.isChecked && !binding.itemTimeTermCb20.isChecked && !binding.itemTimeTermCb30.isChecked &&
+            !binding.itemTimeTermCb40.isChecked && !binding.itemTimeTermCb50.isChecked && !binding.itemTimeTermCb60.isChecked) {
+            alarmTerm = 0
         }
     }
 
