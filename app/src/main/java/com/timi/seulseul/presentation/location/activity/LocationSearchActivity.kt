@@ -20,7 +20,7 @@ class LocationSearchActivity :
             finish()
         }
 
-        val webView : WebView = binding.locationSearchWebView
+        val webView: WebView = binding.locationSearchWebView
 
         webView.settings.javaScriptEnabled = true
 
@@ -37,12 +37,14 @@ class LocationSearchActivity :
     inner class BridgeInterface() {
         @JavascriptInterface
         @SuppressWarnings("unused")
-        fun processDATA(extraRoadAddr : String) {
+        fun processDATA(fullRoadAddr: String, jibunAddr: String) {
             val intent = Intent(this@LocationSearchActivity, LocationDetailActivity::class.java)
-            intent.putExtra("roadAddr", extraRoadAddr)
+            intent.putExtra("roadAddr", fullRoadAddr)
+            intent.putExtra("jibun", jibunAddr)
+            Log.d("jibun", jibunAddr)
+            Log.d("jibun", fullRoadAddr)
             setResult(RESULT_OK, intent)
             startActivity(intent)
-            finish()
         }
 
     }

@@ -14,6 +14,7 @@ class LocationDetailActivity : BaseActivity<ActivityLocationDetailBinding>(R.lay
         }
 
         binding.locationTvLongAddress.text = intent.getStringExtra("roadAddr")
+        binding.locationTvShortAddress.text = intent.getStringExtra("jibun")
 
     }
 
