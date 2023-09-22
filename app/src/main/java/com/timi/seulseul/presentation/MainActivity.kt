@@ -17,10 +17,11 @@ import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+// Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    // Inject ViewModel using Dagger-Hilt.
+    // ViewModel객체를 가져옴
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
