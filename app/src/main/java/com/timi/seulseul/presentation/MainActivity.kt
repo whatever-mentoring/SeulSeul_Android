@@ -27,6 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         Timber.d("create")
 
+        // v1/user post uuid
         viewModel.postAuth()
 
         binding.apply {

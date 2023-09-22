@@ -26,7 +26,7 @@ interface ApiService {
     suspend fun deleteUser(@Path("id") id: String): Response<Unit>
 
 
-    @POST("/v1/user")
+    @POST("v1/user")
     suspend fun postAuth(@Body auth: Auth): Response<AuthResponse>
 
 }
