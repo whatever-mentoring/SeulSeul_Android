@@ -6,7 +6,6 @@ import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
 import javax.inject.Inject
 
-// UserRepository.kt
 class AuthRepo @Inject constructor(
     private val apiService : ApiService
 ) {
@@ -15,7 +14,7 @@ class AuthRepo @Inject constructor(
         return try {
             val response = apiService.postAuth(auth)
             if (response.isSuccessful) {
-                Log.d("jhb", "Post auth successful ${response.code()}")
+                Log.d("jhb", "Post auth successful ${response.body()}")
                 Result.success(response.body()?.data!!)
             } else {
                 Log.e("jhb", "Error posting auth, code: ${response.code()}")
