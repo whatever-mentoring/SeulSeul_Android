@@ -3,10 +3,10 @@ package com.timi.seulseul.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
@@ -17,17 +17,21 @@ import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+// Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private lateinit var mainViewModel: MainViewModel
+    // ViewModel객체를 가져옴
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        binding.apply {
-            mainViewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
+        // v1/user post uuid
+        viewModel.postAuth()
 
+        binding.apply {
             view = this@MainActivity // xml과 연결
             lifecycleOwner = this@MainActivity
         }
@@ -53,12 +57,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun checkDay() {
         // 매일마다 월, 일 받기
-        val date = mainViewModel.getTodayDate()
+        val date = viewModel.getTodayDate()
         binding.homeTvDay.text = "${date[0]}월 ${date[1]}일"
 
         // prefs에 저장된 월, 일과 비교
-        mainViewModel.checkDiffDay(date[0], date[1])
-        mainViewModel.isDifferent.observe(this, Observer {
+        viewModel.checkDiffDay(date[0], date[1])
+        viewModel.isDifferent.observe(this, Observer {
             if (it) {
                 // prefs의 값과 현재 날짜가 다르다면(true) -> prefs 초기화 + setAlarmBefore
                 prefs.edit().apply {
