@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
@@ -18,12 +19,16 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
+    private lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("create")
 
         binding.apply {
+            mainViewModel = ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
+
             view = this@MainActivity // xml과 연결
+            viewModel = mainViewModel
+
             lifecycleOwner = this@MainActivity
         }
 
