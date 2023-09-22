@@ -9,6 +9,10 @@ class LocationDetailActivity : BaseActivity<ActivityLocationDetailBinding>(R.lay
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.locationIvBack.setOnClickListener {
+            finish()
+        }
+
         binding.locationTvLongAddress.text = intent.getStringExtra("roadAddr")
 
     }
