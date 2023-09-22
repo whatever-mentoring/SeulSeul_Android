@@ -1,8 +1,8 @@
 package com.timi.seulseul.presentation.location.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -36,10 +36,12 @@ class LocationSearchActivity :
 
     inner class BridgeInterface() {
         @JavascriptInterface
-        fun processDATA(data: String?) {
-            val intent = Intent()
-            intent.putExtra("data", data)
+        @SuppressWarnings("unused")
+        fun processDATA(extraRoadAddr : String) {
+            val intent = Intent(this@LocationSearchActivity, LocationDetailActivity::class.java)
+            intent.putExtra("roadAddr", extraRoadAddr)
             setResult(RESULT_OK, intent)
+            startActivity(intent)
             finish()
         }
 
