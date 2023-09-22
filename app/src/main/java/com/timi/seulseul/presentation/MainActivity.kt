@@ -3,12 +3,14 @@ package com.timi.seulseul.presentation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
+import com.timi.seulseul.presentation.apitest.ApiTestViewModel
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
@@ -18,9 +20,14 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
+    // Inject ViewModel using Dagger-Hilt.
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("create")
+
+        viewModel.postAuth()
 
         binding.apply {
             view = this@MainActivity // xml과 연결

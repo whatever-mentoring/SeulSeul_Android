@@ -1,5 +1,7 @@
 package com.timi.seulseul.data.api
 
+import com.timi.seulseul.data.model.Auth
+import com.timi.seulseul.data.model.AuthResponse
 import com.timi.seulseul.data.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -22,4 +24,9 @@ interface ApiService {
 
     @DELETE("v1/test/{id}")
     suspend fun deleteUser(@Path("id") id: String): Response<Unit>
+
+
+    @POST("/v1/user")
+    suspend fun postAuth(@Body auth: Auth): Response<AuthResponse>
+
 }
