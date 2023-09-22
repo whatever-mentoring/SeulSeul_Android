@@ -15,6 +15,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,6 +24,7 @@ object AppModule {
     private const val BASE_URL = "http://13.124.10.84:8080/"
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(5, TimeUnit.SECONDS) // 서버 연결 대기 최대 5초
@@ -65,6 +67,7 @@ object AppModule {
 
 
     @Provides
+    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -74,6 +77,7 @@ object AppModule {
 
 
     @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
