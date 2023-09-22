@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
 import com.timi.seulseul.data.repository.AuthRepo
@@ -22,8 +23,14 @@ class MainViewModel @Inject constructor(
     var auth : LiveData<Result<AuthData>> = _auth
 
     fun postAuth() {
-        // UUID를 랜덤으로 생성합니다.
-        val uuid = UUID.randomUUID().toString()
+        // 가져온다.
+        var uuid = prefs.getString("KEY_UUID", null)
+
+        // 없다면 생성
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString()
+            prefs.edit().putString("KEY_UUID", uuid).apply()
+        }
 
         // Auth 객체를 만들고 postAuth 함수에 전달합니다.
         viewModelScope.launch{
