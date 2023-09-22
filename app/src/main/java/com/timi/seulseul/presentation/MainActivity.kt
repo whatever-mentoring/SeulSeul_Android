@@ -6,11 +6,11 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
-import com.timi.seulseul.presentation.apitest.ApiTestViewModel
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
@@ -26,7 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("create")
+        Timber.d("onCreate")
 
         // v1/user post uuid
         viewModel.postAuth()
@@ -45,11 +45,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             startActivity(Intent(this, ApiTestActivity::class.java))
         }
 
-        // 초기 알림 설정 여부 확인
-        checkAlarmSetting()
-
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 월, 일 체크해서 초기화 여부 결정
+        checkDay()
+    }
+
+    private fun checkDay() {
+        // 매일마다 월, 일 받기
+        val date = viewModel.getTodayDate()
+        binding.homeTvDay.text = "${date[0]}월 ${date[1]}일"
+
+        // prefs에 저장된 월, 일과 비교
+        viewModel.checkDiffDay(date[0], date[1])
+        viewModel.isDifferent.observe(this, Observer {
+            if (it) {
+                // prefs의 값과 현재 날짜가 다르다면(true) -> prefs 초기화 + setAlarmBefore
+                prefs.edit().apply {
+                    putInt("alarmTime", 0)
+                    putInt("alarmTerm", 0)
+                    putBoolean("alarmOn", false)
+                }.apply()
+
+                setAlarmBefore()
+            } else {
+                // prefs의 값과 현재 날짜가 같다면(false) -> 알림 설정 여부 확인
+                checkAlarmSetting()
+            }
+        })
     }
 
     private fun checkAlarmSetting() {
