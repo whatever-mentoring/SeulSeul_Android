@@ -1,31 +1,72 @@
 package com.timi.seulseul.presentation.location.activity
 
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.request.LocationRequest
 import com.timi.seulseul.databinding.ActivityLocationDetailBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import java.io.IOException
 
-class LocationDetailActivity : BaseActivity<ActivityLocationDetailBinding>(R.layout.activity_location_detail) {
+class LocationDetailActivity :
+    BaseActivity<ActivityLocationDetailBinding>(R.layout.activity_location_detail) {
 
     private var selectedContainer: ConstraintLayout? = null
-    private var locationRequest : LocationRequest? = null
+    private lateinit var locationRequest: LocationRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val roadAddr = intent.getStringExtra("roadAddr")
+        val jibunAddr = intent.getStringExtra("jibun")
 
         binding.locationIvBack.setOnClickListener {
             finish()
         }
 
-        binding.locationTvLongAddress.text = intent.getStringExtra("roadAddr")
-        binding.locationTvShortAddress.text = intent.getStringExtra("jibun")
+        binding.locationTvLongAddress.text = roadAddr
+        binding.locationTvShortAddress.text = jibunAddr
+
+        locationRequest = LocationRequest(
+            endX = 0.0,
+            endY = 0.0,
+            endNickName = "",
+            roadNameAddress = roadAddr!!,
+            jibunAddress = jibunAddr!!
+        )
+
+        geoCode(jibunAddr)
 
         setupListeners()
 
     }
+
+    // 지오코딩
+    private fun geoCode(address: String) {
+        val geocoder = Geocoder(this)
+        var result: List<Address>?
+
+        try {
+            result = geocoder.getFromLocationName(address, 1)
+            if (!result.isNullOrEmpty()) {
+                val location = result[0]
+                locationRequest.endX = location.latitude
+                locationRequest.endY = location.longitude
+
+                Log.d("address", locationRequest.endX.toString())
+                Log.d("address", locationRequest.endY.toString())
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+    }
+
 
     private fun setupListeners() {
         val containers = listOf(
@@ -45,8 +86,11 @@ class LocationDetailActivity : BaseActivity<ActivityLocationDetailBinding>(R.lay
         val imageViews = listOf(
             Pair(binding.locationDetailIvHome, R.drawable.ic_location_detail_home_default),
             Pair(binding.locationDetailIvOneRoom, R.drawable.ic_location_detail_one_room_default),
-            Pair(binding.locationDetailIvDormitory, R.drawable.ic_location_detail_dormitory_default),
-            Pair(binding.locationDetailIvEtc,R.drawable.ic_location_detail_etc_default)
+            Pair(
+                binding.locationDetailIvDormitory,
+                R.drawable.ic_location_detail_dormitory_default
+            ),
+            Pair(binding.locationDetailIvEtc, R.drawable.ic_location_detail_etc_default)
         )
 
         val clickedImages = listOf(
@@ -60,32 +104,32 @@ class LocationDetailActivity : BaseActivity<ActivityLocationDetailBinding>(R.lay
 
             containers[i].setOnClickListener { view ->
 
-                // 선택한 컨테이너의 배경색을 변경
+                //선택한 컨테이너 뷰 변경
                 view.setBackgroundResource(R.drawable.bg_black_r4)
-
-                // 선택한 컨테이너의 텍스트 색상을 변경
-                textViews[i].setTextColor(ContextCompat.getColor(this,R.color.white))
-
-                // 선택한 컨테이너의 이미지를 변경
+                textViews[i].setTextColor(ContextCompat.getColor(this, R.color.white))
                 imageViews[i].first.setImageResource(clickedImages[i])
 
+
+                // 선택된 컨테이너에서 다른 컨테이너 선택했을 때 defalut 값으로 되돌리기
                 if (selectedContainer != null && selectedContainer != view) {
 
-                    // 이전에 선택했던 컨테이너(있다면)의 배경색을 원래대로 되돌립니다.
                     selectedContainer?.setBackgroundResource(R.drawable.bg_grey_100_r4)
 
-                    // 이전에 선택했던 컨테이너 색상 원래대로
                     val previousIndex = containers.indexOf(selectedContainer)
 
-                    textViews[previousIndex].setTextColor(ContextCompat.getColor(this,R.color.black))
+                    textViews[previousIndex].setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.black
+                        )
+                    )
 
-                    // 이전에 선택했던 컨테이너 이미지 원래대로
                     imageViews[previousIndex].first.setImageResource(imageViews[previousIndex].second)
                 }
-
                 // 현재 선택된 컨테이너 저장
                 selectedContainer = view as ConstraintLayout
 
+                locationRequest.endNickName = textViews[i].text.toString()
             }
         }
     }

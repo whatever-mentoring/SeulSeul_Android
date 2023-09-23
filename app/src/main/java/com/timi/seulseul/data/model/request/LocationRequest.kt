@@ -1,9 +1,9 @@
 package com.timi.seulseul.data.model.request
 
 data class LocationRequest(
-    val endX : Double,
-    val endY : Double,
-    val endNickName : String,
-    val roadNameAddress : String,
-    val jibunAddress : String
+    var endX : Double,
+    var endY : Double,
+    var endNickName : String,
+    var roadNameAddress : String,
+    var jibunAddress : String
 )
