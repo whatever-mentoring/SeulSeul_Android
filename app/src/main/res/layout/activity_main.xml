@@ -7,7 +7,7 @@
         <variable
             name="view"
             type="com.timi.seulseul.presentation.MainActivity" />
-        
+
         <variable
             name="alarm"
             type="com.timi.seulseul.data.model.Alarm" />
@@ -62,7 +62,6 @@
             android:paddingVertical="@dimen/padding_4"
             android:paddingStart="@dimen/padding_6"
             android:paddingEnd="@dimen/padding_8"
-            android:text="9월 4일"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_16"
             app:layout_constraintStart_toStartOf="parent"
