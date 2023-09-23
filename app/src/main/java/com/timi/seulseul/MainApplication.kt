@@ -23,6 +23,7 @@ class MainApplication (): Application() {
         Timber.plant(Timber.DebugTree())
         prefs = applicationContext.getSharedPreferences("SeulSeul", MODE_PRIVATE)
 
+        // LocationService
         val serviceIntent = Intent(this, LocationService::class.java)
         // O = 26
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

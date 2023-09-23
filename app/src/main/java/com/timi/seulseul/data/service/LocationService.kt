@@ -24,6 +24,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -67,10 +70,16 @@ class LocationService : Service() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
-                    Log.d("jhb", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
+                    Log.d("jhb", "Longitude: ${location.longitude}, Latitude: ${location.latitude}")
+
+                    // 년-월-일
+                    val date = LocalDate.now()
+                    // 요일
+                    val dayOfTheWeek =
+                        date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
 
                     // 위치를 서버에 전송
-                    val loc = Location(1, location.latitude.toString(), location.longitude.toString(), "토요일")
+                    val loc = Location(1, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
 
                     // GlobalScope
                     GlobalScope.launch(Dispatchers.IO) {
