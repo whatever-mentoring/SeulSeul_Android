@@ -22,6 +22,7 @@ class LocationSearchActivity :
 
         val webView: WebView = binding.locationSearchWebView
 
+        webView.clearCache(true)
         webView.settings.javaScriptEnabled = true
 
         webView.addJavascriptInterface(BridgeInterface(), "Android")
