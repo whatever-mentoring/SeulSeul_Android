@@ -56,9 +56,6 @@ class LocationDetailActivity :
                 val location = result[0]
                 locationRequest.endX = location.latitude
                 locationRequest.endY = location.longitude
-
-                Log.d("address", locationRequest.endX.toString())
-                Log.d("address", locationRequest.endY.toString())
             }
 
         } catch (e: IOException) {
@@ -104,6 +101,15 @@ class LocationDetailActivity :
 
             containers[i].setOnClickListener { view ->
 
+                //컨테이너 누르면 버튼 활성화
+                binding.locationDetailBtnComplete.setBackgroundResource(R.drawable.bg_green_500_main_r4)
+                binding.locationDetailBtnComplete.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.white
+                    )
+                )
+                
                 //선택한 컨테이너 뷰 변경
                 view.setBackgroundResource(R.drawable.bg_black_r4)
                 textViews[i].setTextColor(ContextCompat.getColor(this, R.color.white))
