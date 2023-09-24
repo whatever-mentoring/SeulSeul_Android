@@ -25,11 +25,6 @@ class MainApplication (): Application() {
 
         // LocationService
         val serviceIntent = Intent(this, LocationService::class.java)
-        // O = 26
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent)
-        } else {
-            startService(serviceIntent)
-        }
+        startForegroundService(serviceIntent)
     }
 }
