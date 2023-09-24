@@ -45,6 +45,7 @@ class LocationDetailActivity :
         binding.locationDetailBtnComplete.setOnClickListener {
             if(selectedContainer != null) {
                 viewModel.postEndLocation(viewModel.locationRequest)
+                finish()
             }
         }
 
