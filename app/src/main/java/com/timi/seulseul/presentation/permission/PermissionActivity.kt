@@ -79,6 +79,8 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 checkPermissionForLocation()
             }
         }
+
+        getFcmToken()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -91,9 +93,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             // 알림 권한을 요청
             notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
-
-        //TODO: 로직 변경 필요 (알림 권한 받은 후 fcm_token 받아 sp에 저장)
-        getFcmToken()
     }
 
     private fun checkPermissionForLocation() {
@@ -234,10 +233,11 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             // 토큰값 가져오기
             val token = task.result
-            Timber.d(token)
+            prefs.edit().putString("fcm_token", token).apply()
+            Timber.d("fcm_token: $token")
 
-            //TODO: prefs 선언 중복 제거될 경우 주석 제거
-            //prefs.edit().putString("fcm_token", token).commit()
-        })
+        }).addOnFailureListener {
+            Timber.e(it)
+        }
     }
 }
