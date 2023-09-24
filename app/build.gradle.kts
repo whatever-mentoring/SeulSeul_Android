@@ -55,6 +55,7 @@ val viewpager2_version:String by project
 val timber_version:String by project
 val splash_version:String by project
 val firebase_version:String by project
+
 val okhttp_version:String by project
 
 dependencies {

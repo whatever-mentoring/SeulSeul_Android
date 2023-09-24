@@ -55,6 +55,9 @@ class LocationService : Service() {
         const val NOTIFICATION_ID = 1
     }
 
+    private var isFirstLocationUpdate = true
+
+
     override fun onCreate() {
         super.onCreate()
 
@@ -79,7 +82,6 @@ class LocationService : Service() {
                     val dayOfTheWeek =
                         date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
 
-                    var isFirstLocationUpdate = true
                     // 위치를 서버에 전송
 
                     // GlobalScope
