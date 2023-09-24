@@ -107,6 +107,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
                 }
 
+                // 알림, 간격 서버 통신
+                viewModel.postAlarm()
+
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
             }

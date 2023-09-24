@@ -8,6 +8,8 @@ import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
 import com.timi.seulseul.data.model.DayInfo
+import com.timi.seulseul.data.model.request.AlarmRequest
+import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +21,8 @@ import javax.inject.Inject
 // Hilt가 ViewModel 객체를 생성하고 관리할 수 있게 해준다.
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val authRepo: AuthRepo
+    private val authRepo: AuthRepo,
+    private val alarmRepo : AlarmRepo
 ) : ViewModel() {
 
     // Result<AuthData>를 _auth에 저장한다. 내부에서만 수정 가능
@@ -46,6 +49,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch{
             // authRepo에서 postAuth를 호출해 반환된 결과 값을 _auth LiveData에 저장한다.
             _auth.value = authRepo.postAuth(Auth(uuid))
+        }
+    }
+
+    fun postAlarm() {
+        val alarmTime = prefs.getInt("alarmTime", 0)
+        val alarmTerm = prefs.getInt("alarmTerm", 0)
+
+        // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
+        viewModelScope.launch {
+            alarmRepo.postAlarm(AlarmRequest(2, alarmTime, alarmTerm))
         }
     }
 
