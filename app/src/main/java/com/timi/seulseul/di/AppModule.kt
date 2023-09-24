@@ -1,6 +1,7 @@
 package com.timi.seulseul.di
 
 import com.timi.seulseul.MainApplication
+import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.api.FcmTokenService
 import dagger.Module
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://13.124.10.84:8080/"
+    private const val BASE_URL = "http://13.209.31.233:8080/"
 
     // @Provides < - Dagger Hilt에서 객체 생성 로직 제공
     // @Singleton < - 앱 전체에서 오직 하나만 존재
@@ -60,6 +61,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFcmTokenService(retrofit: Retrofit): FcmTokenService = retrofit.create(FcmTokenService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAlarmService(retrofit: Retrofit): AlarmService = retrofit.create(AlarmService::class.java)
 
 }
 
