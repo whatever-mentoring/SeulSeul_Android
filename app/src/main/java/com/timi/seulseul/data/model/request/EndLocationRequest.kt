@@ -1,6 +1,6 @@
 package com.timi.seulseul.data.model.request
 
-data class LocationRequest(
+data class EndLocationRequest(
     var endX : Double,
     var endY : Double,
     var endNickName : String,

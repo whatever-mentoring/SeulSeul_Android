@@ -4,54 +4,55 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.timi.seulseul.R
-import com.timi.seulseul.data.model.request.LocationRequest
+import com.timi.seulseul.data.model.request.EndLocationRequest
 import com.timi.seulseul.databinding.ActivityLocationDetailBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
-import timber.log.Timber
+import com.timi.seulseul.presentation.location.viewmodel.LocationDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
+
+@AndroidEntryPoint
 class LocationDetailActivity :
     BaseActivity<ActivityLocationDetailBinding>(R.layout.activity_location_detail) {
 
-    companion object {
-        const val EXTRA_ROAD_ADDR = "roadAddr"
-        const val EXTRA_JIBUN_ADDR = "jibunAddr"
-    }
+    private val viewModel by viewModels<LocationDetailViewModel>()
 
     private var selectedContainer: ConstraintLayout? = null
-    private lateinit var locationRequest: LocationRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val roadAddr = intent.getStringExtra(EXTRA_ROAD_ADDR)
-        val jibunAddr = intent.getStringExtra(EXTRA_JIBUN_ADDR)
-
-        Log.d("roadAddr",roadAddr!!)
-        Log.d("roadAddr",jibunAddr!!)
 
 
         binding.locationIvBack.setOnClickListener {
             finish()
         }
 
-        binding.locationTvLongAddress.text = roadAddr
-        binding.locationTvShortAddress.text = jibunAddr
+        val roadAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_ROAD_ADDR)
+        val jibunAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_JIBUN_ADDR)
 
-        locationRequest = LocationRequest(
-            endX = 0.0,
-            endY = 0.0,
-            endNickName = "",
-            roadNameAddress = roadAddr!!,
-            jibunAddress = jibunAddr!!
-        )
+        viewModel.setAddress(roadAddr!!, jibunAddr!!)
 
-        geoCode(jibunAddr)
+        binding.locationTvLongAddress.text = viewModel.roadAddr
+        binding.locationTvShortAddress.text = viewModel.jibunAddr
 
-        setupListeners()
+
+        if(viewModel.locationRequest != null) {
+
+            geoCode(viewModel.jibunAddr)
+            setupListeners()
+        }
+
+        binding.locationDetailBtnComplete.setOnClickListener {
+            if(selectedContainer != null && viewModel.locationRequest != null) {
+                viewModel.postEndLocation(viewModel.locationRequest!!)
+            }
+        }
+
 
     }
 
@@ -64,8 +65,8 @@ class LocationDetailActivity :
             result = geocoder.getFromLocationName(address, 1)
             if (!result.isNullOrEmpty()) {
                 val location = result[0]
-                locationRequest.endX = location.latitude
-                locationRequest.endY = location.longitude
+                viewModel.locationRequest!!.endX = location.latitude
+                viewModel.locationRequest!!.endY = location.longitude
             }
 
         } catch (e: IOException) {
@@ -135,7 +136,7 @@ class LocationDetailActivity :
                 // 현재 선택된 컨테이너 저장
                 selectedContainer = view as ConstraintLayout
 
-                locationRequest.endNickName = textViews[i].text.toString()
+                viewModel.locationRequest!!.endNickName = textViews[i].text.toString()
             }
         }
     }
