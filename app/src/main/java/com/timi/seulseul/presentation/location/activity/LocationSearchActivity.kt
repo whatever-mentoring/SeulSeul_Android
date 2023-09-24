@@ -51,6 +51,7 @@ class LocationSearchActivity :
             Log.d("jibun", fullRoadAddr)
             setResult(RESULT_OK, intent)
             startActivity(intent)
+            finish()
         }
 
     }

@@ -111,6 +111,13 @@ class LocationDetailActivity :
 
             containers[i].setOnClickListener { view ->
 
+                // 모든 컨테이너 초기화
+                for (i in containers.indices) {
+                    containers[i].setBackgroundResource(R.drawable.bg_grey_100_r4)
+                    textViews[i].setTextColor(ContextCompat.getColor(this, R.color.black))
+                    imageViews[i].first.setImageResource(imageViews[i].second)
+                }
+
                 //컨테이너 누르면 버튼 활성화
                 binding.locationDetailBtnComplete.setBackgroundResource(R.drawable.bg_green_500_main_r4)
                 binding.locationDetailBtnComplete.setTextColor(
@@ -120,28 +127,11 @@ class LocationDetailActivity :
                     )
                 )
 
-                //선택한 컨테이너 뷰 변경
+                // 선택한 컨테이너만 색상 변경
                 view.setBackgroundResource(R.drawable.bg_black_r4)
                 textViews[i].setTextColor(ContextCompat.getColor(this, R.color.white))
                 imageViews[i].first.setImageResource(clickedImages[i])
 
-
-                // 선택된 컨테이너에서 다른 컨테이너 선택했을 때 defalut 값으로 되돌리기
-                if (selectedContainer != null && selectedContainer != view) {
-
-                    selectedContainer?.setBackgroundResource(R.drawable.bg_grey_100_r4)
-
-                    val previousIndex = containers.indexOf(selectedContainer)
-
-                    textViews[previousIndex].setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.black
-                        )
-                    )
-
-                    imageViews[previousIndex].first.setImageResource(imageViews[previousIndex].second)
-                }
                 // 현재 선택된 컨테이너 저장
                 selectedContainer = view as ConstraintLayout
 
