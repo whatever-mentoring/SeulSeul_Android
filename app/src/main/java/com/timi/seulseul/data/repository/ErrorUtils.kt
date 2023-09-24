@@ -1,7 +1,7 @@
 package com.timi.seulseul.data.repository
 
 object ErrorUtils {
-    // http 응답 상태 코드에 따라 분류
+    // http 응답 상태 코드에 따로 관리
     fun getErrorMessage(code: Int): String {
         return when(code) {
             400 -> "Bad Request"

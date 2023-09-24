@@ -95,6 +95,18 @@ class LocationService : Service() {
                         }
                     }
 
+                    GlobalScope.launch(Dispatchers.IO) {
+                        try {
+                            val response = locationRepo.patchLocation(loc)
+                            if (response.isSuccess) {
+                                Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
+                            } else {
+                                Log.e("jhb", "Failed to patch location", response.exceptionOrNull())
+                            }
+                        } catch (e: Exception) {
+                            Log.e("jhb", "Exception when patching location", e)
+                        }
+                    }
 
 
                 }

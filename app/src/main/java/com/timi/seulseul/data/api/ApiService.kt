@@ -41,5 +41,6 @@ interface ApiService {
    // 현재 위치, 요일 보내기
     @POST("v1/start")
     suspend fun postLocation(@Body location: Location): Response<LocationResponse>
-
+    @PATCH("v1/start")
+    suspend fun patchLocation(@Body location: Location): Response<LocationResponse>
 }
