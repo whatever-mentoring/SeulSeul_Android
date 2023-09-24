@@ -8,6 +8,7 @@ import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import timber.log.Timber
 
@@ -16,7 +17,7 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         // FCM 토큰이 갱신 될 경우 서버에 해당 토큰을 갱신됐다고 알려주는 콜백함수
-        Timber.d("FCM 토큰 갱신 : $token")
+        Timber.d("fcm_token: $token")
     }
 
     // Notification 수신부

@@ -2,6 +2,7 @@ package com.timi.seulseul.di
 
 import com.timi.seulseul.MainApplication
 import com.timi.seulseul.data.api.ApiService
+import com.timi.seulseul.data.api.FcmTokenService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +56,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFcmTokenService(retrofit: Retrofit): FcmTokenService = retrofit.create(FcmTokenService::class.java)
 
 }
 
