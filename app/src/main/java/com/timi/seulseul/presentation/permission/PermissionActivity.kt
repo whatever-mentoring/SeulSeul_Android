@@ -83,6 +83,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             }
         }
 
+        // TODO: 이후 onBoarding 로직으로 이동될 예정
         // FCM 토큰 받기 & 보내기
         getFcmToken()
     }
