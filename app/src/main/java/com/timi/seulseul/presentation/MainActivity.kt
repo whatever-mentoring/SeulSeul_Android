@@ -53,8 +53,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onResume()
 
         // view에 날짜 갱신
-        val date = viewModel.getTodayDate()
-        binding.homeTvDay.text = "${date[0]}월 ${date[1]}일"
+        val dayInfo = viewModel.getTodayDate()
+        binding.homeTvDay.text = "${dayInfo.month}월 ${dayInfo.date}일"
 
         // 갱신 (alarmOn 상태 -> false)
         viewModel.checkRefreshDay()
