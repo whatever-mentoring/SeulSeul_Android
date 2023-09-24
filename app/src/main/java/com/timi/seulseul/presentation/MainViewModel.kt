@@ -7,13 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
+import com.timi.seulseul.data.model.DayInfo
 import com.timi.seulseul.data.repository.AuthRepo
+import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.Calendar
 import java.util.UUID
 import javax.inject.Inject
 
@@ -29,7 +28,8 @@ class MainViewModel @Inject constructor(
     var auth : LiveData<Result<AuthData>> = _auth
 
     private var _isDifferent : MutableLiveData<Boolean> = MutableLiveData(false)
-    val isDifferent : LiveData<Boolean>  = _isDifferent
+    val isDifferent : LiveData<Boolean> = _isDifferent
+
 
     // postAuth함수는
     // uuid값을 넣은 Auth 객체를 만들고 authRepo.postAuth 함수에 전달한다.
@@ -49,57 +49,35 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
     // 현재 월, 일 받아오기
-    fun getTodayDate() : MutableList<String> {
-        val currentTime = System.currentTimeMillis()
-        val date = Date(currentTime)
-        val dateFormat = SimpleDateFormat("MM-dd", Locale("ko", "KR"))
-        val strDate = dateFormat.format(date)
+    fun getTodayDate() : DayInfo {
+        val calendar = Calendar.getInstance()
 
-        var month = strDate.substring(0, 2)
-        month = deleteFrontZero(month)
+        val month = calendar.get(Calendar.MONTH)+1
+        val date = calendar.get(Calendar.DATE)
+        val tomorrow = date+1
 
-        var day = strDate.substring(3, 5)
-        day = deleteFrontZero(day)
-        Timber.d("현재 날짜 : $month / $day")
+        val hour = calendar.get(Calendar.HOUR)
+        val minute = calendar.get(Calendar.MINUTE)
 
-        return mutableListOf(month, day)
+        return DayInfo(month, date, hour, minute, tomorrow)
     }
 
-    // 월, 일 앞에 0 제거
-    private fun deleteFrontZero(str : String) : String {
-        var changedStr = str
-
-        if (changedStr[0] == '0') {
-            changedStr = changedStr[1].toString()
-        }
-        return changedStr
-    }
-
-    // 현재 날짜 체크
-    fun checkDiffDay(currentMonth : String, currentDay : String) {
-        var month = prefs.getString("currentMonth", "")
-        var day = prefs.getString("currentDay", "")
-        Timber.d("prefs 확인: $month / $day")
-
-        if (month !=currentMonth || day != currentDay) {
-            // 갖고 있는 데이터랑 현재 날짜 다름
-            _isDifferent.value = true
-
-            month = currentMonth
-            day = currentDay
-
-            // 현재 날짜로 다시 세팅
-            prefs.edit().apply {
-                putString("currentMonth", month)
-                putString("currentDay", day)
-            }.apply()
-            Timber.d("prefs 갱신: $month / $day")
-
-        } else {
-            // 갖고 있는 데이터랑 현재 날짜 같음
-            _isDifferent.value = false
+    // 앱 처음 접근 -> refreshDay 저장
+    fun saveRefreshDayFirst() {
+        val dayInfo = getTodayDate()
+        if (BaseActivity.prefs.getInt("refreshDay", 0) == 0) {
+            BaseActivity.prefs.edit().putInt("refreshDay", dayInfo.tomorrow).apply()
         }
     }
 
+    // 알림 갱신 + refreshDay 갱신
+    fun checkRefreshDay() {
+        val dayInfo = getTodayDate()
+        if (dayInfo.date == BaseActivity.prefs.getInt("refreshDay", 0) && dayInfo.hour >= 2) {
+            BaseActivity.prefs.edit().putBoolean("alarmOn", false).apply()
+            BaseActivity.prefs.edit().putInt("refreshDay", dayInfo.tomorrow).apply()
+        }
+    }
 }

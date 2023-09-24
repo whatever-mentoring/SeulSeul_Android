@@ -2,6 +2,8 @@ package com.timi.seulseul.data.api
 
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthResponse
+import com.timi.seulseul.data.model.Location
+import com.timi.seulseul.data.model.LocationResponse
 import com.timi.seulseul.data.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -26,7 +28,7 @@ interface ApiService {
     suspend fun deleteUser(@Path("id") id: String): Response<Unit>
 
 
-    // uuid 비회원 식별
+    // 디바이스별 uuid 등록
     // endpoint등록 -> Retrofit에서 OkHttp Client를 사용해 서버에 POST 요청을 보낸다.
     @POST("v1/user")
     // @Body 어노테이션이 붙으면 HTTP request 본문에 해당된다.
@@ -35,4 +37,10 @@ interface ApiService {
     // suspend fun <- 코루틴에서 실행해야함, 네트워크 작업 비동기적으로 처리
     suspend fun postAuth(@Body auth: Auth): Response<AuthResponse>
 
+
+   // 현재 위치, 요일 보내기
+    @POST("v1/start")
+    suspend fun postLocation(@Body location: Location): Response<LocationResponse>
+    @PATCH("v1/start")
+    suspend fun patchLocation(@Body location: Location): Response<LocationResponse>
 }
