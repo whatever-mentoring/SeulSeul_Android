@@ -1,11 +1,11 @@
 package com.timi.seulseul.data.model.response
 
-data class AlarmResponse(
+data class AlarmPostResponse(
     val code : Int,
-    val data : AlarmData
+    val data : AlarmPostData
 )
 
-data class AlarmData(
+data class AlarmPostData(
     val id : Int,
     val alarmEnabled : Boolean,
     val alarmTime : Int,
