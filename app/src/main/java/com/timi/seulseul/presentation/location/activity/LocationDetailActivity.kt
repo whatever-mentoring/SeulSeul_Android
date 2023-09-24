@@ -10,10 +10,16 @@ import com.timi.seulseul.R
 import com.timi.seulseul.data.model.request.LocationRequest
 import com.timi.seulseul.databinding.ActivityLocationDetailBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import timber.log.Timber
 import java.io.IOException
 
 class LocationDetailActivity :
     BaseActivity<ActivityLocationDetailBinding>(R.layout.activity_location_detail) {
+
+    companion object {
+        const val EXTRA_ROAD_ADDR = "roadAddr"
+        const val EXTRA_JIBUN_ADDR = "jibunAddr"
+    }
 
     private var selectedContainer: ConstraintLayout? = null
     private lateinit var locationRequest: LocationRequest
@@ -21,8 +27,12 @@ class LocationDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val roadAddr = intent.getStringExtra("roadAddr")
-        val jibunAddr = intent.getStringExtra("jibun")
+        val roadAddr = intent.getStringExtra(EXTRA_ROAD_ADDR)
+        val jibunAddr = intent.getStringExtra(EXTRA_JIBUN_ADDR)
+
+        Log.d("roadAddr",roadAddr!!)
+        Log.d("roadAddr",jibunAddr!!)
+
 
         binding.locationIvBack.setOnClickListener {
             finish()
@@ -109,7 +119,7 @@ class LocationDetailActivity :
                         R.color.white
                     )
                 )
-                
+
                 //선택한 컨테이너 뷰 변경
                 view.setBackgroundResource(R.drawable.bg_black_r4)
                 textViews[i].setTextColor(ContextCompat.getColor(this, R.color.white))

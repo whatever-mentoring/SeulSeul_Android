@@ -13,6 +13,11 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 class LocationSearchActivity :
     BaseActivity<ActivityLocationSearchBinding>(R.layout.activity_location_search) {
 
+    companion object {
+        const val EXTRA_ROAD_ADDR = "roadAddr"
+        const val EXTRA_JIBUN_ADDR = "jibunAddr"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,8 +45,8 @@ class LocationSearchActivity :
         @SuppressWarnings("unused")
         fun processDATA(fullRoadAddr: String, jibunAddr: String) {
             val intent = Intent(this@LocationSearchActivity, LocationDetailActivity::class.java)
-            intent.putExtra("roadAddr", fullRoadAddr)
-            intent.putExtra("jibun", jibunAddr)
+            intent.putExtra(EXTRA_ROAD_ADDR, fullRoadAddr)
+            intent.putExtra(EXTRA_JIBUN_ADDR, jibunAddr)
             Log.d("jibun", jibunAddr)
             Log.d("jibun", fullRoadAddr)
             setResult(RESULT_OK, intent)
