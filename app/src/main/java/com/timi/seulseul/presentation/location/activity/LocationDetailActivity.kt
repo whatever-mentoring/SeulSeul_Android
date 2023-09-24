@@ -35,7 +35,7 @@ class LocationDetailActivity :
         val roadAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_ROAD_ADDR)
         val jibunAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_JIBUN_ADDR)
 
-        viewModel.setAddress(roadAddr, jibunAddr)
+        viewModel.setAddress(roadAddr!!, jibunAddr!!)
 
         binding.locationTvLongAddress.text = viewModel.roadAddr
         binding.locationTvShortAddress.text = viewModel.jibunAddr
@@ -43,7 +43,7 @@ class LocationDetailActivity :
 
         if(viewModel.locationRequest != null) {
 
-            geoCode(viewModel.jibunAddr!!)
+            geoCode(viewModel.jibunAddr)
             setupListeners()
         }
 

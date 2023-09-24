@@ -15,12 +15,11 @@ class LocationDetailViewModel @Inject constructor(
     private val endLocationRepo: EndLocationRepo
 ) : ViewModel() {
 
-    var roadAddr: String? = null
-    var jibunAddr: String? = null
+    lateinit var roadAddr: String
+    lateinit var jibunAddr: String
+    lateinit var locationRequest: EndLocationRequest
 
-    var locationRequest: EndLocationRequest? = null
-
-    fun setAddress(roadAddr: String?, jibunAddr: String?) {
+    fun setAddress(roadAddr: String, jibunAddr: String) {
         this.roadAddr = roadAddr
         this.jibunAddr = jibunAddr
 
@@ -28,8 +27,8 @@ class LocationDetailViewModel @Inject constructor(
             endX = 0.0,
             endY = 0.0,
             endNickName = "",
-            roadNameAddress = roadAddr!!,
-            jibunAddress = jibunAddr!!
+            roadNameAddress = roadAddr,
+            jibunAddress = jibunAddr
         )
     }
 
