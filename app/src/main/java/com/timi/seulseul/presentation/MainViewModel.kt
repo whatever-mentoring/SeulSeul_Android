@@ -49,6 +49,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
     // 현재 월, 일 받아오기
     fun getTodayDate() : DayInfo {
         val calendar = Calendar.getInstance()
