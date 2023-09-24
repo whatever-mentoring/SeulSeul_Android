@@ -2,7 +2,7 @@ package com.timi.seulseul.data.repository
 
 import com.timi.seulseul.data.api.FcmTokenService
 import com.timi.seulseul.data.model.response.FcmTokenResponse
-import com.timi.seulseul.data.model.resquest.FcmTokenRequest
+import com.timi.seulseul.data.model.request.FcmTokenRequest
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -26,27 +26,15 @@ class FcmTokenRepo @Inject constructor(
 
             } else {
                 // http 응답 상태 코드에 따라 분류
-                val errorMsg = when(response.code()) {
-                    400 -> "Bad Request"
-                    404 -> "Not Found"
-                    409 -> "Conflict"
-                    500 -> "Internal Server Error"
-                    -8 -> "필수 입력값 형식 및 범위 오류"
-                    -9 -> "필수 입력값 누락"
-                    410 -> "USER_NOT_FOUND"
-                    411 -> "BASEROUTE_NOT_FOUND"
-                    412 -> "ALARM_NOT_FOUND"
-                    // 설정 해놓은 오류중에 없으면
-                    else -> "Unknown error occurred with code: ${response.code()}"
-                }
-                // 로그로 errorMsg 출력
+                val errorMsg = ErrorUtils.getErrorMessage(response.code())
+
                 Timber.e(errorMsg)
                 Result.failure(RuntimeException(errorMsg))
             }
 
         } catch (e: Exception) {
             // 예외 로그
-            Timber.e("Exception when posting auth : $e")
+            Timber.e("Exception when posting FcmToken : $e")
             Result.failure(e)
         }
     }
