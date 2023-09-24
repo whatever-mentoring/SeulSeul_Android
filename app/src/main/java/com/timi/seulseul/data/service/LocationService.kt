@@ -14,10 +14,13 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Granularity
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.repository.LocationRepo
@@ -63,12 +66,21 @@ class LocationService : Service() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Create the location request
-        locationRequest = LocationRequest.create().apply {
-            interval = 10000 // 10 seconds
-            fastestInterval = 5000 // 5 seconds
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
+//         Create the location request
+//        locationRequest = LocationRequest.create().apply {
+//            interval = 10000 // 10 seconds
+//            fastestInterval = 5000 // 5 seconds
+//            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+//        }
+
+        // Location Request
+        // interval -> 업데이트
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
+            setMinUpdateDistanceMeters(10F)
+            setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+            setWaitForAccurateLocation(true)
+        }.build()
+
 
         // Create the location callback
         locationCallback = object : LocationCallback() {
