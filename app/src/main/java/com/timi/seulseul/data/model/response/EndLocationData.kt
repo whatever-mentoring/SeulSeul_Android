@@ -1,11 +1,11 @@
 package com.timi.seulseul.data.model.response
 
-data class Response<T>(
+data class EndLocationResponse(
     val code: Int,
-    val data: LocationResponse
+    val data: EndLocationData
 )
 
-data class LocationResponse(
+data class EndLocationData(
     val id: Int,
     val base_route_id: Int,
     val endX: Double,
