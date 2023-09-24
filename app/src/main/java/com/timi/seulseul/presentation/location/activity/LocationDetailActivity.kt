@@ -27,14 +27,15 @@ class LocationDetailActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val roadAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_ROAD_ADDR)
-        val jibunAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_JIBUN_ADDR)
-
-        viewModel.setAddress(roadAddr, jibunAddr)
 
         binding.locationIvBack.setOnClickListener {
             finish()
         }
+
+        val roadAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_ROAD_ADDR)
+        val jibunAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_JIBUN_ADDR)
+
+        viewModel.setAddress(roadAddr, jibunAddr)
 
         binding.locationTvLongAddress.text = viewModel.roadAddr
         binding.locationTvShortAddress.text = viewModel.jibunAddr
@@ -44,6 +45,12 @@ class LocationDetailActivity :
 
             geoCode(viewModel.jibunAddr!!)
             setupListeners()
+        }
+
+        binding.locationDetailBtnComplete.setOnClickListener {
+            if(selectedContainer != null && viewModel.locationRequest != null) {
+                viewModel.postEndLocation(viewModel.locationRequest!!)
+            }
         }
 
 
