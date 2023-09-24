@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
@@ -25,6 +26,8 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
+
+    private val viewModel by viewModels<PermissionViewModel>()
 
     private var notificationDeniedCount = 0
     private var locationDeniedCount = 0
@@ -80,6 +83,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             }
         }
 
+        // FCM 토큰 받기 & 보내기
         getFcmToken()
     }
 
@@ -235,6 +239,9 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             val token = task.result
             prefs.edit().putString("fcm_token", token).apply()
             Timber.d("fcm_token: $token")
+
+            // 토큰값 보내기
+            viewModel.postFcmToken(token)
 
         }).addOnFailureListener {
             Timber.e(it)
