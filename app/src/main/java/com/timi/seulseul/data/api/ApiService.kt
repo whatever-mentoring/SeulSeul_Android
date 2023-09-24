@@ -4,6 +4,7 @@ import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthResponse
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.LocationResponse
+import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -42,5 +43,5 @@ interface ApiService {
     @POST("v1/start")
     suspend fun postLocation(@Body location: Location): Response<LocationResponse>
     @PATCH("v1/start")
-    suspend fun patchLocation(@Body location: Location): Response<LocationResponse>
+    suspend fun patchLocation(@Body location: PatchLocation): Response<LocationResponse>
 }

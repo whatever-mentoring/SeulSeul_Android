@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.timi.seulseul.data.model.Location
+import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.repository.LocationRepo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -78,33 +79,32 @@ class LocationService : Service() {
                     val dayOfTheWeek =
                         date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
 
+                    var isFirstLocationUpdate = true
                     // 위치를 서버에 전송
-                    val loc = Location(1, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
 
                     // GlobalScope
                     GlobalScope.launch(Dispatchers.IO) {
                         try {
-                            val response = locationRepo.postLocation(loc)
-                            if (response.isSuccess) {
-                                Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
+                            if (isFirstLocationUpdate) {
+                                val loc = Location(1, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
+                                val response = locationRepo.postLocation(loc)
+                                if (response.isSuccess) {
+                                    Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
+                                    isFirstLocationUpdate = false
+                                } else {
+                                    Log.e("jhb", "Failed to post location", response.exceptionOrNull())
+                                }
                             } else {
-                                Log.e("jhb", "Failed to post location", response.exceptionOrNull())
+                                val patchLoc = PatchLocation(1, location.longitude.toString(), location.latitude.toString())
+                                val response = locationRepo.patchLocation(patchLoc)
+                                if (response.isSuccess) {
+                                    Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
+                                } else {
+                                    Log.e("jhb", "Failed to patch location", response.exceptionOrNull())
+                                }
                             }
                         } catch (e: Exception) {
-                            Log.e("jhb", "Exception when posting location", e)
-                        }
-                    }
-
-                    GlobalScope.launch(Dispatchers.IO) {
-                        try {
-                            val response = locationRepo.patchLocation(loc)
-                            if (response.isSuccess) {
-                                Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
-                            } else {
-                                Log.e("jhb", "Failed to patch location", response.exceptionOrNull())
-                            }
-                        } catch (e: Exception) {
-                            Log.e("jhb", "Exception when patching location", e)
+                            Log.e("jhb", "Exception when updating the server with the new position.", e)
                         }
                     }
 

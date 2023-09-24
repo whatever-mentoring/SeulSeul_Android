@@ -4,6 +4,7 @@ import android.util.Log
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.LocationData
+import com.timi.seulseul.data.model.PatchLocation
 import javax.inject.Inject
 
 class LocationRepo @Inject constructor(
@@ -45,10 +46,10 @@ class LocationRepo @Inject constructor(
     }
 
 
-    suspend fun patchLocation(location: Location): Result<LocationData> {
+    suspend fun patchLocation(patchLocation: PatchLocation): Result<LocationData> {
         return try {
             // 서버에 post request
-            val response = apiService.patchLocation(location)
+            val response = apiService.patchLocation(patchLocation)
             // response 성공 여부 확인
             if (response.isSuccessful) {
                 // 성공 로그 -> response.body()데이터 전체 추출
