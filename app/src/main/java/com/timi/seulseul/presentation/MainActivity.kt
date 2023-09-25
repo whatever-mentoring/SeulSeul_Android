@@ -1,4 +1,4 @@
-package com.timi.seulseul.presentation.main
+package com.timi.seulseul.presentation
 
 import android.content.Intent
 import android.os.Build

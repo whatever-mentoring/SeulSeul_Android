@@ -1,4 +1,4 @@
-package com.timi.seulseul.presentation.main
+package com.timi.seulseul.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

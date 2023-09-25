@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".presentation.main.MainActivity">
+            tools:context=".presentation.MainActivity">
 
             <TextView
                 android:id="@+id/get_userId"
