@@ -71,6 +71,7 @@ class MainViewModel @Inject constructor(
         val alarmTerm = prefs.getInt("alarmTerm", 0)
         val alarmId = prefs.getInt("alarmId", 0)
 
+        // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
             alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 2, alarmTime, alarmTerm))
         }

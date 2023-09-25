@@ -14,6 +14,7 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 // Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
@@ -99,6 +100,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         bottomSheetFragment.setButtonClickListener(object : AlarmBottomSheetFragment.OnButtonClickListener {
             override fun onOkBtnClicked(time: Int, term: Int) {
+                Timber.d("main bottomSheet click listener")
+                
                 bottomSheetFragment.dismiss()
                 setAlarmAfter()
 
@@ -107,8 +110,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
                 }
 
-                // 알림, 간격 서버 통신
-                viewModel.postAlarm()
+                // 초기 상태일 때
+                if (prefs.getInt("alarmTime", 0) == 0) {
+                    viewModel.postAlarm()
+                } else {
+                    viewModel.patchAlarm()
+                }
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
