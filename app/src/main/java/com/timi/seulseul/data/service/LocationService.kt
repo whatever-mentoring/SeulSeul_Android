@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
@@ -19,8 +20,8 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
+import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.repository.LocationRepo
@@ -66,18 +67,16 @@ class LocationService : Service() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-//         Create the location request
-//        locationRequest = LocationRequest.create().apply {
-//            interval = 10000 // 10 seconds
-//            fastestInterval = 5000 // 5 seconds
-//            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-//        }
 
         // Location Request
-        // interval -> 업데이트
+        // Priority.PRIORITY_HIGH_ACCURACY : 가장 정확한 위치 요구 (Fused)
+        // interval : 위치 업데이트 간격
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
-            setMinUpdateDistanceMeters(10F)
+            // 위치가 1미터 움직였을 때 위치 업데이트
+            setMinUpdateDistanceMeters(1F)
+            // 권한 수준에 따라 요청 세분화
             setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
+            // 정확한 위치가 확인 될 때까지 대기
             setWaitForAccurateLocation(true)
         }.build()
 
@@ -174,7 +173,9 @@ class LocationService : Service() {
         // https://developer.android.com/about/versions/14/behavior-changes-all?hl=ko
         val builder = NotificationCompat.Builder(applicationContext, channelID)
             .setOngoing(true)
-            .setContentTitle("App is running in background")
+            .setSmallIcon(R.drawable.ic_splash_app)
+            .setContentTitle("슬슬 앱이 백그라운드에서 실행 중")
+            .setContentText("정확한 알림 서비스를 제공하기 위해 백그라운드에서 실행 중입니다.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         return builder.build()
