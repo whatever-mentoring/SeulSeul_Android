@@ -17,6 +17,7 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
+import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -45,6 +46,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         binding.goApitestBtn.setOnClickListener {
             startActivity(Intent(this, ApiTestActivity::class.java))
+        }
+
+        binding.homeIvSetting.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
         }
 
         // 갱신 날짜 저장 (초기)

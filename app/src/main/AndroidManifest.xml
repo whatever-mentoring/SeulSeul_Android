@@ -52,7 +52,6 @@
         <activity
             android:name=".presentation.location.activity.LocationDetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".presentation.onboarding.OnBoardingActivity"
             android:exported="true"
@@ -63,13 +62,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".presentation.permission.PermissionActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity android:name=".presentation.MainActivity" />
         <activity android:name=".presentation.apitest.ApiTestActivity" />
+
+        <activity
+            android:name=".presentation.setting.SettingActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
