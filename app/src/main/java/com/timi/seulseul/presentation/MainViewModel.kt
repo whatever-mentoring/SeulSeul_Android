@@ -85,6 +85,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun patchAlarmEnabled() {
+        val alarmId = prefs.getInt("alarmId", 0)
+
+        viewModelScope.launch {
+            alarmRepo.patchAlarmEnabled(alarmId)
+        }
+    }
+
     // 현재 월, 일 받아오기
     fun getTodayDate() : DayInfo {
         val calendar = Calendar.getInstance()

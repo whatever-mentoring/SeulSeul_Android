@@ -162,6 +162,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 switchOff()
                 prefs.edit().putBoolean("alarmOn", false).apply()
             }
+
+            viewModel.patchAlarmEnabled()
         }
     }
 
