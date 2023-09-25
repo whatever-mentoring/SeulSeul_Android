@@ -1,6 +1,7 @@
 package com.timi.seulseul.presentation
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
+import com.timi.seulseul.data.service.LocationService
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
@@ -48,6 +50,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
+
+        // LocationService 시작!
+        val serviceIntent = Intent(this, LocationService::class.java)
+        // API 26 이상 백그라운드 제한 우회 -> ForegroundService
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
     }
 
     override fun onResume() {
