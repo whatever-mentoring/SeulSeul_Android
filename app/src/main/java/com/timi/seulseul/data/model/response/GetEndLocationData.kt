@@ -2,7 +2,7 @@ package com.timi.seulseul.data.model.response
 
 data class GetEndLocation(
     val code: Int,
-    val data: GetEndLocationData
+    val data: List<GetEndLocationData>
 )
 
 data class GetEndLocationData(
