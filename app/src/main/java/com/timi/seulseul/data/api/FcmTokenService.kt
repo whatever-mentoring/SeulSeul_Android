@@ -1,7 +1,7 @@
 package com.timi.seulseul.data.api
 
 import com.timi.seulseul.data.model.response.FcmTokenResponse
-import com.timi.seulseul.data.model.resquest.FcmTokenRequest
+import com.timi.seulseul.data.model.request.FcmTokenRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

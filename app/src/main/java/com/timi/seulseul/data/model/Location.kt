@@ -8,6 +8,13 @@ data class Location(
     val dayInfo: String
 )
 
+// PATCH Request Body
+data class PatchLocation(
+    val id: Int,
+    val startX: String,
+    val startY: String
+)
+
 // Response Body
 data class LocationResponse(
     val code: Int,

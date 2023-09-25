@@ -4,6 +4,7 @@ import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthResponse
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.LocationResponse
+import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.model.User
 import com.timi.seulseul.data.model.request.EndLocationRequest
 import com.timi.seulseul.data.model.response.EndLocationResponse
@@ -44,7 +45,7 @@ interface ApiService {
     @POST("v1/start")
     suspend fun postLocation(@Body location: Location): Response<LocationResponse>
     @PATCH("v1/start")
-    suspend fun patchLocation(@Body location: Location): Response<LocationResponse>
+    suspend fun patchLocation(@Body location: PatchLocation): Response<LocationResponse>
 
     // 목적지 보내기
     @POST("v1/end")

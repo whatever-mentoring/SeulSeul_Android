@@ -19,8 +19,8 @@ class MainApplication (): Application() {
         Timber.plant(Timber.DebugTree())
         prefs = applicationContext.getSharedPreferences("SeulSeul", MODE_PRIVATE)
 
-        // LocationService
-        val serviceIntent = Intent(this, LocationService::class.java)
-        startForegroundService(serviceIntent)
+//        // LocationService
+//        val serviceIntent = Intent(this, LocationService::class.java)
+////        startForegroundService(serviceIntent)
     }
 }

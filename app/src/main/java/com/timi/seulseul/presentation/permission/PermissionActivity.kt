@@ -68,10 +68,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Splash Screen
-        installSplashScreen().apply {
-            // Splash Screen을 설치하고 설정할 수 있다.
-        }
         super.onCreate(savedInstanceState)
         binding.permissionBtnOk.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

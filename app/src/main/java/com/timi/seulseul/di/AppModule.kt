@@ -1,6 +1,7 @@
 package com.timi.seulseul.di
 
 import com.timi.seulseul.MainApplication
+import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.api.FcmTokenService
 import dagger.Module
@@ -60,6 +61,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFcmTokenService(retrofit: Retrofit): FcmTokenService = retrofit.create(FcmTokenService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAlarmService(retrofit: Retrofit): AlarmService = retrofit.create(AlarmService::class.java)
 
 }
 
