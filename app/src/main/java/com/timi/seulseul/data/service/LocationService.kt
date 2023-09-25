@@ -100,7 +100,7 @@ class LocationService : Service() {
                     GlobalScope.launch(Dispatchers.IO) {
                         try {
                             if (isFirstLocationUpdate) {
-                                val loc = Location(1, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
+                                val loc = Location(4, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
                                 val response = locationRepo.postLocation(loc)
                                 if (response.isSuccess) {
                                     Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
@@ -109,7 +109,7 @@ class LocationService : Service() {
                                     Log.e("jhb", "Failed to post location", response.exceptionOrNull())
                                 }
                             } else {
-                                val patchLoc = PatchLocation(1, location.longitude.toString(), location.latitude.toString())
+                                val patchLoc = PatchLocation(4, location.longitude.toString(), location.latitude.toString())
                                 val response = locationRepo.patchLocation(patchLoc)
                                 if (response.isSuccess) {
                                     Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
