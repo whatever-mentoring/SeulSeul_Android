@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.timi.seulseul.MainApplication
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
@@ -31,10 +32,6 @@ class MainViewModel @Inject constructor(
     // 외부에서 접근 가능한 auth는 읽기만 된다.
     var auth : LiveData<Result<AuthData>> = _auth
 
-    private var _isDifferent : MutableLiveData<Boolean> = MutableLiveData(false)
-    val isDifferent : LiveData<Boolean> = _isDifferent
-
-
     // postAuth함수는
     // uuid값을 넣은 Auth 객체를 만들고 authRepo.postAuth 함수에 전달한다.
     fun postAuth() {
@@ -53,7 +50,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun postAlarm() {
+    fun setAlarm() {
+        if (!prefs.getBoolean("isNotFirst", false)) {
+            postAlarm()
+        } else {
+            patchAlarm()
+        }
+    }
+
+    private fun postAlarm() {
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
 
@@ -61,12 +66,15 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val response = alarmRepo.postAlarm(AlarmPostRequest(1, alarmTime, alarmTerm))
             response.onSuccess {
-                prefs.edit().putInt("alarmId", it.id).apply()
+                prefs.edit().apply {
+                    putInt("alarmId", it.id)
+                    putBoolean("isNotFirst", true)
+                }.apply()
             }
         }
     }
 
-    fun patchAlarm() {
+    private fun patchAlarm() {
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
         val alarmId = prefs.getInt("alarmId", 0)
@@ -76,7 +84,6 @@ class MainViewModel @Inject constructor(
             alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 1, alarmTime, alarmTerm))
         }
     }
-
 
     // 현재 월, 일 받아오기
     fun getTodayDate() : DayInfo {

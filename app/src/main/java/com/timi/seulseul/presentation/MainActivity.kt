@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.timi.seulseul.MainApplication
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.data.service.LocationService
@@ -128,12 +129,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
                 }
 
-                // 초기 상태일 때
-                if (prefs.getInt("alarmTime", 0) == 0) {
-                    viewModel.postAlarm()
-                } else {
-                    viewModel.patchAlarm()
-                }
+                // 첫 알림 설정 여부에 따른 로직 처리
+                viewModel.setAlarm()
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
