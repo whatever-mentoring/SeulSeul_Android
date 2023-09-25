@@ -131,8 +131,9 @@ class LocationService : Service() {
             return   // Cannot start without permission
         }
 
+        // 서비스를 포그라운드 상태로 만들고, 사용자에게 보여줄 알림을 생성한다.
         startForeground(NOTIFICATION_ID, createNotification())
-
+        // 위치 업데이트
         startLocationUpdates()
     }
 
