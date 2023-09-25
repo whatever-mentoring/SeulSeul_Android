@@ -59,7 +59,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            val response = alarmRepo.postAlarm(AlarmPostRequest(2, alarmTime, alarmTerm))
+            val response = alarmRepo.postAlarm(AlarmPostRequest(1, alarmTime, alarmTerm))
             response.onSuccess {
                 prefs.edit().putInt("alarmId", it.id).apply()
             }
@@ -73,7 +73,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 2, alarmTime, alarmTerm))
+            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 1, alarmTime, alarmTerm))
         }
     }
 

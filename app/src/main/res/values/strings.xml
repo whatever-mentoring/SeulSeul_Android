@@ -57,5 +57,9 @@
     <string name="location_searchHint">예) 판교역로 235, 분당 주공, 삼평동 681</string>
     <string name="location_address">도로명 :&#160;</string>
 
+    <!-- 커스텀 다이얼로그 -->
+    <string name="location_before_dialog_title">주소 설정 전에는\n알림을 활성화할 수 없습니다</string>
+    <string name="location_before_dialog_subtitle">알림을 받아보시려면 주소를 먼저 설정해주세요</string>
+    <string name="location_before_dialog_ok">확인</string>
 
 </resources>

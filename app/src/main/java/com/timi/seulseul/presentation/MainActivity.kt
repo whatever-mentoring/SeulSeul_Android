@@ -14,6 +14,7 @@ import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
+import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -58,6 +59,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             startForegroundService(serviceIntent)
         } else {
             startService(serviceIntent)
+        }
+
+        // TODO: 추후 알림 추가하기 버튼으로 옮길 예정 (화면 테스트를 위해 여기에 설정함)
+        binding.homeTvDay.setOnClickListener {
+            val dialog = LocationBeforeDialogFragment()
+            dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
         }
     }
 
