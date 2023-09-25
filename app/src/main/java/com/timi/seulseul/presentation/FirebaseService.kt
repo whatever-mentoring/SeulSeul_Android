@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
+import com.timi.seulseul.presentation.main.MainActivity
 import timber.log.Timber
 
 class FirebaseService : FirebaseMessagingService() {

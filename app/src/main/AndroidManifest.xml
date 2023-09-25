@@ -68,7 +68,7 @@
             android:name=".presentation.permission.PermissionActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".presentation.MainActivity" />
+        <activity android:name=".presentation.main.MainActivity" />
         <activity android:name=".presentation.apitest.ApiTestActivity" />
     </application>
 

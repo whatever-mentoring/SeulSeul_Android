@@ -14,12 +14,11 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
-import com.timi.seulseul.presentation.MainActivity
+import com.timi.seulseul.presentation.main.MainActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber

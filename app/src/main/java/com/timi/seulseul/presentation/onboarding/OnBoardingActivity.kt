@@ -8,9 +8,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
-import com.timi.seulseul.data.model.OnBoardingData
 import com.timi.seulseul.databinding.ActivityOnBoardingBinding
-import com.timi.seulseul.presentation.MainActivity
+import com.timi.seulseul.presentation.main.MainActivity
 import com.timi.seulseul.presentation.permission.PermissionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
