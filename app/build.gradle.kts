@@ -56,6 +56,8 @@ val timber_version:String by project
 val splash_version:String by project
 val firebase_version:String by project
 
+val okhttp_version:String by project
+
 dependencies {
 
     // init
@@ -81,6 +83,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
+    // OkHttp
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version")
 
@@ -105,4 +110,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:$firebase_version"))
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
+
+    // 위치요~
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // 인디케이터 ..
+    implementation("com.tbuonomo:dotsindicator:5.0")
+
 }

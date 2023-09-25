@@ -1,26 +1,38 @@
 package com.timi.seulseul.presentation
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.timi.seulseul.MainApplication
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
+import com.timi.seulseul.data.service.LocationService
 import com.timi.seulseul.databinding.ActivityMainBinding
 import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
+import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
+import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+// Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
+    // ViewModel객체를 가져옴
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("create")
+
+        // v1/user post uuid
+        viewModel.postAuth()
 
         binding.apply {
             view = this@MainActivity // xml과 연결
@@ -36,17 +48,50 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             startActivity(Intent(this, ApiTestActivity::class.java))
         }
 
-        // 초기 알림 설정 여부 확인
-        checkAlarmSetting()
+        binding.homeIvSetting.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+
+        // 갱신 날짜 저장 (초기)
+        viewModel.saveRefreshDayFirst()
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
+
+        // LocationService 시작!
+        val serviceIntent = Intent(this, LocationService::class.java)
+        // API 26 이상 백그라운드 제한 우회 -> ForegroundService
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
+
+        // TODO: 추후 알림 추가하기 버튼으로 옮길 예정 (화면 테스트를 위해 여기에 설정함)
+        binding.homeTvDay.setOnClickListener {
+            val dialog = LocationBeforeDialogFragment()
+            dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // view에 날짜 갱신
+        val dayInfo = viewModel.getTodayDate()
+        binding.homeTvDay.text = "${dayInfo.month}월 ${dayInfo.date}일"
+
+        // 갱신 (alarmOn 상태 -> false)
+        viewModel.checkRefreshDay()
+
+        checkAlarmSetting()
     }
 
     private fun checkAlarmSetting() {
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
 
+        // 알림 설정한 것이 있을 경우
         if (alarmTime != 0) {
             setAlarmAfter()
             binding.alarm = Alarm(alarmTime, alarmTerm)
@@ -79,17 +124,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         bottomSheetFragment.setButtonClickListener(object : AlarmBottomSheetFragment.OnButtonClickListener {
             override fun onOkBtnClicked(time: Int, term: Int) {
+                Timber.d("main bottomSheet click listener")
+                
                 bottomSheetFragment.dismiss()
                 setAlarmAfter()
 
                 // 처음 알람 설정 후 체크 여부 확인
                 if (binding.homeClSwitchAlarmOnOff.isChecked) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
-                } else {
-                    prefs.edit().putBoolean("alarmOn", false).apply()
                 }
 
-                // 설정한 알림 데이터 연결
+                // 첫 알림 설정 여부에 따른 로직 처리
+                viewModel.setAlarm()
+
+                // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
             }
         })
@@ -119,6 +167,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 switchOff()
                 prefs.edit().putBoolean("alarmOn", false).apply()
             }
+
+            viewModel.patchAlarmEnabled()
         }
     }
 

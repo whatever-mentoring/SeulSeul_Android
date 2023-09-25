@@ -9,11 +9,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
@@ -25,6 +25,8 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
+
+    private val viewModel by viewModels<PermissionViewModel>()
 
     private var notificationDeniedCount = 0
     private var locationDeniedCount = 0
@@ -65,10 +67,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Splash Screen
-        installSplashScreen().apply {
-            // Splash Screen을 설치하고 설정할 수 있다.
-        }
         super.onCreate(savedInstanceState)
         binding.permissionBtnOk.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -79,6 +77,10 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 checkPermissionForLocation()
             }
         }
+
+        // TODO: 이후 onBoarding 로직으로 이동될 예정
+        // FCM 토큰 받기 & 보내기
+        getFcmToken()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -91,9 +93,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             // 알림 권한을 요청
             notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
-
-        //TODO: 로직 변경 필요 (알림 권한 받은 후 fcm_token 받아 sp에 저장)
-        getFcmToken()
     }
 
     private fun checkPermissionForLocation() {
@@ -234,10 +233,14 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             // 토큰값 가져오기
             val token = task.result
-            Timber.d(token)
+            prefs.edit().putString("fcm_token", token).apply()
+            Timber.d("fcm_token: $token")
 
-            //TODO: prefs 선언 중복 제거될 경우 주석 제거
-            //prefs.edit().putString("fcm_token", token).commit()
-        })
+            // 토큰값 보내기
+            viewModel.postFcmToken(token)
+
+        }).addOnFailureListener {
+            Timber.e(it)
+        }
     }
 }

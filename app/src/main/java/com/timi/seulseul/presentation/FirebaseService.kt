@@ -8,6 +8,7 @@ import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import timber.log.Timber
 
@@ -16,27 +17,49 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         // FCM 토큰이 갱신 될 경우 서버에 해당 토큰을 갱신됐다고 알려주는 콜백함수
-        Timber.d("FCM 토큰 갱신 : $token")
+        Timber.d("fcm_token: $token")
     }
 
     // Notification 수신부
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
-        // TODO: Data message 확인 이후 지울 예정
+        // TODO: FCM 관련 기능 완전히 완성 후에 제거 예정
         //FCM 메시지 유형 : Notification message 수신 (pendingIntent, 알림 여러개 쌓이는 지 확인 용)
         if (remoteMessage.notification != null) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             Timber.d("notification message : ${remoteMessage.notification?.title} / ${remoteMessage.notification?.body}")
-            sendNotification(remoteMessage.notification?.title!!, remoteMessage.notification?.body!!)
+
+            val alarmOn = prefs.getBoolean("alarmOn", false)
+            Timber.d("FirebaseService : $alarmOn")
+
+            if (alarmOn) {
+                sendNotification(remoteMessage.notification?.title!!, remoteMessage.notification?.body!!)
+            } else {
+                notificationManager.deleteNotificationChannel(getString(R.string.default_notification_channel_id))
+            }
         }
 
         // FCM 메시지 유형 : Data message 수신
         if (remoteMessage.data.isNotEmpty()) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
             val title = remoteMessage.data["title"].toString()
             val body = remoteMessage.data["body"].toString()
             Timber.d("title: $title / body: $body")
 
+            // TODO : 서버 알림 On/Off API 연동 후에 주석 제거 예정
+//            val alarmOn = prefs.getBoolean("alarmOn", false)
+//            Timber.d("FirebaseService : $alarmOn")
+//
+//            if (alarmOn) {
+//                sendNotification(title, body)
+//            } else {
+//                notificationManager.deleteNotificationChannel(getString(R.string.default_notification_channel_id))
+//            }
+
             sendNotification(title, body)
+
         } else {
             Timber.d("data가 비어있어 메시지를 수신하지 못하였습니다.")
         }

@@ -5,11 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Android 9 (API 레벨 28) 이상에서는 포그라운드 서비스를 시작하기 위해 FOREGROUND_SERVICE 권한이 필요 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
         android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,6 +23,12 @@
         tools:targetApi="31">
 
         <service
+            android:name=".data.service.LocationService"
+            android:foregroundServiceType="location">
+
+            <!-- Any inner elements would go here. -->
+        </service>
+        <service
             android:name=".presentation.FirebaseService"
             android:exported="false">
             <intent-filter>
@@ -32,17 +38,22 @@
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
                 android:resource="@drawable/ic_splash_app" />
-
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
                 android:value="@string/default_notification_channel_id" />
         </service>
 
         <activity
+            android:name=".presentation.location.activity.LocationSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.location.activity.LocationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.permission.PermissionActivity"
+            android:name=".presentation.location.activity.LocationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.onboarding.OnBoardingActivity"
             android:exported="true"
             android:theme="@style/AppTheme.SplashScreen">
             <intent-filter>
@@ -51,8 +62,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.permission.PermissionActivity"
+            android:exported="false"></activity>
         <activity android:name=".presentation.MainActivity" />
-        <activity android:name=".presentation.apitest.ApiTestActivity"/>
+        <activity android:name=".presentation.apitest.ApiTestActivity" />
+
+        <activity
+            android:name=".presentation.setting.SettingActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
