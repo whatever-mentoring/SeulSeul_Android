@@ -61,8 +61,8 @@ class LocationDetailActivity :
             result = geocoder.getFromLocationName(address, 1)
             if (!result.isNullOrEmpty()) {
                 val location = result[0]
-                viewModel.locationRequest.endX = location.latitude
-                viewModel.locationRequest.endY = location.longitude
+                viewModel.locationRequest.endX = location.longitude
+                viewModel.locationRequest.endY = location.latitude
             }
 
         } catch (e: IOException) {

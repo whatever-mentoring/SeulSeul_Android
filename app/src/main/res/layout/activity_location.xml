@@ -72,8 +72,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
+            android:id="@+id/location_recyclerView"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/margin_20"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/location_search_bar"
             app:layout_constraintStart_toStartOf="@id/location_search_bar"
