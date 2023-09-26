@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="view"
             type="com.timi.seulseul.presentation.MainActivity" />
@@ -30,9 +31,9 @@
             android:drawableStart="@drawable/ic_home_location"
             android:drawablePadding="@dimen/padding_8"
             android:fontFamily="@font/pretendard_medium"
+            android:hint="@string/home_location_setting"
             android:paddingHorizontal="@dimen/padding_8"
             android:paddingVertical="@dimen/padding_10"
-            android:hint="@string/home_location_setting"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
             app:layout_constraintEnd_toStartOf="@id/home_iv_setting"
@@ -66,18 +67,6 @@
             android:textSize="@dimen/font_size_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/home_tv_location_setting" />
-
-        <Button
-            android:id="@+id/go_apitest_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:background="@color/white"
-            android:text="APITEST"
-            app:layout_constraintTop_toTopOf="@+id/home_tv_day"
-            app:layout_constraintStart_toEndOf="@+id/home_tv_day"
-            app:layout_constraintBottom_toBottomOf="@+id/home_tv_day"
-            />
 
         <TextView
             android:id="@+id/home_tv_alarm"
@@ -192,8 +181,8 @@
                     android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginEnd="15dp"
                     android:background="@null"
-                    android:switchMinWidth="60dp"
                     android:checked="true"
+                    android:switchMinWidth="60dp"
                     android:thumb="@drawable/selector_switch_thumb"
                     android:track="@drawable/selector_switch_track"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -207,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:background="@color/grey_100"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <include
                 android:id="@+id/home_include_subway_route_title_bar"
@@ -215,7 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -224,11 +213,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintVertical_bias="0.45"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_ll_alarm_buttons">
+            app:layout_constraintTop_toBottomOf="@id/home_ll_alarm_buttons"
+            app:layout_constraintVertical_bias="0.45">
 
             <ImageView
                 android:id="@+id/home_iv_empty_img"
