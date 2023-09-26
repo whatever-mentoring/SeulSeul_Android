@@ -33,7 +33,7 @@
             android:paddingHorizontal="@dimen/padding_8"
             android:paddingVertical="@dimen/padding_10"
             android:hint="@string/home_location_setting"
-            android:textColor="@color/grey_300"
+            android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
             app:layout_constraintEnd_toStartOf="@id/home_iv_setting"
             app:layout_constraintStart_toStartOf="parent"
