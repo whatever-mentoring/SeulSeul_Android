@@ -8,6 +8,7 @@ import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.model.User
 import com.timi.seulseul.data.model.request.EndLocationRequest
 import com.timi.seulseul.data.model.response.EndLocationResponse
+import com.timi.seulseul.data.model.response.GetEndLocation
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -50,4 +51,7 @@ interface ApiService {
     // 목적지 보내기
     @POST("v1/end")
     suspend fun postEndLocation(@Body location: EndLocationRequest) : Response<EndLocationResponse>
+
+    @GET("v1/end")
+    suspend fun getEndLocation():Response<GetEndLocation>
 }

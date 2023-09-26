@@ -3,12 +3,10 @@ package com.timi.seulseul.presentation.location.activity
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.timi.seulseul.R
-import com.timi.seulseul.data.model.request.EndLocationRequest
 import com.timi.seulseul.databinding.ActivityLocationDetailBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.location.viewmodel.LocationDetailViewModel
@@ -41,15 +39,13 @@ class LocationDetailActivity :
         binding.locationTvShortAddress.text = viewModel.jibunAddr
 
 
-        if(viewModel.locationRequest != null) {
-
-            geoCode(viewModel.jibunAddr)
-            setupListeners()
-        }
+        geoCode(viewModel.jibunAddr)
+        setupListeners()
 
         binding.locationDetailBtnComplete.setOnClickListener {
-            if(selectedContainer != null && viewModel.locationRequest != null) {
-                viewModel.postEndLocation(viewModel.locationRequest!!)
+            if(selectedContainer != null) {
+                viewModel.postEndLocation(viewModel.locationRequest)
+                finish()
             }
         }
 
@@ -59,14 +55,14 @@ class LocationDetailActivity :
     // 지오코딩
     private fun geoCode(address: String) {
         val geocoder = Geocoder(this)
-        var result: List<Address>?
+        val result: List<Address>?
 
         try {
             result = geocoder.getFromLocationName(address, 1)
             if (!result.isNullOrEmpty()) {
                 val location = result[0]
-                viewModel.locationRequest!!.endX = location.latitude
-                viewModel.locationRequest!!.endY = location.longitude
+                viewModel.locationRequest.endX = location.longitude
+                viewModel.locationRequest.endY = location.latitude
             }
 
         } catch (e: IOException) {
@@ -136,7 +132,7 @@ class LocationDetailActivity :
                 // 현재 선택된 컨테이너 저장
                 selectedContainer = view as ConstraintLayout
 
-                viewModel.locationRequest!!.endNickName = textViews[i].text.toString()
+                viewModel.locationRequest.endNickName = textViews[i].text.toString()
             }
         }
     }

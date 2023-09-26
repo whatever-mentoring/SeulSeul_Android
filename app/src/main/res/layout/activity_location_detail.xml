@@ -87,43 +87,35 @@
             app:layout_constraintTop_toTopOf="@id/location_tv_address"
             tools:text="경기 성남시 분당구 판교역로 235 (에이치스퀘어엔동)" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/location_detail_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            android:layout_marginTop="@dimen/margin_32"
-            app:layout_constraintBottom_toTopOf="@id/location_detail_btn_complete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/location_tv_long_address">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/location_detail_container_home"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_home"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_20"
-                android:background="@drawable/bg_grey_100_r4"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="@dimen/padding_12"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="@id/location_detail_container"
-                app:layout_constraintTop_toTopOf="@id/location_detail_container"
-                app:layout_constraintVertical_weight="1">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/location_detail_tv_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineSpacingExtra="3dp"
                     android:text="@string/location_detail_home"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/font_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:textSize="@dimen/font_size_14" />
 
                 <ImageView
                     android:id="@+id/location_detail_iv_home"
@@ -131,26 +123,31 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_4"
                     android:src="@drawable/ic_location_detail_home_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent "
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_detail_tv_home" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/location_detail_container_one_room"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_one_room"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_grey_100_r4"
-                android:paddingVertical="@dimen/padding_12"
-                app:layout_constraintBottom_toBottomOf="@id/location_detail_container_home"
-                app:layout_constraintEnd_toStartOf="@id/location_detail_container_dormitory"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/location_detail_container_home"
-                app:layout_constraintTop_toTopOf="@id/location_detail_container_home"
-                app:layout_constraintVertical_weight="1">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/location_detail_tv_one_room"
@@ -160,39 +157,38 @@
                     android:lineSpacingExtra="3dp"
                     android:text="@string/location_detail_one_room"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/font_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:textSize="@dimen/font_size_14" />
 
                 <ImageView
                     android:id="@+id/location_detail_iv_one_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="@dimen/margin_4"
-                    android:src="@drawable/ic_location_detail_one_room_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent "
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_detail_tv_one_room" />
+                    android:src="@drawable/ic_location_detail_one_room_default" />
 
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/location_detail_container_dormitory"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_dormitory"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_grey_100_r4"
-                android:paddingVertical="@dimen/padding_12"
-                app:layout_constraintBottom_toBottomOf="@id/location_detail_container_one_room"
-                app:layout_constraintEnd_toStartOf="@id/location_detail_container_etc"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/location_detail_container_one_room"
-                app:layout_constraintTop_toTopOf="@id/location_detail_container_one_room"
-                app:layout_constraintVertical_weight="1">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/location_detail_tv_dormitory"
@@ -202,11 +198,7 @@
                     android:lineSpacingExtra="3dp"
                     android:text="@string/location_detail_dormitory"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/font_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:textSize="@dimen/font_size_14" />
 
                 <ImageView
                     android:id="@+id/location_detail_iv_dormitory"
@@ -214,61 +206,65 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_24"
                     android:layout_marginTop="@dimen/margin_4"
-                    android:src="@drawable/ic_location_detail_dormitory_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent "
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_detail_tv_dormitory" />
+                    android:src="@drawable/ic_location_detail_dormitory_default" />
 
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/location_detail_container_etc"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_etc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/margin_20"
-                android:background="@drawable/bg_grey_100_r4"
-                android:paddingHorizontal="24dp"
-                android:paddingVertical="@dimen/padding_12"
-                app:layout_constraintEnd_toEndOf="@id/location_detail_container"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintTop_toTopOf="@id/location_detail_container_dormitory"
-                app:layout_constraintVertical_weight="1">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/location_detail_tv_etc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pretendard_semi_bold"
-                    android:lineSpacingExtra="3dp"
                     android:text="@string/location_detail_etc"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/font_size_14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    android:textSize="@dimen/font_size_14" />
 
                 <ImageView
                     android:id="@+id/location_detail_iv_etc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_4"
-                    android:src="@drawable/ic_location_detail_etc_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_detail_tv_etc" />
+                    android:src="@drawable/ic_location_detail_etc_default" />
 
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/test"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            app:constraint_referenced_ids="location_detail_container_home, location_detail_container_one_room, location_detail_container_dormitory, location_detail_container_etc"
+            app:flow_horizontalGap="8dp"
+            app:flow_maxElementsWrap="4"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_tv_long_address" />
 
         <TextView
             android:id="@+id/location_detail_btn_complete"
@@ -287,8 +283,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>
