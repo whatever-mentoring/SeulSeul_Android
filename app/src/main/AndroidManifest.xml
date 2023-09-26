@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Android 9 (API 레벨 28) 이상에서는 포그라운드 서비스를 시작하기 위해 FOREGROUND_SERVICE 권한이 필요 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 네트워크 상태에 접근 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MainApplication"
@@ -21,13 +23,13 @@
         android:theme="@style/Theme.SeulSeul"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <service
             android:name=".data.service.LocationService"
             android:foregroundServiceType="location">
 
             <!-- Any inner elements would go here. -->
         </service>
+
         <service
             android:name=".presentation.FirebaseService"
             android:exported="false">
@@ -44,6 +46,17 @@
         </service>
 
         <activity
+            android:name=".presentation.splash.SplashActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".presentation.location.activity.LocationSearchActivity"
             android:exported="false" />
         <activity
@@ -53,21 +66,12 @@
             android:name=".presentation.location.activity.LocationDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.onboarding.OnBoardingActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme.SplashScreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".presentation.onboarding.OnBoardingActivity"/>
         <activity
             android:name=".presentation.permission.PermissionActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity android:name=".presentation.MainActivity" />
         <activity android:name=".presentation.apitest.ApiTestActivity" />
-
         <activity
             android:name=".presentation.setting.SettingActivity"
             android:exported="false" />
