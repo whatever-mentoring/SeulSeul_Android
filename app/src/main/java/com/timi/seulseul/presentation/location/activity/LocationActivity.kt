@@ -3,6 +3,7 @@ package com.timi.seulseul.presentation.location.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.timi.seulseul.R
@@ -11,6 +12,10 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.location.adapter.locationAdapter
 import com.timi.seulseul.presentation.location.viewmodel.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
@@ -18,8 +23,12 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
     private val viewModel by viewModels<LocationViewModel>()
     private val adapter = locationAdapter()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("locationActivity", "onCreate() 실행")
 
         binding.locationRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.locationRecyclerView.adapter = adapter
@@ -53,7 +62,13 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
     override fun onResume() {
         super.onResume()
-        viewModel.getEndLocation()
+
+        coroutineScope.launch {
+            delay(1500)
+            viewModel.getEndLocation()
+        }
+
+
     }
 
 }
