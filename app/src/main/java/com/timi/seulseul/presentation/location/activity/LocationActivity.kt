@@ -17,6 +17,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
     private val viewModel by viewModels<LocationViewModel>()
     private val adapter = locationAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +29,10 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         }
 
         viewModel.getEndLocation()
+
+        adapter.onItemClickListener = { location ->
+            viewModel.setEndLocation(location.id)
+        }
 
         binding.locationSearchBar.setOnClickListener {
             startActivity(Intent(this, LocationSearchActivity::class.java))
