@@ -3,7 +3,6 @@ package com.timi.seulseul.data.repository
 import android.util.Log
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.model.response.EndLocationData
-import com.timi.seulseul.data.model.response.GetEndLocation
 import javax.inject.Inject
 
 class SetEndLocationRepo @Inject constructor(

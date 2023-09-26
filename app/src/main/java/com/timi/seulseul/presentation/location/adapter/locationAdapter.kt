@@ -2,11 +2,9 @@ package com.timi.seulseul.presentation.location.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.timi.seulseul.data.model.response.GetEndLocation
 import com.timi.seulseul.data.model.response.GetEndLocationData
 import com.timi.seulseul.databinding.ItemLocationDetailBinding
 

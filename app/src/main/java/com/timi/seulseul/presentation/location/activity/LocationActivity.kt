@@ -8,7 +8,6 @@ import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityLocationBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.location.adapter.locationAdapter
-import com.timi.seulseul.presentation.location.adapter.setEndNickNameImage
 import com.timi.seulseul.presentation.location.viewmodel.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +31,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
         adapter.onItemClickListener = { location ->
             viewModel.setEndLocation(location.id)
+            finish()
         }
 
         binding.locationSearchBar.setOnClickListener {
