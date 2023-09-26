@@ -9,6 +9,10 @@
             type="com.timi.seulseul.presentation.MainActivity" />
 
         <variable
+            name="viewModel"
+            type="com.timi.seulseul.presentation.MainViewModel" />
+
+        <variable
             name="alarm"
             type="com.timi.seulseul.data.model.Alarm" />
     </data>
@@ -32,7 +36,8 @@
             android:fontFamily="@font/pretendard_medium"
             android:paddingHorizontal="@dimen/padding_8"
             android:paddingVertical="@dimen/padding_10"
-            android:text="@string/home_location_setting"
+            android:hint="@string/home_location_setting"
+            android:text="@{viewModel.endNickName}"
             android:textColor="@color/grey_300"
             android:textSize="@dimen/font_size_14"
             app:layout_constraintEnd_toStartOf="@id/home_iv_setting"

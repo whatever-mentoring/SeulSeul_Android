@@ -89,7 +89,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val endNickName = BaseActivity.prefs.getString("endNickName", "")
 
         binding.homeTvLocationSetting.text = endNickName
-        binding.homeTvLocationSetting.
     }
 
     private fun checkAlarmSetting() {
