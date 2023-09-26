@@ -10,11 +10,19 @@ import com.timi.seulseul.databinding.ItemLocationDetailBinding
 
 class locationAdapter : ListAdapter<GetEndLocationData, LocationViewHolder>(LocationDiffCallback) {
 
+    var onItemClickListener: ((GetEndLocationData) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemLocationDetailBinding.inflate(layoutInflater)
 
-        return LocationViewHolder(binding)
+        return LocationViewHolder(binding).apply {
+            itemView.setOnClickListener {
+                val position = adapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
+                    ?: return@setOnClickListener
+                onItemClickListener?.invoke(getItem(position))
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
@@ -26,11 +34,17 @@ class locationAdapter : ListAdapter<GetEndLocationData, LocationViewHolder>(Loca
 
     object LocationDiffCallback : DiffUtil.ItemCallback<GetEndLocationData>() {
 
-        override fun areItemsTheSame(oldItem: GetEndLocationData, newItem: GetEndLocationData): Boolean {
+        override fun areItemsTheSame(
+            oldItem: GetEndLocationData,
+            newItem: GetEndLocationData
+        ): Boolean {
             return oldItem.id == newItem.id // Assuming 'id' is a unique identifier for each item.
         }
 
-        override fun areContentsTheSame(oldItem: GetEndLocationData, newItem: GetEndLocationData): Boolean {
+        override fun areContentsTheSame(
+            oldItem: GetEndLocationData,
+            newItem: GetEndLocationData
+        ): Boolean {
             return oldItem == newItem // This might need to be changed based on your specific use case.
         }
     }

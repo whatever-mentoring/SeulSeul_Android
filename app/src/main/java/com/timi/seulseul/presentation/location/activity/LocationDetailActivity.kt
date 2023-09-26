@@ -3,6 +3,7 @@ package com.timi.seulseul.presentation.location.activity
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -43,8 +44,9 @@ class LocationDetailActivity :
         setupListeners()
 
         binding.locationDetailBtnComplete.setOnClickListener {
-            if(selectedContainer != null) {
+            if (selectedContainer != null) {
                 viewModel.postEndLocation(viewModel.locationRequest)
+                Log.d("locationDetailActivity", "완료버튼")
                 finish()
             }
         }

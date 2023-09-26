@@ -5,8 +5,8 @@ import com.timi.seulseul.data.model.AuthResponse
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.LocationResponse
 import com.timi.seulseul.data.model.PatchLocation
-import com.timi.seulseul.data.model.User
 import com.timi.seulseul.data.model.request.EndLocationRequest
+import com.timi.seulseul.data.model.response.EndLocationData
 import com.timi.seulseul.data.model.response.EndLocationResponse
 import com.timi.seulseul.data.model.response.GetEndLocation
 import retrofit2.Response
@@ -18,19 +18,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-
-    @POST("v1/test")
-    suspend fun postUser(@Body user: User): Response<User>
-
-    @GET("v1/test/{id}")
-    suspend fun getUser(@Path("id") id: String): Response<User>
-
-    @PATCH("v1/test")
-    suspend fun patchUser(@Body user: User): Response<User>
-
-    @DELETE("v1/test/{id}")
-    suspend fun deleteUser(@Path("id") id: String): Response<Unit>
-
 
     // 디바이스별 uuid 등록
     // endpoint등록 -> Retrofit에서 OkHttp Client를 사용해 서버에 POST 요청을 보낸다.
@@ -52,6 +39,11 @@ interface ApiService {
     @POST("v1/end")
     suspend fun postEndLocation(@Body location: EndLocationRequest) : Response<EndLocationResponse>
 
+    // 목적지 조회
     @GET("v1/end")
     suspend fun getEndLocation():Response<GetEndLocation>
+
+    // 목적지 선택
+    @GET("v1/end/{id}")
+    suspend fun setEndLocation(@Path("id") id: Int):Response<EndLocationData>
 }
