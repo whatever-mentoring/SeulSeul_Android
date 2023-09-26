@@ -33,6 +33,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         adapter.onItemClickListener = { location ->
             viewModel.setEndLocation(location.id)
 
+            //id 값의 endNickName 받아오기
             with(BaseActivity.prefs.edit()) {
                 putString("endNickName", location.endNickName)
                 apply()
