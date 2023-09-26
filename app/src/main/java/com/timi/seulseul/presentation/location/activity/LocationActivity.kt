@@ -1,5 +1,6 @@
 package com.timi.seulseul.presentation.location.activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -31,6 +32,11 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
         adapter.onItemClickListener = { location ->
             viewModel.setEndLocation(location.id)
+
+            with(BaseActivity.prefs.edit()) {
+                putString("endNickName", location.endNickName)
+                apply()
+            }
             finish()
         }
 
