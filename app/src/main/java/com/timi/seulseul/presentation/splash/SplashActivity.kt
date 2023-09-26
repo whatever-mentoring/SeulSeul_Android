@@ -1,6 +1,7 @@
 package com.timi.seulseul.presentation.splash
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,12 +10,16 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.databinding.DataBindingUtil
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
+import com.timi.seulseul.databinding.ActivityOnBoardingBinding
 import com.timi.seulseul.presentation.MainActivity
 import com.timi.seulseul.presentation.onboarding.OnBoardingActivity
 import com.timi.seulseul.presentation.permission.PermissionActivity
@@ -29,6 +34,9 @@ class SplashActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        // 상태바 색 변경
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green_400)
 
         checkNetworkConnection()
 
@@ -48,10 +56,11 @@ class SplashActivity : AppCompatActivity() {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setCancelable(false)
                 .show()
+
         } else {
             // 네트워크가 연결 됐을 때, 어디로 이동할지 결정
 
-            if(checkOnBoarding()) {
+            if (checkOnBoarding()) {
                 // 권한이 전부 다 허용됐을 때
                 if (checkPermission()) {
                     startActivity(Intent(this, MainActivity::class.java))
@@ -110,29 +119,36 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkPermission(): Boolean {
         // FINE_LOCATION 체크
-        val hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        val hasFineLocationPermission = ContextCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
         // COARSE_LOCATION 체크
-        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
         // BACKGROUND_LOCATION 체크
         val hasBackgroundLocationPermission =
             // API 26(Q) 이상일 때
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+                ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
             } else {
                 // API 26미만이면 백그라운드가 포그라운드 권한에 종속됨
                 true
             }
 
 
-        val hasNotificationPermission =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                // POST_NOTIFICATIONS 체크, API33 알림 퍼미션
-                ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
-            } else {
-                // Notification 허용 여부 체크 (모든 알림(채널) 차단만 체크해줌)
-                NotificationManagerCompat.from(this).areNotificationsEnabled()
-                // 특정 채널 알림 차단여부는 체크따로 해야함
-            }
+        val hasNotificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // POST_NOTIFICATIONS 체크, API33 알림 퍼미션
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            // Notification 허용 여부 체크 (모든 알림(채널) 차단만 체크해줌)
+            NotificationManagerCompat.from(this).areNotificationsEnabled()
+            // 특정 채널 알림 차단여부는 체크따로 해야함
+        }
 
         // 전부다 true일 때 checkPermission을 true로 반환, 하나라도 false가 있으면 false로 반환
         return hasFineLocationPermission && hasCoarseLocationPermission && hasBackgroundLocationPermission && hasNotificationPermission
