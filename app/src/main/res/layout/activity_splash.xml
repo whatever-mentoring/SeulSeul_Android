@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.splash.SplashActivity">
+    tools:context=".presentation.splash.SplashActivity"
+    android:background="@color/green_400">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
