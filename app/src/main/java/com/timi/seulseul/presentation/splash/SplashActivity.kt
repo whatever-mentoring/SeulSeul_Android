@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationManagerCompat
@@ -45,17 +46,26 @@ class SplashActivity : AppCompatActivity() {
     private fun checkNetworkConnection() {
         // 네트워크가 사용불가능일 경우
         if (!isNetworkAvailable(this)) {
-            // Dialog를 띄운다.
-            AlertDialog.Builder(this)
-                .setTitle("네트워크가 연결되지 않았습니다.")
-                .setMessage("Wi-Fi 또는 데이터를 활성화 해주세요")
-                .setPositiveButton("다시 시도") { _, _ ->
-                    // 다시 시도 버튼 누르면 네트워크 연결 체크
-                    checkNetworkConnection()
-                }
-                .setIcon(android.R.drawable.ic_dialog_alert)
+            // AlertDialog 객체 생성
+            val dialog = AlertDialog.Builder(this)
+                .setView(R.layout.dialog_network_check)
                 .setCancelable(false)
-                .show()
+                .create()
+
+            // 커스텀 뷰 내의 버튼 참조 획득 및 클릭 리스너 설정
+            dialog.setOnShowListener {
+                val button = dialog.findViewById<TextView>(R.id.network_btn)
+
+                button?.setOnClickListener {
+                    // 다시 시도 버튼 클릭 시 네트워크 연결 체크
+                    checkNetworkConnection()
+                    // 다이얼로그 닫기, 안 닫아주면 계속 중첩돼서 쌓임
+                    dialog.dismiss()
+                }
+            }
+            // Dialog 보여주기
+            dialog.show()
+
 
         } else {
             // 네트워크가 연결 됐을 때, 어디로 이동할지 결정
