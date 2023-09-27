@@ -107,12 +107,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val response = subwayRouteRepo.getSubwayRoute()
             response.onSuccess {
-                it.bodyList.forEach { body ->
-                    items.add(SubwayRouteItem.BodyItem(body.data))
-                }
-
                 it.totalTimeSection.forEach { totalTime ->
                     items.add(SubwayRouteItem.TotalTimeSectionItem(totalTime.data))
+                }
+
+                it.bodyList.forEach { body ->
+                    items.add(SubwayRouteItem.BodyItem(body.data))
                 }
 
                 if (it.transferSection.isNotEmpty()) {

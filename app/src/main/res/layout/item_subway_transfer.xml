@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingStart="66dp">
+        android:paddingStart="70dp">
 
         <View
             android:id="@+id/item_subway_transfer_view_connect_top_line"

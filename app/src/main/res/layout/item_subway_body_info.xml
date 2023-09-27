@@ -16,6 +16,13 @@
         android:background="@color/white"
         android:paddingHorizontal="@dimen/padding_20">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/item_subway_line_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="36dp" />
+
         <TextView
             android:id="@+id/item_subway_line_tv_start_time"
             android:layout_width="wrap_content"
@@ -24,9 +31,10 @@
             android:text="@{body.departTime}"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_start_station_img"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img" />
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
+            tools:text="19:48"/>
 
         <ImageView
             android:id="@+id/item_subway_line_tv_start_station_img"
@@ -34,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_14"
             android:src="@drawable/ic_subway_route_line_2"
-            app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_start_time"
+            app:layout_constraintStart_toEndOf="@id/item_subway_line_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -79,9 +87,10 @@
             android:text="@{body.arriveTime}"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_end_station_img"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_end_station_img" />
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_end_station_img"
+            tools:text="20:17"/>
 
         <ImageView
             android:id="@+id/item_subway_line_tv_end_station_img"
