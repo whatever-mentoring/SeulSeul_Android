@@ -1,5 +1,6 @@
-package com.timi.seulseul.presentation.location.adapter
+package com.timi.seulseul.presentation.common.adapter
 
+import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.timi.seulseul.R
@@ -11,5 +12,12 @@ fun setEndNickNameImage(view: ImageView, endNickname: String?) {
         "자취방" -> view.setImageResource(R.drawable.ic_location_setting_one_room_label)
         "기숙사" -> view.setImageResource(R.drawable.ic_location_setting_dormitory_label)
         "기타" -> view.setImageResource(R.drawable.ic_location_setting_etc_label)
+    }
+}
+
+@BindingAdapter("visible")
+fun View.visibility(isNull : String) {
+    if (isNull == null) {
+        this.visibility = View.GONE
     }
 }

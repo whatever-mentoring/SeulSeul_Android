@@ -31,10 +31,10 @@
             android:text="@{body.departTime}"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
-            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_start_station_img"
+            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
-            tools:text="19:48"/>
+            tools:text="19:48" />
 
         <ImageView
             android:id="@+id/item_subway_line_tv_start_station_img"
@@ -73,11 +73,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
-            android:text="@{body.wayName+`역 방면 | 빠른 환승 `+body.fastTrainDoor}"
+            android:text="@{body.wayName+`역 방면`}"
             android:textColor="@color/grey_400"
             android:textSize="@dimen/font_size_12"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_name"
-            app:layout_constraintTop_toBottomOf="@id/item_subway_line_tv_start_station_name" />
+            app:layout_constraintTop_toBottomOf="@id/item_subway_line_tv_start_station_name"
+            tools:text="중앙보훈병원역 방면" />
+
+        <TextView
+            android:id="@+id/item_subway_line_tv_fast_transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="@{` | 빠른 환승 `+ body.fastTrainDoor}"
+            android:textColor="@color/grey_400"
+            android:textSize="@dimen/font_size_12"
+            visible="@{body.fastTrainDoor}"
+            app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_detail_info"
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_detail_info" />
 
         <TextView
             android:id="@+id/item_subway_line_tv_end_time"
@@ -87,10 +100,10 @@
             android:text="@{body.arriveTime}"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/font_size_14"
-            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintBottom_toBottomOf="@id/item_subway_line_tv_end_station_img"
+            app:layout_constraintEnd_toEndOf="@+id/item_subway_line_guideline"
             app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_end_station_img"
-            tools:text="20:17"/>
+            tools:text="20:17" />
 
         <ImageView
             android:id="@+id/item_subway_line_tv_end_station_img"

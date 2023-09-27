@@ -9,12 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.timi.seulseul.MainApplication
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.data.service.LocationService
 import com.timi.seulseul.databinding.ActivityMainBinding
-import com.timi.seulseul.presentation.apitest.ApiTestActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
@@ -46,10 +44,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeTvLocationSetting.setOnClickListener {
             val intent = Intent(this, LocationActivity::class.java)
             startActivity(intent)
-        }
-
-        binding.goApitestBtn.setOnClickListener {
-            startActivity(Intent(this, ApiTestActivity::class.java))
         }
 
         binding.homeIvSetting.setOnClickListener {
