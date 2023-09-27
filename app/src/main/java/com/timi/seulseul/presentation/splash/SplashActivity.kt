@@ -1,6 +1,9 @@
 package com.timi.seulseul.presentation.splash
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -18,6 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
+    private lateinit var dialog: AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -34,9 +39,9 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkNetworkConnection() {
         // 네트워크가 사용불가능일 경우
-        if (!Utils.isNetworkAvailable(this)) {
+        if (!isNetworkAvailable(this)) {
             // AlertDialog 객체 생성
-            val dialog = AlertDialog.Builder(this)
+            dialog = AlertDialog.Builder(this)
                 .setView(R.layout.dialog_network_check)
                 .setCancelable(false)
                 .create()
@@ -78,6 +83,33 @@ class SplashActivity : AppCompatActivity() {
 
             return
 
+    }
+
+    // 네트워크 상태 체크
+    fun isNetworkAvailable(context: Context): Boolean {
+        // [API 23이상] ConnectivityManager, NetworkCapabilities
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        if (connectivityManager != null) {
+
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                // 셀룰러 체크
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    return true
+                }
+                // WIFI 체크
+                else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    return true
+                }
+                // 이더넷 체크
+                else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     private fun checkOnBoarding(): Boolean {
