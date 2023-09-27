@@ -44,7 +44,7 @@ object Utils {
         val hasFineLocationPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
-        // COARSE_LOCATION 체크
+        // COARSE_LOCATION 체크때
         val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
