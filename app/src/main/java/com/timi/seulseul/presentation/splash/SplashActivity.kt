@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
+import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import com.timi.seulseul.Utils
 import com.timi.seulseul.presentation.MainActivity
@@ -18,8 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
-
-    private val viewModel by viewModels<SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -62,9 +61,8 @@ class SplashActivity : AppCompatActivity() {
         } else {
             // 네트워크가 연결 됐을 때, 어디로 이동할지 결정
 
-            viewModel.spLiveData.observe(this) { isOnBoardingCompleted ->
                 // KEY_ONBOARDING true일 때
-                if (isOnBoardingCompleted) {
+                if (checkOnBoarding()) {
                     // 권한이 전부 다 허용됐을 때
                     if (Utils.checkPermission(this)) {
                         startActivity(Intent(this, MainActivity::class.java))
@@ -79,9 +77,17 @@ class SplashActivity : AppCompatActivity() {
             }
 
             finish()
-        }
+
+            return
+
     }
 
+    private fun checkOnBoarding(): Boolean {
+        if (prefs.getBoolean("KEY_ONBOARDING", false)) {
+            return true
+        }
+        return false
+    }
 
 
 }

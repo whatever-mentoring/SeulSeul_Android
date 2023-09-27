@@ -1,5 +1,7 @@
 package com.timi.seulseul.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.timi.seulseul.MainApplication
 import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
@@ -7,6 +9,7 @@ import com.timi.seulseul.data.api.FcmTokenService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Headers
 import okhttp3.Interceptor
@@ -65,7 +68,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAlarmService(retrofit: Retrofit): AlarmService = retrofit.create(AlarmService::class.java)
-
 }
 
 //HeaderInterceptor 분리
