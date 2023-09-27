@@ -7,6 +7,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.timi.seulseul.MainApplication
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
@@ -17,6 +19,7 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
+import com.timi.seulseul.presentation.main.adapter.SubwayRouteAdapter
 import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -25,7 +28,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    // ViewModel객체를 가져옴
+    private lateinit var subwayRouteAdapter: SubwayRouteAdapter
+
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +76,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             val dialog = LocationBeforeDialogFragment()
             dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
         }
+
+        // recyclerView
+        showSubwayRoute()
     }
 
     override fun onResume() {
@@ -139,6 +146,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
+            }
+        })
+    }
+
+    private fun showSubwayRoute() {
+        viewModel.getSubwayRoute()
+        viewModel.subwayData.observe(this, Observer {
+
+            if (it != null) {
+                subwayRouteAdapter = SubwayRouteAdapter()
+
+                binding.homeRvSubwayRoute.apply {
+                    adapter = subwayRouteAdapter
+                    layoutManager = LinearLayoutManager(this@MainActivity)
+                }
+
+                subwayRouteAdapter.submitList(it)
             }
         })
     }
