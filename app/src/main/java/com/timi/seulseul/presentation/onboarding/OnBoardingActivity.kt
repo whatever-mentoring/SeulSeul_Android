@@ -47,8 +47,7 @@ class OnBoardingActivity : AppCompatActivity() {
         viewPager2.adapter = adapter
 
 
-
-        dotsIndicator.setViewPager2(viewPager2)
+        dotsIndicator.attachTo(viewPager2)
 
         viewModel.obLiveData.observe(this) { obLiveData ->
             adapter.submitList(obLiveData)
@@ -64,8 +63,7 @@ class OnBoardingActivity : AppCompatActivity() {
             apply()
         }
 
-        val intent = Intent(this, PermissionActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, PermissionActivity::class.java))
         finish()
     }
 }
