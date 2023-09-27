@@ -56,7 +56,7 @@
     <string name="location_title">주소 설정</string>
     <string name="location_searchHint">예) 판교역로 235, 분당 주공, 삼평동 681</string>
     <string name="location_address">도로명 :&#160;</string>
-    
+
     <!--설정 페이지-->
     <string name="setting_title">설정</string>
     <string name="setting_content1">이용약관</string>

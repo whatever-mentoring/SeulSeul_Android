@@ -3,6 +3,7 @@ package com.timi.seulseul.presentation.onboarding
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,6 +30,12 @@ class OnBoardingAdapter(
         fun bind(page: OnBoardingData, lastPage:Boolean) {
             binding.page = page
             binding.lastPage = lastPage
+
+            if (position == 0) {
+                binding.onboardingTvSearchbar.visibility = View.VISIBLE
+            } else {
+                binding.onboardingTvSearchbar.visibility = View.GONE
+            }
             binding.executePendingBindings()
         }
     }
