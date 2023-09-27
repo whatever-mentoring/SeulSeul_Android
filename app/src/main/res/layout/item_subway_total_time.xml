@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="totalTime"
+            type="com.timi.seulseul.data.model.response.TotalTimeData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:paddingVertical="@dimen/padding_20">
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@{totalTime.totalTime}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/item_subway_header_tv_detail_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="@{`오후 `+totalTime.departTime+` ~ 오후 `+totalTime.arriveTime}"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_header_tv_total_time" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

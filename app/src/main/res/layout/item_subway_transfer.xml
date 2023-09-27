@@ -5,11 +5,15 @@
 
     <data>
 
+        <variable
+            name="transfer"
+            type="com.timi.seulseul.data.model.response.TransferData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingStart="66dp">
 
         <View
@@ -44,13 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_18"
+            android:text="@{`도보 `+transfer.exWalkTime+`분`}"
             android:textColor="@color/grey_500"
             android:textSize="@dimen/font_size_12"
             android:fontFamily="@font/pretendard_medium"
             app:layout_constraintBottom_toBottomOf="@id/item_subway_transfer_iv_walk_man"
             app:layout_constraintStart_toEndOf="@id/item_subway_transfer_iv_walk_man"
-            app:layout_constraintTop_toTopOf="@id/item_subway_transfer_iv_walk_man"
-            tools:text="도보 3분" />
+            app:layout_constraintTop_toTopOf="@id/item_subway_transfer_iv_walk_man" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
