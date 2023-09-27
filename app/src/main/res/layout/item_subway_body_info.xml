@@ -40,10 +40,11 @@
             android:id="@+id/item_subway_line_tv_start_station_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_14"
-            android:src="@drawable/ic_subway_route_line_2"
+            android:layout_marginStart="@dimen/margin_14"
+            bindLineImage="@{body.laneName}"
             app:layout_constraintStart_toEndOf="@id/item_subway_line_guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_subway_route_line_2"/>
 
         <TextView
             android:id="@+id/item_subway_line_tv_start_station_name"
@@ -63,10 +64,11 @@
             android:layout_width="5dp"
             android:layout_height="30dp"
             android:layout_marginTop="26dp"
-            android:background="@color/subway_2"
+            bindLineColor="@{body.laneName}"
             app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
-            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img" />
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
+            tools:background="@color/subway_2" />
 
         <TextView
             android:id="@+id/item_subway_line_tv_detail_info"
@@ -110,10 +112,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_28"
-            android:src="@drawable/ic_subway_route_line_2"
+            bindLineImage="@{body.laneName}"
             app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
-            app:layout_constraintTop_toTopOf="@id/item_subway_line_view_connect_line" />
+            app:layout_constraintTop_toTopOf="@id/item_subway_line_view_connect_line"
+            tools:src="@drawable/ic_subway_route_line_2"/>
 
         <TextView
             android:id="@+id/item_subway_line_tv_end_station_name"
