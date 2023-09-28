@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:minWidth="300dp"
+        android:minWidth="340dp"
         android:minHeight="100dp"
         android:background="@drawable/bg_white_r8"
         android:paddingHorizontal="@dimen/padding_20"
