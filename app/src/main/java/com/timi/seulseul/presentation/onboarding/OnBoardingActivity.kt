@@ -23,6 +23,12 @@ class OnBoardingActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        if (prefs.getBoolean("KEY_ONBOARDING", false)) {
+            startActivity(Intent(this, PermissionActivity::class.java))
+            finish()
+            return  // OnBoardingActivity의 나머지 부분은 실행하지 않음
+        }
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_on_boarding)
 
         binding.viewmodel = viewModel
