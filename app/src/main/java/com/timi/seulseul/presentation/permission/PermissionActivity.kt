@@ -172,7 +172,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     private fun showSecondNotificationPermissionDialog() {
         AlertDialog.Builder(this)
-            .setMessage("설정에서 알림 권한을 허용해주세요")
+            .setMessage("설정에서 알림 권한을 항상 허용해주세요")
             .setPositiveButton("설정으로 이동") { _, _ ->
                 val intent = Intent().apply {
                     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
