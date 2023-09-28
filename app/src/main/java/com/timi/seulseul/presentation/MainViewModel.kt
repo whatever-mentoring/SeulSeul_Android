@@ -38,6 +38,9 @@ class MainViewModel @Inject constructor(
     private var _subwayData : MutableLiveData<MutableList<SubwayRouteItem>> = MutableLiveData()
     var subwayData : LiveData<MutableList<SubwayRouteItem>> = _subwayData
 
+    private var _showRoute : MutableLiveData<Boolean> = MutableLiveData(false)
+    var showRoute : LiveData<Boolean> = _showRoute
+
     // postAuth함수는
     // uuid값을 넣은 Auth 객체를 만들고 authRepo.postAuth 함수에 전달한다.
     fun postAuth() {
@@ -105,6 +108,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val response = subwayRouteRepo.getSubwayRoute()
             response.onSuccess {
+                // 경로 RecyclerView 관련 서 items에 데이터 추가
                 it.totalTimeSection.forEach { totalTime ->
                     items.add(SubwayRouteItem.TotalTimeSectionItem(totalTime.data))
                 }
@@ -121,12 +125,80 @@ class MainViewModel @Inject constructor(
 
                 _subwayData.value = items
                 Timber.d("mainViewModel: ${_subwayData.value}")
+
+                // 막차 시간
+                val lastSubwayTime = it.bodyList.last().data.departTime
+                Timber.d("lastSubwayTime: $lastSubwayTime")
+
+                // 경로 보여줄 시간
+                getHaveToShowRouteTIme(lastSubwayTime!!)
             }
         }
         return items
     }
 
-    // 현재 월, 일 받아오기
+    private fun getHaveToShowRouteTIme(lastSubwayTime: String) {
+        val alarmTime = prefs.getInt("alarmTime", 0)
+        val alarmHour = alarmTime / 60
+        val alarmMinute = alarmTime % 60
+        Timber.d("alarmTime: ${alarmHour}:${alarmMinute}")
+
+        val lastSubwayHour = lastSubwayTime.substring(0, 2).toInt()
+        val lastSubwayMinute = lastSubwayTime.substring(3).toInt()
+
+        // 막차 시간, 알림 시간 비교해서 경로 보여줄 시간 계산
+        val timeToShowRoute = calculateLastSubwayTime(lastSubwayHour, lastSubwayMinute, alarmHour, alarmMinute)
+        prefs.edit().putString("timeToShowRoute", timeToShowRoute).apply()
+        Timber.d("getHaveToShowRouteTime: $timeToShowRoute")
+
+        // 경로 보여줄 시간, 현재 시간 비교 후 visibility 여부 체크
+        checkRouteVisibility(timeToShowRoute)
+    }
+
+    private fun calculateLastSubwayTime(lastSubwayHour: Int, lastSubwayMinute: Int, alarmHour: Int, alarmMinute: Int) : String {
+        var lHour = lastSubwayHour
+        var lMinute = lastSubwayMinute
+
+        // 24시, 25시 고려
+        if (lHour >= 24) {
+            lHour -= 24
+        }
+
+        // 분 끼리 뺐을 때 음수인 경우 고려
+        if (lMinute - alarmMinute < 0) {
+            lHour -= 1
+            lMinute += 60
+        }
+
+        // 시 끼리 뺐을 때 음수인 경우 고려
+        if (lHour - alarmHour < 0) {
+            lHour += 24
+        }
+
+        return "${lHour-alarmHour}:${lMinute-alarmMinute}"
+    }
+
+    private fun checkRouteVisibility(timeToShowRoute : String) {
+        var routeHour = timeToShowRoute.substring(0, 2).toInt()
+        val routeMinute = timeToShowRoute.substring(3).toInt()
+
+        if (routeHour == 24) {
+            routeHour = 0
+        }
+        Timber.d("checkRouteVisibility : ${routeHour}:${routeMinute}")
+
+        val currentTime = getTodayDate()
+        val currentHour = currentTime.hour
+        val currentMinute = currentTime.minute
+        Timber.d("currentTime : ${currentHour}:${currentMinute}")
+
+        if (currentHour >= routeHour && currentMinute >= routeMinute) {
+            _showRoute.value = true
+        }
+    }
+
+
+    // 현재 월,일 받아오기
     fun getTodayDate() : DayInfo {
         val calendar = Calendar.getInstance()
 
@@ -134,7 +206,7 @@ class MainViewModel @Inject constructor(
         val date = calendar.get(Calendar.DATE)
         val tomorrow = date+1
 
-        val hour = calendar.get(Calendar.HOUR)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
         return DayInfo(month, date, hour, minute, tomorrow)
