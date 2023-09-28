@@ -7,8 +7,7 @@ data class SubwayRouteResponse(
 
 data class SubwayRouteData(
     val bodyList: List<Body>,
-    val totalTimeSection: List<TotalTimeSection>,
-    val transferSection: List<TransferSection>
+    val totalTimeSection: List<TotalTimeSection>
 )
 
 
@@ -18,13 +17,14 @@ data class Body(
 )
 
 data class BodyData(
-    val arriveTime: String,
-    val departTime: String,
-    val fastTrainDoor: String,
-    val firstStation: String,
-    val laneName: String,
-    val lastStation: String,
-    val wayName: String
+    val arriveTime: String?,
+    val departTime: String?,
+    val exWalkTime: String?,
+    val fastTrainDoor: String?,
+    val firstStation: String?,
+    val laneName: String?,
+    val lastStation: String?,
+    val wayName: String?
 )
 
 
@@ -37,14 +37,4 @@ data class TotalTimeData(
     val arriveTime: String,
     val departTime: String,
     val totalTime: String
-)
-
-
-data class TransferSection(
-    val viewType: String,
-    val data: TransferData
-)
-
-data class TransferData(
-    val exWalkTime: String
 )

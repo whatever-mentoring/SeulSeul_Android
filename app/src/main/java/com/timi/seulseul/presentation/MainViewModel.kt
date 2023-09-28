@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.timi.seulseul.MainApplication
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
@@ -15,7 +14,6 @@ import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
 import com.timi.seulseul.presentation.common.base.BaseActivity
-import com.timi.seulseul.presentation.main.adapter.SubwayRouteAdapter
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -112,20 +110,17 @@ class MainViewModel @Inject constructor(
                 }
 
                 it.bodyList.forEach { body ->
-                    items.add(SubwayRouteItem.BodyItem(body.data))
-                }
-
-                if (it.transferSection.isNotEmpty()) {
-                    it.transferSection.forEach { transfer ->
-                        items.add(SubwayRouteItem.TransferSectionItem(transfer.data))
+                    if (body.viewType == "bodyInfo") {
+                        items.add(SubwayRouteItem.BodyItem(body.data))
+                    } else {
+                        items.add(SubwayRouteItem.TransferItem(body.data))
                     }
-                } else {
-                    items.add(SubwayRouteItem.TransferSectionItem(null))
                 }
 
                 items.add(SubwayRouteItem.Footer)
+
                 _subwayData.value = items
-                Timber.d(_subwayData.value.toString())
+                Timber.d("mainViewModel: ${_subwayData.value}")
             }
         }
         return items

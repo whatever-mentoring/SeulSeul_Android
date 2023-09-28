@@ -1,12 +1,12 @@
 package com.timi.seulseul.presentation.main.adapter
 
+import android.drm.DrmStore.Action.TRANSFER
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timi.seulseul.data.model.response.BodyData
 import com.timi.seulseul.data.model.response.TotalTimeData
-import com.timi.seulseul.data.model.response.TransferData
 import com.timi.seulseul.databinding.ItemSubwayBodyInfoBinding
 import com.timi.seulseul.databinding.ItemSubwayFooterBinding
 import com.timi.seulseul.databinding.ItemSubwayTotalTimeBinding
@@ -33,20 +33,15 @@ class SubwayRouteAdapter: ListAdapter<SubwayRouteItem, RecyclerView.ViewHolder>(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) = when (holder) {
         is TotalTimeViewHolder -> holder.bind((getItem(position) as SubwayRouteItem.TotalTimeSectionItem).totalTimeData)
         is BodyViewHolder -> holder.bind((getItem(position) as SubwayRouteItem.BodyItem).body)
-        is TransferViewHolder->{
-            val item = getItem(position) as SubwayRouteItem.TransferSectionItem
-            if(item.transferData != null){
-                holder.bind(item.transferData)
-            } else {}
-        }
-        is FooterViewHolder-> {} // No binding for the footer.
+        is TransferViewHolder-> holder.bind((getItem(position) as SubwayRouteItem.TransferItem).transfer)
+        is FooterViewHolder-> {}
         else -> throw IllegalArgumentException("Invalid view holder")
     }
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is SubwayRouteItem.TotalTimeSectionItem -> TOTAL_TIME
         is SubwayRouteItem.BodyItem -> BODY
-        is SubwayRouteItem.TransferSectionItem -> TRANSFER
+        is SubwayRouteItem.TransferItem -> TRANSFER
         is SubwayRouteItem.Footer -> FOOTER
         else -> throw IllegalArgumentException("Invalid type of data " + position)
     }
@@ -67,11 +62,9 @@ class BodyViewHolder(private val binding: ItemSubwayBodyInfoBinding) : RecyclerV
 }
 
 class TransferViewHolder(private val binding: ItemSubwayTransferBinding): RecyclerView.ViewHolder(binding.root){
-    fun bind(item: TransferData?){
-        if(item!=null){
-            binding.transfer = item
-            binding.executePendingBindings()
-        }
+    fun bind(item: BodyData){
+        binding.transfer = item
+        binding.executePendingBindings()
     }
 }
 

@@ -3,12 +3,11 @@ package com.timi.seulseul.presentation.main.adapter
 import androidx.recyclerview.widget.DiffUtil
 import com.timi.seulseul.data.model.response.BodyData
 import com.timi.seulseul.data.model.response.TotalTimeData
-import com.timi.seulseul.data.model.response.TransferData
 
 sealed class SubwayRouteItem {
-    data class BodyItem(val body: BodyData) : SubwayRouteItem()
     data class TotalTimeSectionItem(val totalTimeData: TotalTimeData) : SubwayRouteItem()
-    data class TransferSectionItem(val transferData: TransferData?) : SubwayRouteItem()
+    data class BodyItem(val body: BodyData) : SubwayRouteItem()
+    data class TransferItem( val transfer: BodyData) : SubwayRouteItem()
     object Footer : SubwayRouteItem()
 
     companion object {
