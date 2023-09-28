@@ -38,13 +38,13 @@
 
         <ImageView
             android:id="@+id/item_subway_line_tv_start_station_img"
+            bindLineImage="@{body.laneName}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_14"
-            bindLineImage="@{body.laneName}"
             app:layout_constraintStart_toEndOf="@id/item_subway_line_guideline"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_subway_route_line_2"/>
+            tools:src="@drawable/ic_subway_route_line_2" />
 
         <TextView
             android:id="@+id/item_subway_line_tv_start_station_name"
@@ -61,10 +61,10 @@
 
         <View
             android:id="@+id/item_subway_line_view_connect_line"
+            bindLineColor="@{body.laneName}"
             android:layout_width="5dp"
             android:layout_height="30dp"
             android:layout_marginTop="26dp"
-            bindLineColor="@{body.laneName}"
             app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_start_station_img"
@@ -75,22 +75,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
-            android:text="@{body.wayName+`역 방면`}"
+            android:text="@{body.wayName+`행`}"
             android:textColor="@color/grey_400"
             android:textSize="@dimen/font_size_12"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_name"
-            app:layout_constraintTop_toBottomOf="@id/item_subway_line_tv_start_station_name"
-            tools:text="중앙보훈병원역 방면" />
+            app:layout_constraintTop_toBottomOf="@id/item_subway_line_tv_start_station_name" />
 
         <TextView
             android:id="@+id/item_subway_line_tv_fast_transfer"
+            visible="@{body.fastTrainDoor}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_medium"
             android:text="@{` | 빠른 환승 `+ body.fastTrainDoor}"
             android:textColor="@color/grey_400"
             android:textSize="@dimen/font_size_12"
-            visible="@{body.fastTrainDoor}"
             app:layout_constraintStart_toEndOf="@id/item_subway_line_tv_detail_info"
             app:layout_constraintTop_toTopOf="@id/item_subway_line_tv_detail_info" />
 
@@ -109,14 +108,14 @@
 
         <ImageView
             android:id="@+id/item_subway_line_tv_end_station_img"
+            bindLineImage="@{body.laneName}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_28"
-            bindLineImage="@{body.laneName}"
             app:layout_constraintEnd_toEndOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintStart_toStartOf="@id/item_subway_line_tv_start_station_img"
             app:layout_constraintTop_toTopOf="@id/item_subway_line_view_connect_line"
-            tools:src="@drawable/ic_subway_route_line_2"/>
+            tools:src="@drawable/ic_subway_route_line_2" />
 
         <TextView
             android:id="@+id/item_subway_line_tv_end_station_name"
