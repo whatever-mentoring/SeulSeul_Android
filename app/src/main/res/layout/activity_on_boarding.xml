@@ -17,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.onboarding.OnBoardingActivity">
+        tools:context=".presentation.onboarding.OnBoardingActivity"
+        android:background="@color/white">
 
 
         <androidx.viewpager2.widget.ViewPager2
@@ -31,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.7"
+            app:layout_constraintHeight_percent="0.66"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +40,7 @@
             android:id="@+id/dots_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_40"
             android:elevation="6dp"
             app:dotsColor="@color/grey_200"
             app:selectedDotColor="@color/green_300"

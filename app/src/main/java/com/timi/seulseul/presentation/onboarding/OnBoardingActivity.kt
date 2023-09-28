@@ -21,18 +21,13 @@ class OnBoardingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        installSplashScreen().apply {
-
-        }
-
         super.onCreate(savedInstanceState)
 
-        if (prefs.getBoolean("onboardingDone", false)) {
+        if (prefs.getBoolean("KEY_ONBOARDING", false)) {
             startActivity(Intent(this, PermissionActivity::class.java))
             finish()
             return  // OnBoardingActivity의 나머지 부분은 실행하지 않음
         }
-
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_on_boarding)
 
@@ -52,8 +47,7 @@ class OnBoardingActivity : AppCompatActivity() {
         viewPager2.adapter = adapter
 
 
-
-        dotsIndicator.setViewPager2(viewPager2)
+        dotsIndicator.attachTo(viewPager2)
 
         viewModel.obLiveData.observe(this) { obLiveData ->
             adapter.submitList(obLiveData)
@@ -65,12 +59,11 @@ class OnBoardingActivity : AppCompatActivity() {
     private fun onConfirmButtonClick() {
 
         with(prefs.edit()) {
-            putBoolean("onboardingDone", true)
+            putBoolean("KEY_ONBOARDING", true)
             apply()
         }
 
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, PermissionActivity::class.java))
         finish()
     }
 }
