@@ -72,7 +72,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         // recyclerView
-        showSubwayRoute()
+        // showSubwayRoute()
     }
 
     override fun onResume() {
@@ -173,24 +173,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeTvAlarmAdd.visibility = View.GONE
         binding.homeClAlarmSetting.visibility = View.VISIBLE
         binding.homeTvAlarm.text = "알림 수신 예정"
-        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            R.drawable.ic_home_day_checked,
-            0,
-            0,
-            0
-        ) // drawableStart 다른 이미지로 변경
+        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_checked, 0, 0, 0) // drawableStart 다른 이미지로 변경
     }
 
     private fun setAlarmBefore() {
         binding.homeTvAlarmAdd.visibility = View.VISIBLE
         binding.homeClAlarmSetting.visibility = View.GONE
         binding.homeTvAlarm.text = "설정된 알림 없음"
-        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            R.drawable.ic_home_day_unchecked,
-            0,
-            0,
-            0
-        )
+        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_unchecked, 0, 0, 0)
     }
 
     private fun switchNotificationOnOff() {
@@ -210,23 +200,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun switchOn() {
         binding.homeClAlarmSetting.setBackgroundResource(R.drawable.bg_green_500_main_r8)
-        binding.homeClLlTvTitleLastSubway.setTextColor(
-            ContextCompat.getColor(
-                applicationContext,
-                R.color.green_500_main
-            )
-        )
+        binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.green_500_main))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_click)
     }
 
     private fun switchOff() {
         binding.homeClAlarmSetting.setBackgroundResource(R.drawable.bg_grey_200_r8)
-        binding.homeClLlTvTitleLastSubway.setTextColor(
-            ContextCompat.getColor(
-                applicationContext,
-                R.color.grey_200
-            )
-        )
+        binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey_200))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_default)
     }
 }
