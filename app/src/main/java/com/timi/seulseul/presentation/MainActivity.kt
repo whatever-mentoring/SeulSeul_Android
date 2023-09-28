@@ -7,7 +7,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import com.timi.seulseul.MainApplication
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Alarm
 import com.timi.seulseul.data.service.LocationService
@@ -16,6 +17,7 @@ import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
+import com.timi.seulseul.presentation.main.adapter.SubwayRouteAdapter
 import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -24,7 +26,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    // ViewModel객체를 가져옴
+    private lateinit var subwayRouteAdapter: SubwayRouteAdapter
+
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +70,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             val dialog = LocationBeforeDialogFragment()
             dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
         }
+
+        // recyclerView
+        // showSubwayRoute()
     }
 
     override fun onResume() {
@@ -146,28 +152,35 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         })
     }
 
+    private fun showSubwayRoute() {
+        viewModel.getSubwayRoute()
+        viewModel.subwayData.observe(this, Observer {
+
+            if (it != null) {
+                subwayRouteAdapter = SubwayRouteAdapter()
+
+                binding.homeRvSubwayRoute.apply {
+                    adapter = subwayRouteAdapter
+                    layoutManager = LinearLayoutManager(this@MainActivity)
+                }
+
+                subwayRouteAdapter.submitList(it)
+            }
+        })
+    }
+
     private fun setAlarmAfter() {
         binding.homeTvAlarmAdd.visibility = View.GONE
         binding.homeClAlarmSetting.visibility = View.VISIBLE
         binding.homeTvAlarm.text = "알림 수신 예정"
-        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            R.drawable.ic_home_day_checked,
-            0,
-            0,
-            0
-        ) // drawableStart 다른 이미지로 변경
+        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_checked, 0, 0, 0) // drawableStart 다른 이미지로 변경
     }
 
     private fun setAlarmBefore() {
         binding.homeTvAlarmAdd.visibility = View.VISIBLE
         binding.homeClAlarmSetting.visibility = View.GONE
         binding.homeTvAlarm.text = "설정된 알림 없음"
-        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            R.drawable.ic_home_day_unchecked,
-            0,
-            0,
-            0
-        )
+        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_unchecked, 0, 0, 0)
     }
 
     private fun switchNotificationOnOff() {
@@ -187,23 +200,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun switchOn() {
         binding.homeClAlarmSetting.setBackgroundResource(R.drawable.bg_green_500_main_r8)
-        binding.homeClLlTvTitleLastSubway.setTextColor(
-            ContextCompat.getColor(
-                applicationContext,
-                R.color.green_500_main
-            )
-        )
+        binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.green_500_main))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_click)
     }
 
     private fun switchOff() {
         binding.homeClAlarmSetting.setBackgroundResource(R.drawable.bg_grey_200_r8)
-        binding.homeClLlTvTitleLastSubway.setTextColor(
-            ContextCompat.getColor(
-                applicationContext,
-                R.color.grey_200
-            )
-        )
+        binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey_200))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_default)
     }
 }

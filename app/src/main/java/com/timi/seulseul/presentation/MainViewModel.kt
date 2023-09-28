@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.timi.seulseul.MainApplication
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
@@ -13,9 +12,12 @@ import com.timi.seulseul.data.model.request.AlarmPatchRequest
 import com.timi.seulseul.data.model.request.AlarmPostRequest
 import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.AuthRepo
+import com.timi.seulseul.data.repository.SubwayRouteRepo
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Calendar
 import java.util.UUID
 import javax.inject.Inject
@@ -24,13 +26,17 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val authRepo: AuthRepo,
-    private val alarmRepo : AlarmRepo
+    private val alarmRepo : AlarmRepo,
+    private val subwayRouteRepo: SubwayRouteRepo
 ) : ViewModel() {
 
     // Result<AuthData>를 _auth에 저장한다. 내부에서만 수정 가능
     private var _auth = MutableLiveData<Result<AuthData>>()
     // 외부에서 접근 가능한 auth는 읽기만 된다.
     var auth : LiveData<Result<AuthData>> = _auth
+
+    private var _subwayData : MutableLiveData<MutableList<SubwayRouteItem>> = MutableLiveData()
+    var subwayData : LiveData<MutableList<SubwayRouteItem>> = _subwayData
 
     // postAuth함수는
     // uuid값을 넣은 Auth 객체를 만들고 authRepo.postAuth 함수에 전달한다.
@@ -91,6 +97,33 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             alarmRepo.patchAlarmEnabled(alarmId)
         }
+    }
+
+    fun getSubwayRoute() : MutableList<SubwayRouteItem> {
+        val items : MutableList<SubwayRouteItem> = mutableListOf()
+
+        viewModelScope.launch {
+            val response = subwayRouteRepo.getSubwayRoute()
+            response.onSuccess {
+                it.totalTimeSection.forEach { totalTime ->
+                    items.add(SubwayRouteItem.TotalTimeSectionItem(totalTime.data))
+                }
+
+                it.bodyList.forEach { body ->
+                    if (body.viewType == "bodyInfo") {
+                        items.add(SubwayRouteItem.BodyItem(body.data))
+                    } else {
+                        items.add(SubwayRouteItem.TransferItem(body.data))
+                    }
+                }
+
+                items.add(SubwayRouteItem.Footer)
+
+                _subwayData.value = items
+                Timber.d("mainViewModel: ${_subwayData.value}")
+            }
+        }
+        return items
     }
 
     // 현재 월, 일 받아오기

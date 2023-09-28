@@ -6,6 +6,7 @@ import com.timi.seulseul.MainApplication
 import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.api.FcmTokenService
+import com.timi.seulseul.data.api.SubwayRouteService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,6 +69,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAlarmService(retrofit: Retrofit): AlarmService = retrofit.create(AlarmService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideSubwayRouteService(retrofit: Retrofit): SubwayRouteService = retrofit.create(SubwayRouteService::class.java)
+
 }
 
 //HeaderInterceptor 분리

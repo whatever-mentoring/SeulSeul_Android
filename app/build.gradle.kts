@@ -113,10 +113,10 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
 
-    // 위치요~
+    // location
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
-    // 인디케이터 ..
+    // indicator
     implementation("com.tbuonomo:dotsindicator:5.0")
 
 }

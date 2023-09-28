@@ -8,8 +8,6 @@
         <variable
             name="location"
             type="com.timi.seulseul.data.model.response.GetEndLocationData" />
-        <!-- BindingAdapter가 있는 클래스 import -->
-        <import type="com.timi.seulseul.presentation.location.adapter.BindingAdapterKt" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
