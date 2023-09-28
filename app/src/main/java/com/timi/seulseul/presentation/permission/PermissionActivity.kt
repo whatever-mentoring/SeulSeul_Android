@@ -38,7 +38,8 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         super.onCreate(savedInstanceState)
 
         val isFirstRun = prefs.getBoolean("isFirstRun", true)
-        val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+        val locationDeniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+        val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
 
 
         binding.permissionBtnOk.setOnClickListener {
@@ -48,14 +49,14 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 if (isFirstRun) {
                     prefs.edit().putBoolean("isFirstRun", false).apply()
                 }
-                Log.d("deniedCount", deniedCount.toString())
+                Log.d("deniedCount", locationDeniedCount.toString())
             } else {
                 // TIRAMISU 이전 버전에서는 위치 권한 요청
                 checkPermissionForLocation()
                 if (isFirstRun) {
                     prefs.edit().putBoolean("isFirstRun", false).apply()
                 }
-                Log.d("deniedCount", deniedCount.toString())
+                Log.d("deniedCount", locationDeniedCount.toString())
             }
         }
 
@@ -71,7 +72,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             goToMainActivity()
         } else {
             val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
-            increaseDeniedCount() // denied count 값을 증가시킨 후
+            locationIncreaseDeniedCount() // denied count 값을 증가시킨 후
             if (deniedCount == 0) {
                 showFirstPermissionDialog() // 처음으로 거부했다면 첫 번째 대화상자 표시
             } else if (deniedCount >= 1) {
@@ -86,14 +87,15 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     ) { granted ->
         if (granted) {
             // 알림 권한을 허용한 경우
+            resetDeniedCount()
             checkPermissionForLocation()
         } else {
-            var notificationDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
             // 알림 권한을 거부한 경우
-            notificationDeniedCount++
-            if (notificationDeniedCount == 1) {
+            notiIncreaseDeniedCount()
+            val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
+            if (notiDeniedCount == 1) {
                 showFirstNotificationPermissionDialog()
-            } else if (notificationDeniedCount >= 2) {
+            } else if (notiDeniedCount >= 2) {
                 showSecondNotificationPermissionDialog()
             }
         }
@@ -103,13 +105,22 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
     override fun onResume() {
         super.onResume()
         val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+        val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
+        Log.d("deniedCount", notiDeniedCount.toString())
         Log.d("deniedCount", deniedCount.toString())
 
         val isFirstRun = prefs.getBoolean("isFirstRun", true)
         if (!isFirstRun && !hasFineLocationPermission()) {
-            increaseDeniedCount()
+            locationIncreaseDeniedCount()
             Log.d("deniedCount", deniedCount.toString())
         }
+
+    }
+
+    private fun hasNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            NotificationManagerCompat.from(this).areNotificationsEnabled()
+        } else true
     }
 
 
@@ -142,6 +153,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         val notificationManager = NotificationManagerCompat.from(this)
         if (notificationManager.areNotificationsEnabled()) {
             // 알림 권한이 허용되어 있으면 위치 권한을 확인
+            resetDeniedCount()
             checkPermissionForLocation()
         } else {
             // 알림 권한을 요청
@@ -241,13 +253,22 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
     }
 
-    private fun increaseDeniedCount() {
+    private fun locationIncreaseDeniedCount() {
         val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
         prefs.edit().apply {
             putInt(KEY_DENIED_COUNT, deniedCount + 1)
             apply()
         }
     }
+
+    private fun notiIncreaseDeniedCount() {
+        val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
+        prefs.edit().apply() {
+            putInt(KEY_NOTI_DENIED_COUNT, notiDeniedCount + 1)
+            apply()
+        }
+    }
+
 
     private fun isAlwaysAllow(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -258,6 +279,13 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         } else {
             true
         }
+
+    private fun resetDeniedCount() {
+        prefs.edit().apply {
+            putInt(KEY_NOTI_DENIED_COUNT, 0)
+            apply()
+        }
+    }
 
     private fun getFcmToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
