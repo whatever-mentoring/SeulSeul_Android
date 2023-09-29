@@ -142,6 +142,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
                 locationPermissionRequest.launch(getRequiredPermissions())
+                Log.d("deniedCount","locationRequest 열림")
             } else {
                 goToMainActivity()
             }
@@ -183,12 +184,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
             )
 
             Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q -> arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(
-                Manifest.permission.POST_NOTIFICATIONS,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
