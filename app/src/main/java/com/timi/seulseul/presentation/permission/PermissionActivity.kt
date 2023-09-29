@@ -282,7 +282,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     private fun resetDeniedCount() {
         prefs.edit().apply {
-            putInt(KEY_NOTI_DENIED_COUNT, 0)
+            putInt(KEY_DENIED_COUNT, 0)
             apply()
         }
     }
