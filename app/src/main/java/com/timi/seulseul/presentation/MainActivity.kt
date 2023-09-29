@@ -1,6 +1,8 @@
 package com.timi.seulseul.presentation
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -18,6 +20,7 @@ import com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment
 import com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment
 import com.timi.seulseul.presentation.location.activity.LocationActivity
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteAdapter
+import com.timi.seulseul.presentation.permission.PermissionActivity
 import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -75,8 +78,44 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // showSubwayRoute()
     }
 
+    private fun hasAllPermissions(): Boolean =
+        getRequiredPermissions().all {
+            ContextCompat.checkSelfPermission(
+                this, it
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+
+    private fun getRequiredPermissions(): Array<String> =
+        when {
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.Q -> arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q -> arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+
+            else -> arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+
     override fun onResume() {
         super.onResume()
+
+        if (!hasAllPermissions()) {
+            Intent(this, PermissionActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                startActivity(this)
+            }
+        }
 
         // view에 날짜 갱신
         val dayInfo = viewModel.getTodayDate()
