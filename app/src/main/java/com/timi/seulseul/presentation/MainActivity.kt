@@ -20,7 +20,6 @@ import com.timi.seulseul.presentation.location.activity.LocationActivity
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteAdapter
 import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 // Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
@@ -44,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         viewModel.postAuth()
 
         // 갱신 날짜 저장 (초기)
-        viewModel.saveRefreshDayFirst()
+        viewModel.saveTodayFirst()
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
@@ -62,20 +61,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onResume()
 
         // view에 날짜 갱신
-        val dayInfo = viewModel.getTodayDate()
+        val dayInfo = viewModel.getDayInfo()
         binding.homeTvDay.text = "${dayInfo.month}월 ${dayInfo.date}일"
 
         // 거주지 닉네임 설정
         val endNickName = BaseActivity.prefs.getString("endNickName", "")
         binding.homeTvLocationSetting.text = endNickName
 
-        // 갱신 (alarmOn 상태 -> false)
-        viewModel.checkRefreshDay()
-
+        // 알림 세팅 체크
         checkAlarmSetting()
 
         // recyclerView
-        showSubwayRoute()
+        if (prefs.getBoolean("todayAlarm", false)) {
+            showSubwayRoute()
+        }
     }
 
     private fun initListener() {
@@ -139,6 +138,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 // 처음 알람 설정 후 체크 여부 확인
                 if (binding.homeClSwitchAlarmOnOff.isChecked) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
+                    prefs.edit().putBoolean("todayAlarm", true).apply()
                 }
 
                 // 첫 알림 설정 여부에 따른 로직 처리 (post, patch)
@@ -166,7 +166,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         })
 
         viewModel.showRoute.observe(this, Observer {
-            Timber.d("showRoute : ${viewModel.showRoute.value}")
             if (it) {
                 showRoute()
             } else {

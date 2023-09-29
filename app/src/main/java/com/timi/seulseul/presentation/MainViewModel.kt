@@ -7,18 +7,23 @@ import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.AuthData
-import com.timi.seulseul.data.model.DayInfo
+import com.timi.seulseul.data.model.TodayTime
+import com.timi.seulseul.data.model.LastSubwayArriveTime
+import com.timi.seulseul.data.model.LastSubwayDepartTime
+import com.timi.seulseul.data.model.RealDayInfo
 import com.timi.seulseul.data.model.request.AlarmPatchRequest
 import com.timi.seulseul.data.model.request.AlarmPostRequest
 import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
-import com.timi.seulseul.presentation.common.base.BaseActivity
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Calendar
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -127,105 +132,203 @@ class MainViewModel @Inject constructor(
                 Timber.d("mainViewModel: ${_subwayData.value}")
 
                 // 막차 시간
-                val lastSubwayTime = it.bodyList.last().data.departTime
-                Timber.d("lastSubwayTime: $lastSubwayTime")
+                val lastSubwayDepartTime = it.bodyList.last().data.departTime
+                val lastSubwayArriveTime = it.bodyList.last().data.arriveTime
+                Timber.d("lastSubwayDepartTime: $lastSubwayDepartTime")
+                Timber.d("lastSubwayArriveTime: $lastSubwayArriveTime")
 
-                // 경로 보여줄 시간
-                getHaveToShowRouteTIme(lastSubwayTime!!)
+                changeTimeStringToInt(lastSubwayDepartTime!!, lastSubwayArriveTime!!)
             }
         }
         return items
     }
 
-    private fun getHaveToShowRouteTIme(lastSubwayTime: String) {
+    fun changeTimeStringToInt(departTime : String, arriveTime : String) {
+        // 알림 시간 변환
         val alarmTime = prefs.getInt("alarmTime", 0)
-        val alarmHour = alarmTime / 60
-        val alarmMinute = alarmTime % 60
+        val alarmHour = (alarmTime / 60).toLong()
+        val alarmMinute = (alarmTime % 60).toLong()
         Timber.d("alarmTime: ${alarmHour}:${alarmMinute}")
 
-        val lastSubwayHour = lastSubwayTime.substring(0, 2).toInt()
-        val lastSubwayMinute = lastSubwayTime.substring(3).toInt()
+        // today 변환
+        val today = prefs.getString("today", "")
+        val todayYear = today!!.substring(0, 4).toInt()
+        val todayMonth = today.substring(5, 7).toInt()
+        val todayDate = today.substring(8).toInt()
+        val todayTime = TodayTime(todayYear, todayMonth, todayDate)
 
-        // 막차 시간, 알림 시간 비교해서 경로 보여줄 시간 계산
-        val timeToShowRoute = calculateLastSubwayTime(lastSubwayHour, lastSubwayMinute, alarmHour, alarmMinute)
-        prefs.edit().putString("timeToShowRoute", timeToShowRoute).apply()
-        Timber.d("getHaveToShowRouteTime: $timeToShowRoute")
+        // 막차 출발 시간 변환
+        val lastSubwayDepartYear = todayTime.year
+        val lastSubwayDepartMonth = todayTime.month
+        var lastSubwayDepartDate = todayTime.date
+        val lastSubwayDepartHour = departTime.substring(0, 2).toInt()
+        val lastSubwayDepartMinute = departTime.substring(3).toInt()
+
+        val lastSubwayDepartTime : LastSubwayDepartTime
+
+        if (lastSubwayDepartHour == 24 || lastSubwayDepartHour == 0) {
+            lastSubwayDepartDate += 1
+
+            val checkPassNextMonth = passNextMonth(lastSubwayDepartYear, lastSubwayDepartMonth, lastSubwayDepartDate)
+            lastSubwayDepartTime = LastSubwayDepartTime(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, lastSubwayDepartHour, lastSubwayDepartMinute)
+
+        } else {
+            lastSubwayDepartTime = LastSubwayDepartTime(lastSubwayDepartYear, lastSubwayDepartMonth, lastSubwayDepartDate, lastSubwayDepartHour, lastSubwayDepartMinute)
+        }
+
+
+        // 막차 도착 시간 변환
+        val lastSubwayArriveYear = todayTime.year
+        val lastSubwayArriveMonth = todayTime.month
+        var lastSubwayArriveDate = todayTime.date
+        val lastSubwayArriveHour = arriveTime.substring(0, 2).toInt()
+        val lastSubwayArriveMinute = arriveTime.substring(3).toInt()
+
+        val lastSubwayArriveTime : LastSubwayArriveTime
+
+        if (lastSubwayDepartHour == 24 || lastSubwayDepartHour == 0) {
+            lastSubwayArriveDate += 1
+
+            val checkPassNextMonth = passNextMonth(lastSubwayArriveYear, lastSubwayArriveMonth, lastSubwayArriveDate)
+            lastSubwayArriveTime = LastSubwayArriveTime(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, lastSubwayDepartHour, lastSubwayDepartMinute)
+
+        } else {
+            lastSubwayArriveTime = LastSubwayArriveTime(lastSubwayArriveYear, lastSubwayArriveMonth, lastSubwayArriveDate, lastSubwayArriveHour, lastSubwayArriveMinute)
+        }
+
+
+        // 알림 시간, 막차 출발 시간 비교 -> '경로 보여줄 시간' 계산
+        val showRouteTime = calShowRouteTime(alarmHour, alarmMinute, lastSubwayDepartTime)
+        Timber.d("showRouteTime: $showRouteTime")
 
         // 경로 보여줄 시간, 현재 시간 비교 후 visibility 여부 체크
-        checkRouteVisibility(timeToShowRoute)
+        checkRouteVisibility(todayTime, showRouteTime, lastSubwayArriveTime)
     }
 
-    private fun calculateLastSubwayTime(lastSubwayHour: Int, lastSubwayMinute: Int, alarmHour: Int, alarmMinute: Int) : String {
-        var lHour = lastSubwayHour
-        var lMinute = lastSubwayMinute
+    private fun calShowRouteTime(alarmHour: Long, alarmMinute: Long, lastSubwayDepartTime: LastSubwayDepartTime) : LocalTime {
+        var departHour = lastSubwayDepartTime.hour
+        if (departHour == 24) departHour = 0
+        val departMinute = lastSubwayDepartTime.minute
 
-        // 24시, 25시 고려
-        if (lHour >= 24) {
-            lHour -= 24
-        }
+        val time = LocalTime.of(departHour, departMinute)
+        val duration = Duration.ofHours(alarmHour).plusMinutes(alarmMinute)
 
-        // 분 끼리 뺐을 때 음수인 경우 고려
-        if (lMinute - alarmMinute < 0) {
-            lHour -= 1
-            lMinute += 60
-        }
-
-        // 시 끼리 뺐을 때 음수인 경우 고려
-        if (lHour - alarmHour < 0) {
-            lHour += 24
-        }
-
-        return "${lHour-alarmHour}:${lMinute-alarmMinute}"
+        return time.minus(duration)
     }
 
-    private fun checkRouteVisibility(timeToShowRoute : String) {
-        var routeHour = timeToShowRoute.substring(0, 2).toInt()
-        val routeMinute = timeToShowRoute.substring(3).toInt()
+    private fun checkRouteVisibility(todayTime : TodayTime, showRouteTime : LocalTime, lastSubwayArriveTime : LastSubwayArriveTime) {
+        val currentTime = getDayInfo()
 
-        if (routeHour == 24) {
-            routeHour = 0
+        val showRouteYear = todayTime.year
+        val showRouteMonth = todayTime.month
+        var showRouteDate = todayTime.date
+        val showRouteHour = showRouteTime.hour
+        val showRouteMinute = showRouteTime.minute
+
+        val current = LocalDateTime.of(currentTime.year, currentTime.month, currentTime.date, currentTime.hour, currentTime.minute)
+        val showRoute : LocalDateTime
+
+        if (showRouteHour == 24 || showRouteHour == 0) {
+            showRouteDate += 1
+
+            val checkPassNextMonth = passNextMonth(showRouteYear, showRouteMonth, showRouteDate)
+            showRoute = LocalDateTime.of(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, showRouteHour, showRouteMinute)
+
+        } else {
+            showRoute = LocalDateTime.of(showRouteYear, showRouteMonth, showRouteDate, showRouteHour, showRouteMinute)
         }
-        Timber.d("checkRouteVisibility : ${routeHour}:${routeMinute}")
 
-        val currentTime = getTodayDate()
-        val currentHour = currentTime.hour
-        val currentMinute = currentTime.minute
-        Timber.d("currentTime : ${currentHour}:${currentMinute}")
+        if (current.isAfter(showRoute) || current.isEqual(showRoute)) {
+            Timber.d("checkRouteVisibility: ${current} / ${showRoute}")
 
-        if (currentHour >= routeHour && currentMinute >= routeMinute) {
             _showRoute.value = true
+            calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착 시간
+        } else {
+            Timber.d("뭔데... checkRouteVisibility: ${current} / ${showRoute} ")
         }
     }
 
+    private fun calHideRouteTime(todayTime: TodayTime, current : LocalDateTime, lastSubwayArriveTime: LastSubwayArriveTime) {
+        var arriveYear = todayTime.year
+        var arriveMonth = todayTime.month
+        var arriveDate = todayTime.date
+        var arriveHour = lastSubwayArriveTime.hour
+        val arriveMinute = lastSubwayArriveTime.minute
+
+        val hideRoute : LocalDateTime
+
+        when(arriveHour) {
+            24 -> {
+                arriveHour = 0
+                arriveDate += 1
+
+                val checkPassNextMonth = passNextMonth(arriveYear, arriveMonth, arriveDate)
+                hideRoute = LocalDateTime.of(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, arriveHour, arriveMinute)
+            }
+
+            25 -> {
+                arriveHour = 1
+                arriveDate += 1
+
+                val checkPassNextMonth = passNextMonth(arriveYear, arriveMonth, arriveDate)
+                hideRoute = LocalDateTime.of(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, arriveHour, arriveMinute)
+            }
+
+            else -> {
+                hideRoute = LocalDateTime.of(arriveYear, arriveMonth, arriveDate, arriveHour, arriveMinute)
+            }
+        }
+
+        if (current.isAfter(hideRoute) || current.isEqual(hideRoute)) {
+            Timber.d("calHideRouteTime : ${current} / ${hideRoute}")
+
+            _showRoute.value = false
+            prefs.edit().putBoolean("alarmOn", false).apply()
+            prefs.edit().putBoolean("todayAlarm", false).apply()
+            prefs.edit().remove("today").apply()
+
+        } else {
+            Timber.d("뭔데... calHideRouteTime: ${current} / ${hideRoute} ")
+        }
+    }
 
     // 현재 월,일 받아오기
-    fun getTodayDate() : DayInfo {
-        val calendar = Calendar.getInstance()
+    fun getDayInfo() : RealDayInfo {
+        val time = LocalDateTime.now()
+        val year = time.year
+        val month = time.monthValue
+        val date = time.dayOfMonth
+        val hour = time.hour
+        val minute = time.minute
 
-        val month = calendar.get(Calendar.MONTH)+1
-        val date = calendar.get(Calendar.DATE)
-        val tomorrow = date+1
-
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-
-        return DayInfo(month, date, hour, minute, tomorrow)
+        return RealDayInfo(year, month, date, hour, minute)
     }
 
-    // 앱 처음 접근 -> refreshDay 저장
-    fun saveRefreshDayFirst() {
-        val dayInfo = getTodayDate()
-        if (BaseActivity.prefs.getInt("refreshDay", 0) == 0) {
-            BaseActivity.prefs.edit().putInt("refreshDay", dayInfo.tomorrow).apply()
+    // 앱 처음 접근 -> today 저장 (막차 도착 시간 되었을 때 같이 날리기)
+    fun saveTodayFirst() {
+        val dayInfo = getDayInfo()
+        val today = "${dayInfo.year}-${dayInfo.month}-${dayInfo.date}"
+
+        if (prefs.getString("today", "") == "") {
+            prefs.edit().putString("today", today).apply()
         }
     }
 
-    // 알림 갱신 + refreshDay 갱신
-    fun checkRefreshDay() {
-        val dayInfo = getTodayDate()
-        if (dayInfo.date == BaseActivity.prefs.getInt("refreshDay", 0) && dayInfo.hour >= 2) {
-            BaseActivity.prefs.edit().putBoolean("alarmOn", false).apply()
-            BaseActivity.prefs.edit().putInt("refreshDay", dayInfo.tomorrow).apply()
+    private fun passNextMonth(year: Int, month: Int, day:Int) : TodayTime {
+        var date : LocalDate
+
+        try {
+            date = LocalDate.of(year, month, day)
+
+        } catch (e: Exception) {
+            // 주어진 날짜가 유효하지 않을 경우, 다음 달의 첫 날로 설정
+            date = LocalDate.of(year, month, 1).plusMonths(1)
         }
+
+        val nYear = date.toString().substring(0, 4).toInt()
+        val nMonth = date.toString().substring(5, 7).toInt()
+        val nDate = date.toString().substring(8).toInt()
+
+        return TodayTime(nYear, nMonth, nDate)
     }
 }
