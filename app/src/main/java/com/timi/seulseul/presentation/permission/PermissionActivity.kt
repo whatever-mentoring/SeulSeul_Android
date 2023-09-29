@@ -81,6 +81,22 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         }
     }
 
+    private val locationPermissionRequestAPI33 = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions.values.all { it }) {
+            goToMainActivity()
+        } else {
+            val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
+            locationIncreaseDeniedCount() // denied count 값을 증가시킨 후
+            if (deniedCount == 1) {
+                showFirstPermissionDialog() // 처음으로 거부했다면 첫 번째 대화상자 표시
+            } else if (deniedCount >= 2) {
+                showSecondPermissionDialog() // 두 번 이상 거부했다면 두 번째 대화상자 표시
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val notificationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -88,7 +104,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         if (granted) {
             // 알림 권한을 허용한 경우
             resetDeniedCount()
-            checkPermissionForLocation()
+            checkPermissionForLocationAPI33()
         } else {
             // 알림 권한을 거부한 경우
             notiIncreaseDeniedCount()
@@ -142,6 +158,32 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
                 locationPermissionRequest.launch(getRequiredPermissions())
+                Log.d("deniedCount","locationRequest 열림")
+            } else {
+                goToMainActivity()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkPermissionForLocationAPI33() {
+        if (hasAllPermissions()) {
+            goToMainActivity()
+        } else if (prefs.getInt(KEY_DENIED_COUNT, 0) >= 2) {
+            showSecondPermissionDialog()
+        } else {
+            val hasFineLocationPermission = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+
+            val shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+            if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
+                locationPermissionRequestAPI33.launch(getRequiredPermissions())
                 Log.d("deniedCount","locationRequest 열림")
             } else {
                 goToMainActivity()
