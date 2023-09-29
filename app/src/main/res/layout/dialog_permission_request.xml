@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.timi.seulseul.presentation.permission.PermissionActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_r8"
+        android:gravity="center"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:paddingVertical="24dp">
+
+        <TextView
+            android:id="@+id/dialog_tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/font_size_16"
+            tools:text="@string/location_before_dialog_title" />
+
+        <TextView
+            android:id="@+id/dialog_tv_ok"
+            style="@style/NormalGreenButtonTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_tv_message"
+            tools:text="@string/location_before_dialog_ok" />
+
+    </LinearLayout>
+</layout>

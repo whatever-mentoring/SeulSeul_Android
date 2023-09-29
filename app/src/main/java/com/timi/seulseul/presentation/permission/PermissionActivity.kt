@@ -4,6 +4,9 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
+import com.timi.seulseul.databinding.DialogPermissionRequestBinding
 import com.timi.seulseul.presentation.MainActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +43,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
         val isFirstRun = prefs.getBoolean("isFirstRun", true)
         val locationDeniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
-        val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
 
 
         binding.permissionBtnOk.setOnClickListener {
@@ -158,7 +161,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
                 locationPermissionRequest.launch(getRequiredPermissions())
-                Log.d("deniedCount","locationRequest 열림")
+                Log.d("deniedCount", "locationRequest 열림")
             } else {
                 goToMainActivity()
             }
@@ -184,7 +187,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             if (!hasFineLocationPermission || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && hasFineLocationPermission && shouldShowRationale)) {
                 locationPermissionRequestAPI33.launch(getRequiredPermissions())
-                Log.d("deniedCount","locationRequest 열림")
+                Log.d("deniedCount", "locationRequest 열림")
             } else {
                 goToMainActivity()
             }
@@ -235,50 +238,123 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun showFirstNotificationPermissionDialog() {
-        AlertDialog.Builder(this)
-            .setMessage("앱 실행을 위해서는 알림 권한을 설정해야 합니다")
-            .setPositiveButton("확인") { _, _ ->
-                notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }.show()
+        val dialogBinding = DialogPermissionRequestBinding.inflate(layoutInflater)
+
+        dialogBinding.dialogTvMessage.text = "앱 실행을 위해서는\n알림 권한을 설정해야 합니다"
+        dialogBinding.dialogTvOk.text = "확인"
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .show() // 바로 show 호출
+
+        val windowParams = alertDialog.window?.attributes
+        val widthPercentage = 0.83f
+
+        val displayMetrics = Resources.getSystem().displayMetrics
+
+        windowParams?.width = (displayMetrics.widthPixels * widthPercentage).toInt()
+
+        alertDialog.window?.attributes = windowParams
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogBinding.dialogTvOk.setOnClickListener {
+            notificationPermissionRequest.launch(Manifest.permission.POST_NOTIFICATIONS)
+            alertDialog.dismiss()
+        }
     }
+
 
     private fun showSecondNotificationPermissionDialog() {
-        AlertDialog.Builder(this)
-            .setMessage("설정에서 알림 권한을 항상 허용해주세요")
-            .setPositiveButton("설정으로 이동") { _, _ ->
-                val intent = Intent().apply {
-                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    data = Uri.fromParts("package", packageName, null)
-                }
-                startActivity(intent)
-            }.show()
-    }
+        val dialogBinding = DialogPermissionRequestBinding.inflate(layoutInflater)
 
+        dialogBinding.dialogTvMessage.text = "설정에서 알림 권한을\n항상 허용해주세요"
+        dialogBinding.dialogTvOk.text = "지금 설정"
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .show() // 바로 show 호출
+
+        val windowParams = alertDialog.window?.attributes
+        val widthPercentage = 0.83f
+
+        val displayMetrics = Resources.getSystem().displayMetrics
+
+        windowParams?.width = (displayMetrics.widthPixels * widthPercentage).toInt()
+
+        alertDialog.window?.attributes = windowParams
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogBinding.dialogTvOk.setOnClickListener {
+            val intent = Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                data = Uri.fromParts("package", packageName, null)
+            }
+            alertDialog.dismiss()
+            startActivity(intent)
+        }
+    }
 
     private fun showFirstPermissionDialog() {
         val deniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
 
+        val dialogBinding = DialogPermissionRequestBinding.inflate(layoutInflater)
+
+        dialogBinding.dialogTvMessage.text = "정확한 알림을 받아보기 위해서는\n위치 권한을 항상 허용해주세요"
+        dialogBinding.dialogTvOk.text = "확인"
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .show() // 여기서 바로 show 호출
+
+        val windowParams = alertDialog.window?.attributes
+        val widthPercentage = 0.83f
+
+        val displayMetrics = Resources.getSystem().displayMetrics
+
+        windowParams?.width = (displayMetrics.widthPixels * widthPercentage).toInt()
+
+        alertDialog.window?.attributes = windowParams
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         if (deniedCount == 1) {
-            AlertDialog.Builder(this)
-                .setMessage("정확한 알림을 받아보기 위해서는 위치 권한을 항상 허용해주세요")
-                .setPositiveButton("확인") { _, _ ->
-                    locationPermissionRequest.launch(getRequiredPermissions())
-                }
-                .show()
+            dialogBinding.dialogTvOk.setOnClickListener {
+                locationPermissionRequest.launch(getRequiredPermissions())
+                alertDialog.dismiss()
+            }
         }
     }
 
+
     private fun showSecondPermissionDialog() {
-        AlertDialog.Builder(this)
-            .setMessage("설정에서 위치 권한을 항상 허용해주세요")
-            .setPositiveButton("설정으로 이동") { _, _ ->
-                val intent = Intent().apply {
-                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                    data = Uri.fromParts("package", packageName, null)
-                }
-                startActivity(intent)
-            }.show()
+        val dialogBinding = DialogPermissionRequestBinding.inflate(layoutInflater)
+
+        dialogBinding.dialogTvMessage.text = "설정에서 위치 권한을\n항상 허용해주세요"
+        dialogBinding.dialogTvOk.text = "지금 설정"
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .show() // 바로 show 호출
+
+        val windowParams = alertDialog.window?.attributes
+        val widthPercentage = 0.83f
+
+        val displayMetrics = Resources.getSystem().displayMetrics
+
+        windowParams?.width = (displayMetrics.widthPixels * widthPercentage).toInt()
+
+        alertDialog.window?.attributes = windowParams
+        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogBinding.dialogTvOk.setOnClickListener {
+            val intent = Intent().apply {
+                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                data = Uri.fromParts("package", packageName, null)
+            }
+            alertDialog.dismiss()
+            startActivity(intent)
+        }
     }
+
 
     private fun goToMainActivity() {
         if (!hasFineLocationPermission()) {
