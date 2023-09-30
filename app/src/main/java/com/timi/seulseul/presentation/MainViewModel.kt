@@ -39,6 +39,8 @@ class MainViewModel @Inject constructor(
     private var _showRoute : MutableLiveData<Boolean> = MutableLiveData(false)
     var showRoute : LiveData<Boolean> = _showRoute
 
+    private val baseRouteId = prefs.getLong("baseRouteId", -1)
+
     fun setAlarm() {
         if (!prefs.getBoolean("isNotFirst", false)) {
             postAlarm()
@@ -53,7 +55,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            val response = alarmRepo.postAlarm(AlarmPostRequest(1, alarmTime, alarmTerm))
+            val response = alarmRepo.postAlarm(AlarmPostRequest(baseRouteId, alarmTime, alarmTerm))
             response.onSuccess {
                 prefs.edit().apply {
                     putInt("alarmId", it.id)
@@ -70,7 +72,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 1, alarmTime, alarmTerm))
+            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, baseRouteId, alarmTime, alarmTerm))
         }
     }
 
