@@ -36,30 +36,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // v1/user post uuid
-        viewModel.postAuth()
-
         binding.apply {
             view = this@MainActivity // xml과 연결
             lifecycleOwner = this@MainActivity
         }
 
-        binding.homeTvLocationSetting.setOnClickListener {
-            val intent = Intent(this, LocationActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.homeIvSetting.setOnClickListener {
-            startActivity(Intent(this, SettingActivity::class.java))
-        }
+        initListener()
 
         // 갱신 날짜 저장 (초기)
-        viewModel.saveRefreshDayFirst()
+        viewModel.saveToday()
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
 
-        // LocationService 시작!
         val serviceIntent = Intent(this, LocationService::class.java)
         // API 26 이상 백그라운드 제한 우회 -> ForegroundService
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -67,15 +56,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         } else {
             startService(serviceIntent)
         }
-
-        // TODO: 추후 알림 추가하기 버튼으로 옮길 예정 (화면 테스트를 위해 여기에 설정함)
-        binding.homeTvDay.setOnClickListener {
-            val dialog = LocationBeforeDialogFragment()
-            dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
-        }
-
-        // recyclerView
-        // showSubwayRoute()
     }
 
     private fun hasAllPermissions(): Boolean =
@@ -118,17 +98,43 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         // view에 날짜 갱신
-        val dayInfo = viewModel.getTodayDate()
+        val dayInfo = viewModel.getDayInfo()
         binding.homeTvDay.text = "${dayInfo.month}월 ${dayInfo.date}일"
 
-        // 갱신 (alarmOn 상태 -> false)
-        viewModel.checkRefreshDay()
+        // 거주지 닉네임 설정
+        val endNickName = BaseActivity.prefs.getString("endNickName", "")
+        binding.homeTvLocationSetting.text = endNickName
 
+        // 알림 세팅 체크
         checkAlarmSetting()
 
-        val endNickName = BaseActivity.prefs.getString("endNickName", "")
+        // recyclerView
+        if (prefs.getBoolean("todayAlarm", false)) {
+            showSubwayRoute()
+        }
+    }
 
-        binding.homeTvLocationSetting.text = endNickName
+    private fun initListener() {
+        binding.homeTvLocationSetting.setOnClickListener {
+            val intent = Intent(this, LocationActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.homeIvSetting.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+    }
+
+    fun checkEndLocation() {
+        // onclick (목적지 존재 여부 판단)
+        if (binding.homeTvLocationSetting.text == "") {
+            // 목적지 설정 안 했을 때
+            val dialog = LocationBeforeDialogFragment()
+            dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
+        } else {
+            // 목적지 설정 했을 때
+            showAlarmSetting()
+        }
     }
 
     private fun checkAlarmSetting() {
@@ -160,10 +166,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     // onclick (알림 추가하기)
     fun showAlarmSetting() {
         val bottomSheetFragment = AlarmBottomSheetFragment()
-        bottomSheetFragment.setStyle(
-            DialogFragment.STYLE_NORMAL,
-            R.style.RoundCornerBottomSheetDialogTheme
-        )
+        bottomSheetFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.RoundCornerBottomSheetDialogTheme)
 
         if (!bottomSheetFragment.isAdded) {
             bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
@@ -172,17 +175,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         bottomSheetFragment.setButtonClickListener(object :
             AlarmBottomSheetFragment.OnButtonClickListener {
             override fun onOkBtnClicked(time: Int, term: Int) {
-                Timber.d("main bottomSheet click listener")
-
                 bottomSheetFragment.dismiss()
                 setAlarmAfter()
 
                 // 처음 알람 설정 후 체크 여부 확인
                 if (binding.homeClSwitchAlarmOnOff.isChecked) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
+                    prefs.edit().putBoolean("todayAlarm", true).apply()
                 }
 
-                // 첫 알림 설정 여부에 따른 로직 처리
+                // 첫 알림 설정 여부에 따른 로직 처리 (post, patch)
                 viewModel.setAlarm()
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
@@ -194,7 +196,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun showSubwayRoute() {
         viewModel.getSubwayRoute()
         viewModel.subwayData.observe(this, Observer {
-
             if (it != null) {
                 subwayRouteAdapter = SubwayRouteAdapter()
 
@@ -206,13 +207,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 subwayRouteAdapter.submitList(it)
             }
         })
+
+        viewModel.showRoute.observe(this, Observer {
+            if (it) {
+                showRoute()
+            } else {
+                hideRoute()
+            }
+        })
     }
 
     private fun setAlarmAfter() {
         binding.homeTvAlarmAdd.visibility = View.GONE
         binding.homeClAlarmSetting.visibility = View.VISIBLE
         binding.homeTvAlarm.text = "알림 수신 예정"
-        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_checked, 0, 0, 0) // drawableStart 다른 이미지로 변경
+        binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_checked, 0, 0, 0)
     }
 
     private fun setAlarmBefore() {
@@ -248,4 +257,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeClLlTvTitleLastSubway.setTextColor(ContextCompat.getColor(applicationContext, R.color.grey_200))
         binding.homeClIvAlarm.setImageResource(R.drawable.ic_home_alarm_default)
     }
+
+    private fun showRoute() {
+        binding.homeSubwayRouteTitleBar.visibility = View.VISIBLE
+        binding.homeRvSubwayRoute.visibility = View.VISIBLE
+        binding.homeLlEmptyView.visibility = View.GONE
+        binding.homeViewLine.visibility = View.GONE
+    }
+
+    private fun hideRoute() {
+        binding.homeSubwayRouteTitleBar.visibility = View.GONE
+        binding.homeRvSubwayRoute.visibility = View.GONE
+        binding.homeLlEmptyView.visibility = View.VISIBLE
+        binding.homeViewLine.visibility = View.VISIBLE
+    }
+
 }

@@ -44,6 +44,11 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         val isFirstRun = prefs.getBoolean("isFirstRun", true)
         val locationDeniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
 
+        // FCM 토큰 받기 & 보내기
+        if (prefs.getString("fcm_token", "") == "") {
+            getFcmToken()
+        }
+
 
         binding.permissionBtnOk.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -62,10 +67,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 Log.d("deniedCount", locationDeniedCount.toString())
             }
         }
-
-        // TODO: 이후 onBoarding 로직으로 이동될 예정
-        // FCM 토큰 받기 & 보내기
-        getFcmToken()
     }
 
     private val locationPermissionRequest = registerForActivityResult(

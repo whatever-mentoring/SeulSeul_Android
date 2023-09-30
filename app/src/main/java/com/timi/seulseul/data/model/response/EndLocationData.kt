@@ -7,7 +7,7 @@ data class EndLocationResponse(
 
 data class EndLocationData(
     val id: Int,
-    val base_route_id: Int,
+    val base_route_id: Long,
     val endX: Double,
     val endY: Double,
     val endNickName: String,

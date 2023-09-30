@@ -43,7 +43,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
             viewModel.setEndLocation(location.id)
 
             //id 값의 endNickName 받아오기
-            with(BaseActivity.prefs.edit()) {
+            with(prefs.edit()) {
                 putString("endNickName", location.endNickName)
                 apply()
             }

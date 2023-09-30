@@ -1,15 +1,13 @@
 package com.timi.seulseul.presentation.onboarding
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityOnBoardingBinding
-import com.timi.seulseul.presentation.MainActivity
 import com.timi.seulseul.presentation.permission.PermissionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,6 +52,8 @@ class OnBoardingActivity : AppCompatActivity() {
             dotsIndicator.refreshDots()
         }
 
+        // v1/user post uuid
+        viewModel.postAuth()
     }
 
     private fun onConfirmButtonClick() {

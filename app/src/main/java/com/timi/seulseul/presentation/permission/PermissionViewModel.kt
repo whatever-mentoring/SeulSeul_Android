@@ -12,7 +12,6 @@ import javax.inject.Inject
 class PermissionViewModel @Inject constructor(
     private val fcmTokenRepo: FcmTokenRepo
 ) : ViewModel() {
-
     fun postFcmToken(fcmToken : String) {
         viewModelScope.launch {
             fcmTokenRepo.postFcmToken(FcmTokenRequest(fcmToken))
