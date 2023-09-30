@@ -43,6 +43,14 @@ class LocationDetailActivity :
         geoCode(viewModel.jibunAddr)
         setupListeners()
 
+        viewModel.endLocationResponse.observe(this) { result ->
+            if (result.isSuccess) {
+                prefs.edit().putLong("baseRouteId", result.getOrNull()!!.base_route_id).apply()
+                val baseRouteId = prefs.getLong("baseRouteId", -1)
+                Log.d("baseRouteId", baseRouteId.toString())
+            }
+        }
+
         binding.locationDetailBtnComplete.setOnClickListener {
             if (selectedContainer != null) {
                 viewModel.postEndLocation(viewModel.locationRequest)

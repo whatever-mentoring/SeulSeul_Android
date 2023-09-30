@@ -1,8 +1,11 @@
 package com.timi.seulseul.presentation.location.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.data.model.request.EndLocationRequest
+import com.timi.seulseul.data.model.response.EndLocationData
+import com.timi.seulseul.data.model.response.EndLocationResponse
 import com.timi.seulseul.data.repository.EndLocationRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +22,8 @@ class LocationDetailViewModel @Inject constructor(
     lateinit var jibunAddr: String
     lateinit var locationRequest: EndLocationRequest
 
+    val endLocationResponse : MutableLiveData<Result<EndLocationData>> = MutableLiveData()
+
     fun setAddress(roadAddr: String, jibunAddr: String) {
         this.roadAddr = roadAddr
         this.jibunAddr = jibunAddr
@@ -34,7 +39,8 @@ class LocationDetailViewModel @Inject constructor(
 
     fun postEndLocation(request: EndLocationRequest) {
         viewModelScope.launch(Dispatchers.IO) {
-            endLocationRepo.postEndLocation(request)
+            val response = endLocationRepo.postEndLocation(request)
+            endLocationResponse.postValue(response)
         }
     }
 
