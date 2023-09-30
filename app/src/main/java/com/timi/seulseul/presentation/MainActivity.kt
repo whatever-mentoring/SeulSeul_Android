@@ -43,7 +43,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         viewModel.postAuth()
 
         // 갱신 날짜 저장 (초기)
-        viewModel.saveTodayFirst()
+        viewModel.saveToday()
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
@@ -86,11 +86,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeIvSetting.setOnClickListener {
             startActivity(Intent(this, SettingActivity::class.java))
         }
+    }
 
-        // TODO: 추후 알림 추가하기 버튼으로 옮길 예정 (화면 테스트를 위해 여기에 설정함)
-        binding.homeTvDay.setOnClickListener {
+    fun checkEndLocation() {
+        // onclick (목적지 존재 여부 판단)
+        if (binding.homeTvLocationSetting.text == "") {
+            // 목적지 설정 안 했을 때
             val dialog = LocationBeforeDialogFragment()
             dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
+        } else {
+            // 목적지 설정 했을 때
+            showAlarmSetting()
         }
     }
 

@@ -102,7 +102,7 @@
                 android:drawablePadding="@dimen/padding_4"
                 android:fontFamily="@font/pretendard_medium"
                 android:gravity="center_vertical"
-                android:onClick="@{() -> view.showAlarmSetting()}"
+                android:onClick="@{() -> view.checkEndLocation()}"
                 android:paddingHorizontal="@dimen/padding_8"
                 android:text="@string/home_add_alarm"
                 android:textColor="@color/grey_400"

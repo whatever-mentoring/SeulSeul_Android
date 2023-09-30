@@ -242,9 +242,10 @@ class MainViewModel @Inject constructor(
             Timber.d("checkRouteVisibility: ${current} / ${showRoute}")
 
             _showRoute.value = true
+            // TODO : 여기에 알림 Off 로직 넣기
             calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착 시간
         } else {
-            Timber.d("뭔데... checkRouteVisibility: ${current} / ${showRoute} ")
+            Timber.d("OutOfRangeTime - checkRouteVisibility: ${current} / ${showRoute} ")
         }
     }
 
@@ -283,12 +284,12 @@ class MainViewModel @Inject constructor(
             Timber.d("calHideRouteTime : ${current} / ${hideRoute}")
 
             _showRoute.value = false
-            prefs.edit().putBoolean("alarmOn", false).apply()
             prefs.edit().putBoolean("todayAlarm", false).apply()
+            prefs.edit().putBoolean("alarmOn", false).apply() // 변경 필요
             prefs.edit().remove("today").apply()
 
         } else {
-            Timber.d("뭔데... calHideRouteTime: ${current} / ${hideRoute} ")
+            Timber.d("OutOfRangeTime - calHideRouteTime: ${current} / ${hideRoute} ")
         }
     }
 
@@ -304,10 +305,13 @@ class MainViewModel @Inject constructor(
         return RealDayInfo(year, month, date, hour, minute)
     }
 
-    // 앱 처음 접근 -> today 저장 (막차 도착 시간 되었을 때 같이 날리기)
-    fun saveTodayFirst() {
+    // 앱 처음 접근 -> today 저장
+    fun saveToday() {
         val dayInfo = getDayInfo()
-        val today = "${dayInfo.year}-${dayInfo.month}-${dayInfo.date}"
+        val formattedMonth = String.format("%02d", dayInfo.month)
+        val formattedDate = String.format("%02d", dayInfo.date)
+
+        val today = "${dayInfo.year}-${formattedMonth}-${formattedDate}"
 
         if (prefs.getString("today", "") == "") {
             prefs.edit().putString("today", today).apply()
