@@ -9,7 +9,9 @@ import com.timi.seulseul.MainApplication
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Auth
 import com.timi.seulseul.data.model.OnBoardingData
+import com.timi.seulseul.data.model.request.FcmTokenRequest
 import com.timi.seulseul.data.repository.AuthRepo
+import com.timi.seulseul.data.repository.FcmTokenRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val authRepo: AuthRepo
+    private val authRepo: AuthRepo,
+    private val fcmTokenRepo: FcmTokenRepo
 ) : ViewModel() {
 
     private var _obLiveData = MutableLiveData<List<OnBoardingData>>()
@@ -47,5 +50,9 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
-
+    fun postFcmToken(fcmToken : String) {
+        viewModelScope.launch {
+            fcmTokenRepo.postFcmToken(FcmTokenRequest(fcmToken))
+        }
+    }
 }

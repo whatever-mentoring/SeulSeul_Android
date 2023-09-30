@@ -13,25 +13,19 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
 import com.timi.seulseul.databinding.DialogPermissionRequestBinding
 import com.timi.seulseul.presentation.MainActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.activity_permission) {
-
-    private val viewModel by viewModels<PermissionViewModel>()
 
     companion object {
         private const val KEY_DENIED_COUNT = "deniedCount"
@@ -62,10 +56,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 Log.d("deniedCount", locationDeniedCount.toString())
             }
         }
-
-        // TODO: 이후 onBoarding 로직으로 이동될 예정
-        // FCM 토큰 받기 & 보내기
-        getFcmToken()
     }
 
     private val locationPermissionRequest = registerForActivityResult(
@@ -397,26 +387,6 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         prefs.edit().apply {
             putInt(KEY_DENIED_COUNT, 0)
             apply()
-        }
-    }
-
-    private fun getFcmToken() {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Timber.d("Fetching FCM registeration token failed", task.exception)
-                return@OnCompleteListener
-            }
-
-            // 토큰값 가져오기
-            val token = task.result
-            prefs.edit().putString("fcm_token", token).apply()
-            Timber.d("fcm_token: $token")
-
-            // 토큰값 보내기
-            viewModel.postFcmToken(token)
-
-        }).addOnFailureListener {
-            Timber.e(it)
         }
     }
 }
