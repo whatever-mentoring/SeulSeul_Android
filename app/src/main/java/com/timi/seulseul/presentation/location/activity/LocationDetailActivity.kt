@@ -46,7 +46,7 @@ class LocationDetailActivity :
         viewModel.endLocationResponse.observe(this) { result ->
             if (result.isSuccess) {
                 prefs.edit().putLong("baseRouteId", result.getOrNull()!!.base_route_id).apply()
-                val baseRouteId = prefs.getLong("baseRouteId", -1)
+                val baseRouteId = prefs.getLong("baseRouteId", 0)
                 Log.d("baseRouteId", baseRouteId.toString())
             }
         }
