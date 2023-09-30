@@ -65,8 +65,6 @@ class LocationService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        val baseRouteId = prefs.getLong("baseRouteId", -1)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Location Request
@@ -80,10 +78,12 @@ class LocationService : Service() {
             // 정확한 위치가 확인 될 때까지 대기
             setWaitForAccurateLocation(true)
         }.build()
-        
+
         // Create the location callback
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
+                val baseRouteId = prefs.getLong("baseRouteId", 0)
+
                 for (location in locationResult.locations) {
                     Log.d("jhb", "Longitude: ${location.longitude}, Latitude: ${location.latitude}")
 

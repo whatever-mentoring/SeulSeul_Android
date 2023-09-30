@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     private var _showRoute : MutableLiveData<Boolean> = MutableLiveData(false)
     var showRoute : LiveData<Boolean> = _showRoute
 
-    private val baseRouteId = prefs.getLong("baseRouteId", -1)
+    private val baseRouteId = prefs.getLong("baseRouteId", 0)
 
     fun setAlarm() {
         if (!prefs.getBoolean("isNotFirst", false)) {

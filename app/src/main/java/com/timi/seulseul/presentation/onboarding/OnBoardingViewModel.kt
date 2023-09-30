@@ -19,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
-    private val authRepo: AuthRepo,
-    private val fcmTokenRepo: FcmTokenRepo
+    private val authRepo: AuthRepo
 ) : ViewModel() {
 
     private var _obLiveData = MutableLiveData<List<OnBoardingData>>()
@@ -47,12 +46,6 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch{
             // authRepo에서 postAuth를 호출해 반환된 결과 값을 _auth LiveData에 저장한다.
             authRepo.postAuth(Auth(uuid))
-        }
-    }
-
-    fun postFcmToken(fcmToken : String) {
-        viewModelScope.launch {
-            fcmTokenRepo.postFcmToken(FcmTokenRequest(fcmToken))
         }
     }
 }
