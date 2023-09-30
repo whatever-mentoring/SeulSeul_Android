@@ -8,7 +8,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
@@ -21,6 +20,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.PatchLocation
@@ -65,8 +65,9 @@ class LocationService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val baseRouteId = prefs.getLong("baseRouteId", -1)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         // Location Request
         // Priority.PRIORITY_HIGH_ACCURACY : 가장 정확한 위치 요구 (Fused)
@@ -79,8 +80,7 @@ class LocationService : Service() {
             // 정확한 위치가 확인 될 때까지 대기
             setWaitForAccurateLocation(true)
         }.build()
-
-
+        
         // Create the location callback
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -94,12 +94,10 @@ class LocationService : Service() {
                         date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
 
                     // 위치를 서버에 전송
-
-                    // GlobalScope
                     GlobalScope.launch(Dispatchers.IO) {
                         try {
                             if (isFirstLocationUpdate) {
-                                val loc = Location(3, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
+                                val loc = Location(baseRouteId, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
                                 val response = locationRepo.postLocation(loc)
                                 if (response.isSuccess) {
                                     Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
@@ -108,7 +106,7 @@ class LocationService : Service() {
                                     Log.e("jhb", "Failed to post location", response.exceptionOrNull())
                                 }
                             } else {
-                                val patchLoc = PatchLocation(3, location.longitude.toString(), location.latitude.toString())
+                                val patchLoc = PatchLocation(baseRouteId, location.longitude.toString(), location.latitude.toString())
                                 val response = locationRepo.patchLocation(patchLoc)
                                 if (response.isSuccess) {
                                     Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
@@ -120,8 +118,6 @@ class LocationService : Service() {
                             Log.e("jhb", "Exception when updating the server with the new position.", e)
                         }
                     }
-
-
                 }
             }
         }
@@ -135,7 +131,6 @@ class LocationService : Service() {
         // 위치 업데이트
         startLocationUpdates()
     }
-
 
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
