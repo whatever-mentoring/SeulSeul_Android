@@ -43,9 +43,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         initListener()
 
-        // v1/user post uuid
-        viewModel.postAuth()
-
         // 갱신 날짜 저장 (초기)
         viewModel.saveToday()
 

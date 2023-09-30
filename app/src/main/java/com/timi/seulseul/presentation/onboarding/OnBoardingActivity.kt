@@ -54,6 +54,9 @@ class OnBoardingActivity : AppCompatActivity() {
             dotsIndicator.refreshDots()
         }
 
+        // v1/user post uuid
+        viewModel.postAuth()
+
     }
 
     private fun onConfirmButtonClick() {
