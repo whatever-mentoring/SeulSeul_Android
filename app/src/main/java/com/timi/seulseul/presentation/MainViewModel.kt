@@ -5,16 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.MainApplication.Companion.prefs
-import com.timi.seulseul.data.model.Auth
-import com.timi.seulseul.data.model.AuthData
 import com.timi.seulseul.data.model.TodayTime
 import com.timi.seulseul.data.model.LastSubwayArriveTime
 import com.timi.seulseul.data.model.LastSubwayDepartTime
-import com.timi.seulseul.data.model.RealDayInfo
+import com.timi.seulseul.data.model.DayInfo
 import com.timi.seulseul.data.model.request.AlarmPatchRequest
 import com.timi.seulseul.data.model.request.AlarmPostRequest
 import com.timi.seulseul.data.repository.AlarmRepo
-import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +21,6 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.UUID
 import javax.inject.Inject
 
 // Hilt가 ViewModel 객체를 생성하고 관리할 수 있게 해준다.
@@ -38,6 +34,9 @@ class MainViewModel @Inject constructor(
 
     private var _showRoute : MutableLiveData<Boolean> = MutableLiveData(false)
     var showRoute : LiveData<Boolean> = _showRoute
+
+    private var _todayAlarmOff : MutableLiveData<Boolean> = MutableLiveData(false)
+    var todayAlarmOff : LiveData<Boolean> = _todayAlarmOff
 
     private val baseRouteId = prefs.getLong("baseRouteId", 0)
 
@@ -55,7 +54,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            val response = alarmRepo.postAlarm(AlarmPostRequest(baseRouteId, alarmTime, alarmTerm))
+            val response = alarmRepo.postAlarm(AlarmPostRequest(5, alarmTime, alarmTerm))
             response.onSuccess {
                 prefs.edit().apply {
                     putInt("alarmId", it.id)
@@ -72,7 +71,7 @@ class MainViewModel @Inject constructor(
 
         // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
-            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, baseRouteId, alarmTime, alarmTerm))
+            alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, 5, alarmTime, alarmTerm))
         }
     }
 
@@ -219,8 +218,23 @@ class MainViewModel @Inject constructor(
             Timber.d("checkRouteVisibility: ${current} / ${showRoute}")
 
             _showRoute.value = true
-            // TODO : 여기에 알림 Off 로직 넣기
-            calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착 시간
+
+            // TODO: 알림 false로 만들기 ************************
+            if (prefs.getBoolean("pointAlarmOff", true)) {
+                Timber.d("들어왔냐??")
+
+                // 여기서 오늘 설정한 알림 종료.
+                prefs.edit().putBoolean("alarmOn", false).apply()
+                patchAlarmEnabled()
+
+                prefs.edit().putBoolean("pointAlarmOff", false).apply()
+                prefs.edit().putBoolean("todayAlarm", false).apply()
+
+                _todayAlarmOff.value = true
+            }
+
+            calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착
+
         } else {
             Timber.d("OutOfRangeTime - checkRouteVisibility: ${current} / ${showRoute} ")
         }
@@ -261,8 +275,8 @@ class MainViewModel @Inject constructor(
             Timber.d("calHideRouteTime : ${current} / ${hideRoute}")
 
             _showRoute.value = false
-            prefs.edit().putBoolean("todayAlarm", false).apply()
-            prefs.edit().putBoolean("alarmOn", false).apply() // 변경 필요
+            prefs.edit().putInt("checkAlarmCount", 0).apply()
+            prefs.edit().remove("pointAlarmOff").apply()
             prefs.edit().remove("today").apply()
 
         } else {
@@ -271,7 +285,7 @@ class MainViewModel @Inject constructor(
     }
 
     // 현재 월,일 받아오기
-    fun getDayInfo() : RealDayInfo {
+    fun getDayInfo() : DayInfo {
         val time = LocalDateTime.now()
         val year = time.year
         val month = time.monthValue
@@ -279,7 +293,7 @@ class MainViewModel @Inject constructor(
         val hour = time.hour
         val minute = time.minute
 
-        return RealDayInfo(year, month, date, hour, minute)
+        return DayInfo(year, month, date, hour, minute)
     }
 
     // 앱 처음 접근 -> today 저장

@@ -17,6 +17,15 @@ fun setEndNickNameImage(view: ImageView, endNickname: String?) {
     }
 }
 
+@BindingAdapter("setAlarmTime")
+fun TextView.setAlarmTime(alarmTime : Int) {
+    if (alarmTime % 60 == 0) {
+        this.text = "${alarmTime/60}시간 전"
+    } else {
+        this.text = "${alarmTime/60}시간 ${alarmTime%60}분 전"
+    }
+}
+
 @BindingAdapter("visible")
 fun TextView.visibility(isNull : String?) {
     if (isNull == null) {

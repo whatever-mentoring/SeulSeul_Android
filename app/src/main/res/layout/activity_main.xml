@@ -158,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_8"
                         android:fontFamily="@font/pretendard_bold"
-                        android:text="@{alarm.alarmTime/60 + `시간 전`}"
+                        setAlarmTime="@{alarm.alarmTime}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/font_size_20" />
 

@@ -25,7 +25,6 @@ import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
-// Dagger Hilt가 Activity에 의존성을 주입
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -42,9 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
         initListener()
-
-        // 갱신 날짜 저장 (초기)
-        viewModel.saveToday()
 
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
@@ -97,6 +93,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             }
         }
 
+        // 갱신 날짜 저장 (초기)
+        viewModel.saveToday()
+
         // view에 날짜 갱신
         val dayInfo = viewModel.getDayInfo()
         binding.homeTvDay.text = "${dayInfo.month}월 ${dayInfo.date}일"
@@ -109,9 +108,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         checkAlarmSetting()
 
         // recyclerView
-        if (prefs.getBoolean("todayAlarm", false)) {
-            showSubwayRoute()
-        }
+//        showSubwayRoute()
     }
 
     private fun initListener() {
@@ -127,7 +124,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun checkEndLocation() {
         // onclick (목적지 존재 여부 판단)
-        if (binding.homeTvLocationSetting.text == "") {
+        // TODO : ""로 바꾸기
+        if (binding.homeTvLocationSetting.text == null) {
             // 목적지 설정 안 했을 때
             val dialog = LocationBeforeDialogFragment()
             dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
@@ -146,8 +144,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             setAlarmAfter()
             binding.alarm = Alarm(alarmTime, alarmTerm)
             checkSwitchSetting() // 알림 설정 이후 스위치 On, Off 여부 확인
-        } else {
-            setAlarmBefore()
         }
     }
 
@@ -157,10 +153,37 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         if (alarmOn) {
             binding.homeClSwitchAlarmOnOff.isChecked = true
             switchOn()
+
+            setAlarmAfterTitle()
+            prefs.edit().putBoolean("todayAlarm", true).apply()
+
+            if (prefs.getInt("checkCountAlarm", 0) == 1) {
+                showSubwayRoute()
+            }
+
         } else {
             binding.homeClSwitchAlarmOnOff.isChecked = false
             switchOff()
+
+            if (prefs.getInt("alarmTime", 0) != 0 && !prefs.getBoolean("todayAlarm", false)) {
+                Timber.d("에효: ${prefs.getBoolean("todayAlarm", false)}")
+                setAlarmBeforeTitle()
+            }
+
+//            if (prefs.contains("pointAlarmOff") && !prefs.getBoolean("todayAlarm", false)) {
+//                Timber.d("에효 : ${prefs.contains("pointAlarmOff")} / ${prefs.getBoolean("todayAlarm", false)}")
+//                setAlarmBeforeTitle()
+//            }
         }
+    }
+
+    fun something() {
+        // isNotFirst가 true일 때(= 처음이 아님) 경로 보여줘
+        if (!prefs.getBoolean("isNotFirst", false)) {
+            showSubwayRoute()
+        }
+
+
     }
 
     // onclick (알림 추가하기)
@@ -181,7 +204,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 // 처음 알람 설정 후 체크 여부 확인
                 if (binding.homeClSwitchAlarmOnOff.isChecked) {
                     prefs.edit().putBoolean("alarmOn", true).apply()
-                    prefs.edit().putBoolean("todayAlarm", true).apply()
+                    prefs.edit().putInt("checkAlarmCount", 1).apply()
                 }
 
                 // 첫 알림 설정 여부에 따른 로직 처리 (post, patch)
@@ -189,14 +212,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
+
+                checkSwitchSetting()
+
+                if (!prefs.getBoolean("isNotFirst", false)) {
+                    showSubwayRoute()
+                }
             }
         })
     }
 
     private fun showSubwayRoute() {
         viewModel.getSubwayRoute()
-        viewModel.subwayData.observe(this, Observer {
-            if (it != null) {
+        viewModel.subwayData.observe(this, Observer { data ->
+            if (data != null) {
                 subwayRouteAdapter = SubwayRouteAdapter()
 
                 binding.homeRvSubwayRoute.apply {
@@ -204,13 +233,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     layoutManager = LinearLayoutManager(this@MainActivity)
                 }
 
-                subwayRouteAdapter.submitList(it)
+                subwayRouteAdapter.submitList(data)
             }
         })
 
-        viewModel.showRoute.observe(this, Observer {
-            if (it) {
+        viewModel.showRoute.observe(this, Observer { show ->
+            if (show) {
                 showRoute()
+
+                viewModel.todayAlarmOff.observe(this, Observer { isOff ->
+                    if (isOff) {
+                        // TODO : 쉬먀...!
+                        checkSwitchSetting()
+                    }
+                })
+
             } else {
                 hideRoute()
             }
@@ -220,29 +257,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun setAlarmAfter() {
         binding.homeTvAlarmAdd.visibility = View.GONE
         binding.homeClAlarmSetting.visibility = View.VISIBLE
+    }
+
+    private fun setAlarmAfterTitle() {
         binding.homeTvAlarm.text = "알림 수신 예정"
         binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_checked, 0, 0, 0)
     }
 
-    private fun setAlarmBefore() {
-        binding.homeTvAlarmAdd.visibility = View.VISIBLE
-        binding.homeClAlarmSetting.visibility = View.GONE
+    private fun setAlarmBeforeTitle() {
         binding.homeTvAlarm.text = "설정된 알림 없음"
         binding.homeTvDay.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_home_day_unchecked, 0, 0, 0)
     }
 
     private fun switchNotificationOnOff() {
-        binding.homeClSwitchAlarmOnOff.setOnCheckedChangeListener { _, onSwitch ->
-            if (onSwitch) {
+        binding.homeClSwitchAlarmOnOff.setOnClickListener {
+            if (binding.homeClSwitchAlarmOnOff.isChecked) {
                 switchOn()
                 prefs.edit().putBoolean("alarmOn", true).apply()
+                prefs.edit().putInt("checkAlarmCount", 1).apply()
 
             } else {
                 switchOff()
                 prefs.edit().putBoolean("alarmOn", false).apply()
             }
-
             viewModel.patchAlarmEnabled()
+            checkSwitchSetting()
         }
     }
 
