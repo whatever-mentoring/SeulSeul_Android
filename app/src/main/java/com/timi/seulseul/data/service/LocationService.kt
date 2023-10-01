@@ -26,8 +26,10 @@ import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.repository.LocationRepo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -37,7 +39,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LocationService : Service() {
 
-    @Inject lateinit var locationRepo: LocationRepo
+    @Inject
+    lateinit var locationRepo: LocationRepo
 
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -62,6 +65,7 @@ class LocationService : Service() {
     private var isFirstLocationUpdate = true
 
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
 
@@ -82,40 +86,60 @@ class LocationService : Service() {
         // Create the location callback
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                val baseRouteId = prefs.getLong("baseRouteId", 0)
+                GlobalScope.launch(Dispatchers.IO) {
 
-                for (location in locationResult.locations) {
-                    Log.d("jhb", "Longitude: ${location.longitude}, Latitude: ${location.latitude}")
 
-                    // 년-월-일
-                    val date = LocalDate.now()
-                    // 요일
-                    val dayOfTheWeek =
-                        date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
+                    var baseRouteId = prefs.getLong("baseRouteId", 0)
 
-                    // 위치를 서버에 전송
-                    GlobalScope.launch(Dispatchers.IO) {
-                        try {
-                            if (isFirstLocationUpdate) {
-                                val loc = Location(baseRouteId, location.longitude.toString(), location.latitude.toString(), dayOfTheWeek)
-                                val response = locationRepo.postLocation(loc)
-                                if (response.isSuccess) {
-                                    Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
-                                    isFirstLocationUpdate = false
+                    // Check if baseRouteId is 0L and retry until it's not.
+                    while (baseRouteId == 0L) {
+                        Log.d("jhb", "baserouteid while")
+                        delay(3000) // Delay for a second before retrying
+                        baseRouteId = prefs.getLong("baseRouteId", 0)
+                    }
+
+
+                    for (location in locationResult.locations) {
+                        Log.d("jhb", "Longitude: ${location.longitude}, Latitude: ${location.latitude}")
+
+                        // 년-월-일
+                        val date = LocalDate.now()
+                        // 요일
+                        val dayOfTheWeek =
+                            date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREAN)
+
+                        GlobalScope.launch(Dispatchers.IO) {
+                            try {
+                                if (isFirstLocationUpdate) {
+                                    val loc = Location(
+                                        baseRouteId,
+                                        location.longitude.toString(),
+                                        location.latitude.toString(),
+                                        dayOfTheWeek
+                                    )
+                                    val response = locationRepo.postLocation(loc)
+                                    if (response.isSuccess) {
+                                        Log.d("jhb", "Successfully posted location: ${response.getOrNull()}")
+                                        isFirstLocationUpdate = false
+                                    } else {
+                                        Log.e("jhb", "Failed to post location", response.exceptionOrNull())
+                                    }
                                 } else {
-                                    Log.e("jhb", "Failed to post location", response.exceptionOrNull())
+                                    val patchLoc = PatchLocation(
+                                        baseRouteId,
+                                        location.longitude.toString(),
+                                        location.latitude.toString()
+                                    )
+                                    val response = locationRepo.patchLocation(patchLoc)
+                                    if (response.isSuccess) {
+                                        Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
+                                    } else {
+                                        Log.e("jhb", "Failed to patch location", response.exceptionOrNull())
+                                    }
                                 }
-                            } else {
-                                val patchLoc = PatchLocation(baseRouteId, location.longitude.toString(), location.latitude.toString())
-                                val response = locationRepo.patchLocation(patchLoc)
-                                if (response.isSuccess) {
-                                    Log.d("jhb", "Successfully patched location: ${response.getOrNull()}")
-                                } else {
-                                    Log.e("jhb", "Failed to patch location", response.exceptionOrNull())
-                                }
+                            } catch (e: Exception) {
+                                Log.e("jhb", "Exception when updating the server with the new position.", e)
                             }
-                        } catch (e: Exception) {
-                            Log.e("jhb", "Exception when updating the server with the new position.", e)
                         }
                     }
                 }
@@ -166,10 +190,8 @@ class LocationService : Service() {
         // setOngoing(true)는 해당 알림이 진행 중인 상태(사용자가 스와이프해서 제거할 수 없는)
         // 근데 android14부터는 제거할수있다고한다. 그래서 다른 방법을 찾아야 한다.
         // https://developer.android.com/about/versions/14/behavior-changes-all?hl=ko
-        val builder = NotificationCompat.Builder(applicationContext, channelID)
-            .setOngoing(true)
-            .setSmallIcon(R.drawable.ic_splash_app)
-            .setContentTitle("슬슬 앱이 백그라운드에서 실행 중")
+        val builder = NotificationCompat.Builder(applicationContext, channelID).setOngoing(true)
+            .setSmallIcon(R.drawable.ic_splash_app).setContentTitle("슬슬 앱이 백그라운드에서 실행 중")
             .setContentText("정확한 알림 서비스를 제공하기 위해 백그라운드에서 실행 중입니다.")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
