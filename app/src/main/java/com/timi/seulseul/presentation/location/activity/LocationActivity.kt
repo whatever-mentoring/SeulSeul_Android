@@ -44,7 +44,6 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
             //id 값의 endNickName 받아오기
             with(prefs.edit()) {
-                putLong("baseRouteId", location.base_route_id)
                 putString("endNickName", location.endNickName)
                 apply()
             }

@@ -31,7 +31,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://13.209.31.233:8080/"
+    private const val BASE_URL = "https://seulseul.kr/"
 
     // @Provides < - Dagger Hilt에서 객체 생성 로직 제공
     // @Singleton < - 앱 전체에서 오직 하나만 존재
