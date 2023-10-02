@@ -2,14 +2,14 @@ package com.timi.seulseul.data.repository
 
 import android.util.Log
 import com.timi.seulseul.data.api.ApiService
-import com.timi.seulseul.data.model.response.EndLocationData
+import com.timi.seulseul.data.model.response.EndLocationResponse
 import javax.inject.Inject
 
 class SetEndLocationRepo @Inject constructor(
     private val apiService: ApiService
 ) {
 
-    suspend fun setEndLocation(id : Int): Result<EndLocationData> {
+    suspend fun setEndLocation(id : Int): Result<EndLocationResponse> {
         return try {
             val response = apiService.setEndLocation(id)
             if (response.isSuccessful) {
