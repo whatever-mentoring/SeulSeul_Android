@@ -5,16 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.MainApplication.Companion.prefs
-import com.timi.seulseul.data.model.Auth
-import com.timi.seulseul.data.model.AuthData
 import com.timi.seulseul.data.model.TodayTime
 import com.timi.seulseul.data.model.LastSubwayArriveTime
 import com.timi.seulseul.data.model.LastSubwayDepartTime
-import com.timi.seulseul.data.model.RealDayInfo
+import com.timi.seulseul.data.model.DayInfo
 import com.timi.seulseul.data.model.request.AlarmPatchRequest
 import com.timi.seulseul.data.model.request.AlarmPostRequest
 import com.timi.seulseul.data.repository.AlarmRepo
-import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +21,6 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.util.UUID
 import javax.inject.Inject
 
 // Hilt가 ViewModel 객체를 생성하고 관리할 수 있게 해준다.
@@ -39,7 +35,8 @@ class MainViewModel @Inject constructor(
     private var _showRoute : MutableLiveData<Boolean> = MutableLiveData(false)
     var showRoute : LiveData<Boolean> = _showRoute
 
-    private val baseRouteId = prefs.getLong("baseRouteId", 0)
+    private var _todayAlarmOff : MutableLiveData<Boolean> = MutableLiveData(false)
+    var todayAlarmOff : LiveData<Boolean> = _todayAlarmOff
 
     fun setAlarm() {
         if (!prefs.getBoolean("isNotFirst", false)) {
@@ -50,10 +47,10 @@ class MainViewModel @Inject constructor(
     }
 
     private fun postAlarm() {
+        val baseRouteId = prefs.getLong("baseRouteId", 0)
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
 
-        // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
             val response = alarmRepo.postAlarm(AlarmPostRequest(baseRouteId, alarmTime, alarmTerm))
             response.onSuccess {
@@ -66,11 +63,11 @@ class MainViewModel @Inject constructor(
     }
 
     private fun patchAlarm() {
+        val baseRouteId = prefs.getLong("baseRouteId", 0)
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
         val alarmId = prefs.getInt("alarmId", 0)
 
-        // TODO : 추후에 base_route_id 불러와야 함 (현재는 고정값)
         viewModelScope.launch {
             alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, baseRouteId, alarmTime, alarmTerm))
         }
@@ -90,7 +87,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val response = subwayRouteRepo.getSubwayRoute()
             response.onSuccess {
-                // 경로 RecyclerView 관련 서 items에 데이터 추가
+                // 경로 RecyclerView 관련 데이터 items에 추가
                 it.totalTimeSection.forEach { totalTime ->
                     items.add(SubwayRouteItem.TotalTimeSectionItem(totalTime.data))
                 }
@@ -120,7 +117,7 @@ class MainViewModel @Inject constructor(
         return items
     }
 
-    fun changeTimeStringToInt(departTime : String, arriveTime : String) {
+    private fun changeTimeStringToInt(departTime : String, arriveTime : String) {
         // 알림 시간 변환
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmHour = (alarmTime / 60).toLong()
@@ -173,7 +170,6 @@ class MainViewModel @Inject constructor(
             lastSubwayArriveTime = LastSubwayArriveTime(lastSubwayArriveYear, lastSubwayArriveMonth, lastSubwayArriveDate, lastSubwayArriveHour, lastSubwayArriveMinute)
         }
 
-
         // 알림 시간, 막차 출발 시간 비교 -> '경로 보여줄 시간' 계산
         val showRouteTime = calShowRouteTime(alarmHour, alarmMinute, lastSubwayDepartTime)
         Timber.d("showRouteTime: $showRouteTime")
@@ -194,6 +190,8 @@ class MainViewModel @Inject constructor(
     }
 
     private fun checkRouteVisibility(todayTime : TodayTime, showRouteTime : LocalTime, lastSubwayArriveTime : LastSubwayArriveTime) {
+        _todayAlarmOff.value = false
+
         val currentTime = getDayInfo()
 
         val showRouteYear = todayTime.year
@@ -219,16 +217,29 @@ class MainViewModel @Inject constructor(
             Timber.d("checkRouteVisibility: ${current} / ${showRoute}")
 
             _showRoute.value = true
-            // TODO : 여기에 알림 Off 로직 넣기
-            calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착 시간
+
+            if (prefs.getBoolean("pointAlarmOff", true)) {
+
+                // 여기서 오늘 설정한 알림 종료
+                prefs.edit().putBoolean("alarmOn", false).apply() // 알림 off
+                patchAlarmEnabled()
+
+                prefs.edit().putBoolean("pointAlarmOff", false).apply()
+                prefs.edit().putBoolean("todayAlarm", false).apply() // 원래는 알림 on 할 때마다 true 인데 -> 여기서 막차 show시간 됐을 때 알림 off하기 위해 -> false
+
+                _todayAlarmOff.value = true // 막차 show시간 되면 -> 설정한 알림 off (얘도 한번만 true)
+            }
+
+            calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착
+
         } else {
             Timber.d("OutOfRangeTime - checkRouteVisibility: ${current} / ${showRoute} ")
         }
     }
 
     private fun calHideRouteTime(todayTime: TodayTime, current : LocalDateTime, lastSubwayArriveTime: LastSubwayArriveTime) {
-        var arriveYear = todayTime.year
-        var arriveMonth = todayTime.month
+        val arriveYear = todayTime.year
+        val arriveMonth = todayTime.month
         var arriveDate = todayTime.date
         var arriveHour = lastSubwayArriveTime.hour
         val arriveMinute = lastSubwayArriveTime.minute
@@ -261,9 +272,9 @@ class MainViewModel @Inject constructor(
             Timber.d("calHideRouteTime : ${current} / ${hideRoute}")
 
             _showRoute.value = false
-            prefs.edit().putBoolean("todayAlarm", false).apply()
-            prefs.edit().putBoolean("alarmOn", false).apply() // 변경 필요
-            prefs.edit().remove("today").apply()
+            prefs.edit().remove("pointAlarmOff").apply() // 일회용으로 삭제
+            prefs.edit().remove("today").apply() // 다음 알림 설정하는 날 받아오기 위해서 삭제
+            prefs.edit().putBoolean("refresh", true).apply() // 갱신 되었음 표시
 
         } else {
             Timber.d("OutOfRangeTime - calHideRouteTime: ${current} / ${hideRoute} ")
@@ -271,7 +282,7 @@ class MainViewModel @Inject constructor(
     }
 
     // 현재 월,일 받아오기
-    fun getDayInfo() : RealDayInfo {
+    fun getDayInfo() : DayInfo {
         val time = LocalDateTime.now()
         val year = time.year
         val month = time.monthValue
@@ -279,7 +290,7 @@ class MainViewModel @Inject constructor(
         val hour = time.hour
         val minute = time.minute
 
-        return RealDayInfo(year, month, date, hour, minute)
+        return DayInfo(year, month, date, hour, minute)
     }
 
     // 앱 처음 접근 -> today 저장
