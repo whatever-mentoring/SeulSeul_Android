@@ -64,7 +64,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         super.onResume()
 
         coroutineScope.launch {
-            delay(1500)
+            delay(2000)
             viewModel.getEndLocation()
         }
 
