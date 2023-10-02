@@ -6,12 +6,10 @@ import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.LocationResponse
 import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.model.request.EndLocationRequest
-import com.timi.seulseul.data.model.response.EndLocationData
 import com.timi.seulseul.data.model.response.EndLocationResponse
 import com.timi.seulseul.data.model.response.GetEndLocation
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -45,5 +43,5 @@ interface ApiService {
 
     // 목적지 선택
     @GET("v1/end/{id}")
-    suspend fun setEndLocation(@Path("id") id: Int):Response<EndLocationData>
+    suspend fun setEndLocation(@Path("id") id: Int):Response<EndLocationResponse>
 }

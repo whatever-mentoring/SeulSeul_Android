@@ -1,6 +1,5 @@
 package com.timi.seulseul.presentation.location.activity
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -64,7 +63,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
         super.onResume()
 
         coroutineScope.launch {
-            delay(2000)
+            delay(1700)
             viewModel.getEndLocation()
         }
 

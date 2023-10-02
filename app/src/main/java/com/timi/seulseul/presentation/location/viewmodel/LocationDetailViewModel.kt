@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.timi.seulseul.data.model.request.EndLocationRequest
 import com.timi.seulseul.data.model.response.EndLocationData
-import com.timi.seulseul.data.model.response.EndLocationResponse
 import com.timi.seulseul.data.repository.EndLocationRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

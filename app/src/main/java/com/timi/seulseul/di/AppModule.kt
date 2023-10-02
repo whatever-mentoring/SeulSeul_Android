@@ -1,7 +1,5 @@
 package com.timi.seulseul.di
 
-import android.content.Context
-import android.content.SharedPreferences
 import com.timi.seulseul.MainApplication
 import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
@@ -10,7 +8,6 @@ import com.timi.seulseul.data.api.SubwayRouteService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Headers
 import okhttp3.Interceptor
@@ -18,9 +15,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
