@@ -124,8 +124,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     fun checkEndLocation() {
         // onclick (목적지 존재 여부 판단)
-        // TODO : ""로 바꾸기
-        if (binding.homeTvLocationSetting.text == null) {
+        if (binding.homeTvLocationSetting.text == "") {
             // 목적지 설정 안 했을 때
             val dialog = LocationBeforeDialogFragment()
             dialog.show(supportFragmentManager, "LocationBeforeDialogFragment")
