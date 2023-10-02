@@ -1,6 +1,5 @@
 package com.timi.seulseul.presentation.location.activity
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityLocationBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
-import com.timi.seulseul.presentation.location.adapter.locationAdapter
+import com.timi.seulseul.presentation.location.adapter.LocationAdapter
 import com.timi.seulseul.presentation.location.viewmodel.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity_location) {
 
     private val viewModel by viewModels<LocationViewModel>()
-    private val adapter = locationAdapter()
+    private val adapter = LocationAdapter()
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 

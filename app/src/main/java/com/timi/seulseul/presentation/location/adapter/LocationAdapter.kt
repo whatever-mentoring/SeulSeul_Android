@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.timi.seulseul.data.model.response.GetEndLocationData
 import com.timi.seulseul.databinding.ItemLocationDetailBinding
 
-class locationAdapter : ListAdapter<GetEndLocationData, LocationViewHolder>(LocationDiffCallback) {
+class LocationAdapter : ListAdapter<GetEndLocationData, LocationViewHolder>(LocationDiffCallback) {
 
     var onItemClickListener: ((GetEndLocationData) -> Unit)? = null
 
