@@ -56,6 +56,7 @@ class LocationDetailActivity :
                 viewModel.postEndLocation(viewModel.locationRequest)
                 Log.d("locationDetailActivity", "완료버튼")
                 finish()
+                showToast("주소를 선택해주세요")
             }
         }
 
