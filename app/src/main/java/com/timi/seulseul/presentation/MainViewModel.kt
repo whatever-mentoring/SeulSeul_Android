@@ -38,8 +38,6 @@ class MainViewModel @Inject constructor(
     private var _todayAlarmOff : MutableLiveData<Boolean> = MutableLiveData(false)
     var todayAlarmOff : LiveData<Boolean> = _todayAlarmOff
 
-    private val baseRouteId = prefs.getLong("baseRouteId", 0)
-
     fun setAlarm() {
         if (!prefs.getBoolean("isNotFirst", false)) {
             postAlarm()
@@ -49,6 +47,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun postAlarm() {
+        val baseRouteId = prefs.getLong("baseRouteId", 0)
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
 
@@ -64,6 +63,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun patchAlarm() {
+        val baseRouteId = prefs.getLong("baseRouteId", 0)
         val alarmTime = prefs.getInt("alarmTime", 0)
         val alarmTerm = prefs.getInt("alarmTerm", 0)
         val alarmId = prefs.getInt("alarmId", 0)
