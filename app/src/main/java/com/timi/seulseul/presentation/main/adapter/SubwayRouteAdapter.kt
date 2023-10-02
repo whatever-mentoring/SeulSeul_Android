@@ -1,6 +1,5 @@
 package com.timi.seulseul.presentation.main.adapter
 
-import android.drm.DrmStore.Action.TRANSFER
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
