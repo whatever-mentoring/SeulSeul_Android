@@ -45,6 +45,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         // 직접 스위치 On, Off 시 상태 변화 적용
         switchNotificationOnOff()
 
+        // recyclerView Observer
+        setRouteVisibility()
+
         val serviceIntent = Intent(this, LocationService::class.java)
         // API 26 이상 백그라운드 제한 우회 -> ForegroundService
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -106,9 +109,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         // 알림 세팅 체크
         checkAlarmSetting()
-
-        // recyclerView
-//        showSubwayRoute()
     }
 
     private fun initListener() {
@@ -150,40 +150,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun checkSwitchSetting() {
         val alarmOn = prefs.getBoolean("alarmOn", false)
 
+        if (prefs.getString("today", "") == "") {
+            viewModel.saveToday()
+        }
+
+        // 알림 설정 했고, 갱신 아직 안 했으면 경로 데이터 불러와
+        if (prefs.getInt("alarmTime", 0) != 0 || !prefs.getBoolean("refresh", true)) {
+            showSubwayRoute()
+        }
+
         if (alarmOn) {
             binding.homeClSwitchAlarmOnOff.isChecked = true
             switchOn()
 
+            // 알림 on 상태 -> '알림 수신 예정' + (todayAlarm <= true)
             setAlarmAfterTitle()
             prefs.edit().putBoolean("todayAlarm", true).apply()
-
-            if (prefs.getInt("checkCountAlarm", 0) == 1) {
-                showSubwayRoute()
-            }
 
         } else {
             binding.homeClSwitchAlarmOnOff.isChecked = false
             switchOff()
 
+            // 알림 데이터 있고, todayAlarm == false
             if (prefs.getInt("alarmTime", 0) != 0 && !prefs.getBoolean("todayAlarm", false)) {
-                Timber.d("에효: ${prefs.getBoolean("todayAlarm", false)}")
+                Timber.d("경로 show시간 되서 알림 off : ${prefs.getBoolean("todayAlarm", false)}")
                 setAlarmBeforeTitle()
             }
-
-//            if (prefs.contains("pointAlarmOff") && !prefs.getBoolean("todayAlarm", false)) {
-//                Timber.d("에효 : ${prefs.contains("pointAlarmOff")} / ${prefs.getBoolean("todayAlarm", false)}")
-//                setAlarmBeforeTitle()
-//            }
         }
-    }
-
-    fun something() {
-        // isNotFirst가 true일 때(= 처음이 아님) 경로 보여줘
-        if (!prefs.getBoolean("isNotFirst", false)) {
-            showSubwayRoute()
-        }
-
-
     }
 
     // onclick (알림 추가하기)
@@ -201,28 +194,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 bottomSheetFragment.dismiss()
                 setAlarmAfter()
 
-                // 처음 알람 설정 후 체크 여부 확인
-                if (binding.homeClSwitchAlarmOnOff.isChecked) {
+                if (!prefs.getBoolean("isNotFirst", false)) {
+                    // 처음 알림 ON 상태
                     prefs.edit().putBoolean("alarmOn", true).apply()
-                    prefs.edit().putInt("checkAlarmCount", 1).apply()
+                    prefs.edit().putBoolean("refresh", false).apply()
+
+                    // 경로 호출
+                    showSubwayRoute()
                 }
 
                 // 첫 알림 설정 여부에 따른 로직 처리 (post, patch)
                 viewModel.setAlarm()
+                checkSwitchSetting()
 
                 // 설정한 알림 데이터 연결 (xml과 연결)
                 binding.alarm = Alarm(time, term)
-
-                checkSwitchSetting()
-
-                if (!prefs.getBoolean("isNotFirst", false)) {
-                    showSubwayRoute()
-                }
             }
         })
     }
 
     private fun showSubwayRoute() {
+        // 서버 통신 (데이터 받아 오기)
         viewModel.getSubwayRoute()
         viewModel.subwayData.observe(this, Observer { data ->
             if (data != null) {
@@ -236,20 +228,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 subwayRouteAdapter.submitList(data)
             }
         })
+    }
 
+    private fun setRouteVisibility() {
+        // 경로 보여줄 시점 체크
         viewModel.showRoute.observe(this, Observer { show ->
             if (show) {
+                // 현재 시간 >= 경로 show 시간
                 showRoute()
 
-                viewModel.todayAlarmOff.observe(this, Observer { isOff ->
-                    if (isOff) {
-                        // TODO : 쉬먀...!
-                        checkSwitchSetting()
-                    }
-                })
-
             } else {
+                // 현재 시간 >= 막차 도착 시간
                 hideRoute()
+            }
+        })
+
+        // 경로 show시간 넘어서 -> 설정한 알림이 off 되었을 때
+        viewModel.todayAlarmOff.observe(this, Observer { isOff ->
+            if (isOff) {
+                binding.homeClSwitchAlarmOnOff.isChecked = false
+                switchOff()
+                setAlarmBeforeTitle()
             }
         })
     }
@@ -274,7 +273,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             if (binding.homeClSwitchAlarmOnOff.isChecked) {
                 switchOn()
                 prefs.edit().putBoolean("alarmOn", true).apply()
-                prefs.edit().putInt("checkAlarmCount", 1).apply()
+                prefs.edit().putBoolean("refresh", false).apply()
 
             } else {
                 switchOff()
@@ -310,5 +309,4 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         binding.homeLlEmptyView.visibility = View.VISIBLE
         binding.homeViewLine.visibility = View.VISIBLE
     }
-
 }
