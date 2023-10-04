@@ -23,8 +23,12 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityPermissionBinding
 import com.timi.seulseul.databinding.DialogPermissionRequestBinding
-import com.timi.seulseul.presentation.MainActivity
+import com.timi.seulseul.presentation.main.activity.MainActivity
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import com.timi.seulseul.presentation.common.constants.FCM_TOKEN
+import com.timi.seulseul.presentation.common.constants.IS_FIRST_RUN
+import com.timi.seulseul.presentation.common.constants.KEY_DENIED_COUNT
+import com.timi.seulseul.presentation.common.constants.KEY_NOTI_DENIED_COUNT
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -33,19 +37,14 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     private val viewModel by viewModels<PermissionViewModel>()
 
-    companion object {
-        private const val KEY_DENIED_COUNT = "deniedCount"
-        private const val KEY_NOTI_DENIED_COUNT = "notiDeniedCount"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val isFirstRun = prefs.getBoolean("isFirstRun", true)
+        val isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true)
         val locationDeniedCount = prefs.getInt(KEY_DENIED_COUNT, 0)
 
         // FCM 토큰 받기 & 보내기
-        if (prefs.getString("fcm_token", "") == "") {
+        if (prefs.getString(FCM_TOKEN, "") == "") {
             getFcmToken()
         }
 
@@ -55,14 +54,14 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
                 // 버튼 클릭 시에만 알림 권한 요청
                 checkPermissionForNotification()
                 if (isFirstRun) {
-                    prefs.edit().putBoolean("isFirstRun", false).apply()
+                    prefs.edit().putBoolean(IS_FIRST_RUN, false).apply()
                 }
                 Log.d("deniedCount", locationDeniedCount.toString())
             } else {
                 // TIRAMISU 이전 버전에서는 위치 권한 요청
                 checkPermissionForLocation()
                 if (isFirstRun) {
-                    prefs.edit().putBoolean("isFirstRun", false).apply()
+                    prefs.edit().putBoolean(IS_FIRST_RUN, false).apply()
                 }
                 Log.d("deniedCount", locationDeniedCount.toString())
             }
@@ -129,20 +128,13 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
         Log.d("deniedCount", notiDeniedCount.toString())
         Log.d("deniedCount", deniedCount.toString())
 
-        val isFirstRun = prefs.getBoolean("isFirstRun", true)
+        val isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true)
         if (!isFirstRun && !hasFineLocationPermission()) {
             locationIncreaseDeniedCount()
             Log.d("deniedCount", deniedCount.toString())
         }
 
     }
-
-    private fun hasNotificationPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            NotificationManagerCompat.from(this).areNotificationsEnabled()
-        } else true
-    }
-
 
     private fun checkPermissionForLocation() {
         if (hasAllPermissions()) {
@@ -377,7 +369,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
     private fun notiIncreaseDeniedCount() {
         val notiDeniedCount = prefs.getInt(KEY_NOTI_DENIED_COUNT, 0)
-        prefs.edit().apply() {
+        prefs.edit().apply {
             putInt(KEY_NOTI_DENIED_COUNT, notiDeniedCount + 1)
             apply()
         }
@@ -410,7 +402,7 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding>(R.layout.acti
 
             // 토큰값 가져오기
             val token = task.result
-            prefs.edit().putString("fcm_token", token).apply()
+            prefs.edit().putString(FCM_TOKEN, token).apply()
             Timber.d("fcm_token: $token")
 
             // 토큰값 보내기

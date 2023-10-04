@@ -1,4 +1,4 @@
-package com.timi.seulseul.presentation
+package com.timi.seulseul.data.service
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -11,8 +11,8 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
+import com.timi.seulseul.presentation.main.activity.MainActivity
 import timber.log.Timber
 
 class FirebaseService : FirebaseMessagingService() {
@@ -38,32 +38,11 @@ class FirebaseService : FirebaseMessagingService() {
         wakeLock.acquire(3000L)
         wakeLock.release()
 
-        // TODO: FCM 관련 기능 완전히 완성 후에 제거 예정
-        //FCM 메시지 유형 : Notification message 수신 (pendingIntent, 알림 여러개 쌓이는 지 확인 용)
-        if (remoteMessage.notification != null) {
-            Timber.d("notification message : ${remoteMessage.notification?.title} / ${remoteMessage.notification?.body}")
-
-            sendNotification(remoteMessage.notification?.title!!, remoteMessage.notification?.body!!)
-        }
-
-
         // FCM 메시지 유형 : Data message 수신
         if (remoteMessage.data.isNotEmpty()) {
-//            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
             val title = remoteMessage.data["title"].toString()
             val body = remoteMessage.data["body"].toString()
             Timber.d("title: $title / body: $body")
-
-            // TODO : 서버 알림 On/Off API 연동 후에 주석 제거 예정
-//            val alarmOn = prefs.getBoolean("alarmOn", false)
-//            Timber.d("FirebaseService : $alarmOn")
-//
-//            if (alarmOn) {
-//                sendNotification(title, body)
-//            } else {
-//                notificationManager.deleteNotificationChannel(getString(R.string.default_notification_channel_id))
-//            }
 
             sendNotification(title, body)
 

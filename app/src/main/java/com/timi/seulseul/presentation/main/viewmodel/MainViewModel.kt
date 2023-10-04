@@ -1,4 +1,4 @@
-package com.timi.seulseul.presentation
+package com.timi.seulseul.presentation.main.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,11 +13,18 @@ import com.timi.seulseul.data.model.request.AlarmPatchRequest
 import com.timi.seulseul.data.model.request.AlarmPostRequest
 import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
-import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
+import com.timi.seulseul.data.model.SubwayRouteItem
+import com.timi.seulseul.presentation.common.constants.ALARM_ID
+import com.timi.seulseul.presentation.common.constants.ALARM_ON
+import com.timi.seulseul.presentation.common.constants.ALARM_TERM
+import com.timi.seulseul.presentation.common.constants.ALARM_TIME
+import com.timi.seulseul.presentation.common.constants.BASE_ROUTE_ID
+import com.timi.seulseul.presentation.common.constants.IS_NOT_FIRST
+import com.timi.seulseul.presentation.common.constants.POINT_ALARM_OFF
+import com.timi.seulseul.presentation.common.constants.REFRESH
+import com.timi.seulseul.presentation.common.constants.TODAY
+import com.timi.seulseul.presentation.common.constants.TODAY_ALARM
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Duration
@@ -26,7 +33,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
-// Hilt가 ViewModel 객체를 생성하고 관리할 수 있게 해준다.
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val alarmRepo : AlarmRepo,
@@ -42,38 +48,34 @@ class MainViewModel @Inject constructor(
     var todayAlarmOff : LiveData<Boolean> = _todayAlarmOff
 
     fun setAlarm() {
-        if (!prefs.getBoolean("isNotFirst", false)) {
+        if (!prefs.getBoolean(IS_NOT_FIRST, false)) {
             postAlarm()
         } else {
             patchAlarm()
         }
-//        // 처음 경로 불러온 년/월/일/시간 갖고오기
-//        val current = getDayInfo()
-//        val currentTime = "${current.year}-${current.month}-${current.date}"
-//        prefs.edit().putString("getRouteTime", currentTime).apply()
     }
 
     private fun postAlarm() {
-        val baseRouteId = prefs.getLong("baseRouteId", 0)
-        val alarmTime = prefs.getInt("alarmTime", 0)
-        val alarmTerm = prefs.getInt("alarmTerm", 0)
+        val baseRouteId = prefs.getLong(BASE_ROUTE_ID, 0)
+        val alarmTime = prefs.getInt(ALARM_TIME, 0)
+        val alarmTerm = prefs.getInt(ALARM_TERM, 0)
 
         viewModelScope.launch {
             val response = alarmRepo.postAlarm(AlarmPostRequest(baseRouteId, alarmTime, alarmTerm))
             response.onSuccess {
                 prefs.edit().apply {
-                    putInt("alarmId", it.id)
-                    putBoolean("isNotFirst", true)
+                    putInt(ALARM_ID, it.id)
+                    putBoolean(IS_NOT_FIRST, true)
                 }.apply()
             }
         }
     }
 
     private fun patchAlarm() {
-        val baseRouteId = prefs.getLong("baseRouteId", 0)
-        val alarmTime = prefs.getInt("alarmTime", 0)
-        val alarmTerm = prefs.getInt("alarmTerm", 0)
-        val alarmId = prefs.getInt("alarmId", 0)
+        val baseRouteId = prefs.getLong(BASE_ROUTE_ID, 0)
+        val alarmTime = prefs.getInt(ALARM_TIME, 0)
+        val alarmTerm = prefs.getInt(ALARM_TERM, 0)
+        val alarmId = prefs.getInt(ALARM_ID, 0)
 
         viewModelScope.launch {
             alarmRepo.patchAlarm(AlarmPatchRequest(alarmId, baseRouteId, alarmTime, alarmTerm))
@@ -81,7 +83,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun patchAlarmEnabled() {
-        val alarmId = prefs.getInt("alarmId", 0)
+        val alarmId = prefs.getInt(ALARM_ID, 0)
 
         viewModelScope.launch {
             alarmRepo.patchAlarmEnabled(alarmId)
@@ -126,13 +128,13 @@ class MainViewModel @Inject constructor(
 
     private fun changeTimeStringToInt(departTime : String, arriveTime : String) {
         // 알림 시간 변환
-        val alarmTime = prefs.getInt("alarmTime", 0)
+        val alarmTime = prefs.getInt(ALARM_TIME, 0)
         val alarmHour = (alarmTime / 60).toLong()
         val alarmMinute = (alarmTime % 60).toLong()
         Timber.d("alarmTime: ${alarmHour}:${alarmMinute}")
 
         // today 변환
-        val today = prefs.getString("today", "")
+        val today = prefs.getString(TODAY, "")
         val todayYear = today!!.substring(0, 4).toInt()
         val todayMonth = today.substring(5, 7).toInt()
         val todayDate = today.substring(8).toInt()
@@ -208,7 +210,6 @@ class MainViewModel @Inject constructor(
         val current = LocalDateTime.of(currentTime.year, currentTime.month, currentTime.date, currentTime.hour, currentTime.minute)
 
 
-
         val showRouteYear = todayTime.year
         val showRouteMonth = todayTime.month
         var showRouteDate = todayTime.date
@@ -229,10 +230,9 @@ class MainViewModel @Inject constructor(
         Timber.d("경로보여지는시간: ${showRoute.year} / ${showRoute.month} / ${showRoute.dayOfMonth} / ${showRoute.hour} / ${showRoute.minute}")
 
 
-
-
         val subwayDepartTime = LocalDateTime.of(lastSubwayDepartTime.year, lastSubwayDepartTime.month, lastSubwayDepartTime.date, lastSubwayDepartTime.hour, lastSubwayDepartTime.minute)
         Timber.d("막차출발시간-1: ${subwayDepartTime.year} / ${subwayDepartTime.month} / ${subwayDepartTime.dayOfMonth} / ${subwayDepartTime.hour} / ${subwayDepartTime.minute}")
+
 
         // 경로 보여줄 시간
         if (current.isAfter(showRoute) || current.isEqual(showRoute)) {
@@ -249,16 +249,16 @@ class MainViewModel @Inject constructor(
         if (current.isAfter(subwayDepartTime) || current.isEqual(subwayDepartTime)) {
             Timber.d("checkRouteVisibility: ${current} / ${subwayDepartTime}")
 
-            if (prefs.getBoolean("pointAlarmOff", true)) {
+            if (prefs.getBoolean(POINT_ALARM_OFF, true)) {
 
                 // 여기서 오늘 설정한 알림 종료
-                if (prefs.getBoolean("alarmOn", false)) {
-                    prefs.edit().putBoolean("alarmOn", false).apply() // 알림 off
+                if (prefs.getBoolean(ALARM_ON, false)) {
+                    prefs.edit().putBoolean(ALARM_ON, false).apply() // 알림 off
                     patchAlarmEnabled()
                 }
 
-                prefs.edit().putBoolean("pointAlarmOff", false).apply()
-                prefs.edit().putBoolean("todayAlarm", false).apply() // 원래는 알림 on 할 때마다 true 인데 -> 여기서 막차 show시간 됐을 때 알림 off하기 위해 -> false
+                prefs.edit().putBoolean(POINT_ALARM_OFF, false).apply()
+                prefs.edit().putBoolean(TODAY_ALARM, false).apply() // 원래는 알림 on 할 때마다 true 인데 -> 여기서 막차 show시간 됐을 때 알림 off하기 위해 -> false
 
                 _todayAlarmOff.value = true // 막차 show시간 되면 -> 설정한 알림 off (얘도 한번만 true)
             }
@@ -268,7 +268,6 @@ class MainViewModel @Inject constructor(
         } else {
             Timber.d("OutOfRangeTime - checkAlarmReset: ${current} / ${subwayDepartTime} ")
         }
-
     }
 
     private fun calHideRouteTime(todayTime: TodayTime, current : LocalDateTime, lastSubwayArriveTime: LastSubwayArriveTime) {
@@ -306,9 +305,9 @@ class MainViewModel @Inject constructor(
             Timber.d("calHideRouteTime : ${current} / ${hideRoute}")
 
             _showRoute.value = false
-            prefs.edit().remove("pointAlarmOff").apply() // 일회용으로 삭제
-            prefs.edit().remove("today").apply() // 다음 알림 설정하는 날 받아오기 위해서 삭제
-            prefs.edit().putBoolean("refresh", true).apply() // 갱신 되었음 표시
+            prefs.edit().remove(POINT_ALARM_OFF).apply() // 일회용으로 삭제
+            prefs.edit().remove(TODAY).apply() // 다음 알림 설정하는 날 받아오기 위해서 삭제
+            prefs.edit().putBoolean(REFRESH, true).apply() // 갱신 되었음 표시
 
         } else {
             Timber.d("OutOfRangeTime - calHideRouteTime: ${current} / ${hideRoute} ")
@@ -335,8 +334,8 @@ class MainViewModel @Inject constructor(
 
         val today = "${dayInfo.year}-${formattedMonth}-${formattedDate}"
 
-        if (prefs.getString("today", "") == "") {
-            prefs.edit().putString("today", today).apply()
+        if (prefs.getString(TODAY, "") == "") {
+            prefs.edit().putString(TODAY, today).apply()
         }
     }
 

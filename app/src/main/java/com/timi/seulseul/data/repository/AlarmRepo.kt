@@ -28,7 +28,6 @@ class AlarmRepo @Inject constructor(
                 val errorMsg = ErrorUtils.getErrorMessage(response.code())
 
                 Timber.e(errorMsg)
-                Timber.e("syb: ${response.message()}")
                 Result.failure(RuntimeException(errorMsg))
             }
         } catch (e: Exception) {

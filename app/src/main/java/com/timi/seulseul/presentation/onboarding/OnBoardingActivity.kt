@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityOnBoardingBinding
+import com.timi.seulseul.presentation.common.constants.KEY_ONBOARDING
 import com.timi.seulseul.presentation.permission.PermissionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        if (prefs.getBoolean("KEY_ONBOARDING", false)) {
+        if (prefs.getBoolean(KEY_ONBOARDING, false)) {
             startActivity(Intent(this, PermissionActivity::class.java))
             finish()
             return  // OnBoardingActivity의 나머지 부분은 실행하지 않음
@@ -59,7 +60,7 @@ class OnBoardingActivity : AppCompatActivity() {
     private fun onConfirmButtonClick() {
 
         with(prefs.edit()) {
-            putBoolean("KEY_ONBOARDING", true)
+            putBoolean(KEY_ONBOARDING, true)
             apply()
         }
 

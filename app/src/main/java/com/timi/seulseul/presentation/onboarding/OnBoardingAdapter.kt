@@ -12,7 +12,7 @@ import com.timi.seulseul.databinding.ItemOnBoardingBinding
 
 class OnBoardingAdapter(
     private val context: Context,
-    private val onConfirmButtonClick: () -> Unit // Lambda function instead of interface
+    private val onConfirmButtonClick: () -> Unit
 ) : ListAdapter<OnBoardingData, OnBoardingAdapter.PageViewHolder>(DIFF_CALLBACK) {
 
     companion object {

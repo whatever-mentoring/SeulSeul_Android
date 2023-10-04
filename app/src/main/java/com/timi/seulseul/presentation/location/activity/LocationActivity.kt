@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityLocationBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import com.timi.seulseul.presentation.common.constants.END_NICKNAME
 import com.timi.seulseul.presentation.location.adapter.locationAdapter
 import com.timi.seulseul.presentation.location.viewmodel.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ class LocationActivity : BaseActivity<ActivityLocationBinding>(R.layout.activity
 
             //id 값의 endNickName 받아오기
             with(prefs.edit()) {
-                putString("endNickName", location.endNickName)
+                putString(END_NICKNAME, location.endNickName)
                 apply()
             }
             finish()
