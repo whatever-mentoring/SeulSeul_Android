@@ -1,10 +1,13 @@
 package com.timi.seulseul.presentation
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -24,25 +27,29 @@ class FirebaseService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
+        // 화면 깨우기
+        val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+
+        @SuppressLint("InvalidWakeLockTag")
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.SCREEN_DIM_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+            "screen_on"
+        )
+        wakeLock.acquire(3000L)
+        wakeLock.release()
+
         // TODO: FCM 관련 기능 완전히 완성 후에 제거 예정
         //FCM 메시지 유형 : Notification message 수신 (pendingIntent, 알림 여러개 쌓이는 지 확인 용)
         if (remoteMessage.notification != null) {
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             Timber.d("notification message : ${remoteMessage.notification?.title} / ${remoteMessage.notification?.body}")
 
-            val alarmOn = prefs.getBoolean("alarmOn", false)
-            Timber.d("FirebaseService : $alarmOn")
-
-            if (alarmOn) {
-                sendNotification(remoteMessage.notification?.title!!, remoteMessage.notification?.body!!)
-            } else {
-                notificationManager.deleteNotificationChannel(getString(R.string.default_notification_channel_id))
-            }
+            sendNotification(remoteMessage.notification?.title!!, remoteMessage.notification?.body!!)
         }
+
 
         // FCM 메시지 유형 : Data message 수신
         if (remoteMessage.data.isNotEmpty()) {
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+//            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
             val title = remoteMessage.data["title"].toString()
             val body = remoteMessage.data["body"].toString()
@@ -111,6 +118,6 @@ class FirebaseService : FirebaseMessagingService() {
             .setAutoCancel(true) // 알람 터치 시 자동으로 삭제
             .setSmallIcon(R.drawable.ic_splash_app)
             .setShowWhen(true) // 알람 시간
-            .setNumber(999) // 확인하지 않은 알림 갯수를 설정
+            .setNumber(1) // 확인하지 않은 알림 갯수를 설정
     }
 }

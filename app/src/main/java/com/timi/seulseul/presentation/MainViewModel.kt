@@ -15,6 +15,9 @@ import com.timi.seulseul.data.repository.AlarmRepo
 import com.timi.seulseul.data.repository.SubwayRouteRepo
 import com.timi.seulseul.presentation.main.adapter.SubwayRouteItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Duration
@@ -44,6 +47,10 @@ class MainViewModel @Inject constructor(
         } else {
             patchAlarm()
         }
+//        // 처음 경로 불러온 년/월/일/시간 갖고오기
+//        val current = getDayInfo()
+//        val currentTime = "${current.year}-${current.month}-${current.date}"
+//        prefs.edit().putString("getRouteTime", currentTime).apply()
     }
 
     private fun postAlarm() {
@@ -106,7 +113,7 @@ class MainViewModel @Inject constructor(
                 Timber.d("mainViewModel: ${_subwayData.value}")
 
                 // 막차 시간
-                val lastSubwayDepartTime = it.bodyList.last().data.departTime
+                val lastSubwayDepartTime = it.bodyList.first().data.departTime
                 val lastSubwayArriveTime = it.bodyList.last().data.arriveTime
                 Timber.d("lastSubwayDepartTime: $lastSubwayDepartTime")
                 Timber.d("lastSubwayArriveTime: $lastSubwayArriveTime")
@@ -149,6 +156,8 @@ class MainViewModel @Inject constructor(
         } else {
             lastSubwayDepartTime = LastSubwayDepartTime(lastSubwayDepartYear, lastSubwayDepartMonth, lastSubwayDepartDate, lastSubwayDepartHour, lastSubwayDepartMinute)
         }
+        Timber.d("막차출발시간: ${lastSubwayDepartTime.year} / ${lastSubwayDepartTime.month} / ${lastSubwayDepartTime.date} / ${lastSubwayDepartTime.hour} / ${lastSubwayDepartTime.minute}")
+
 
 
         // 막차 도착 시간 변환
@@ -160,22 +169,25 @@ class MainViewModel @Inject constructor(
 
         val lastSubwayArriveTime : LastSubwayArriveTime
 
-        if (lastSubwayDepartHour == 24 || lastSubwayDepartHour == 0) {
+        if (lastSubwayArriveHour == 24 || lastSubwayArriveHour == 0) {
             lastSubwayArriveDate += 1
 
             val checkPassNextMonth = passNextMonth(lastSubwayArriveYear, lastSubwayArriveMonth, lastSubwayArriveDate)
-            lastSubwayArriveTime = LastSubwayArriveTime(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, lastSubwayDepartHour, lastSubwayDepartMinute)
+            lastSubwayArriveTime = LastSubwayArriveTime(checkPassNextMonth.year, checkPassNextMonth.month, checkPassNextMonth.date, lastSubwayArriveHour, lastSubwayArriveMinute)
 
         } else {
             lastSubwayArriveTime = LastSubwayArriveTime(lastSubwayArriveYear, lastSubwayArriveMonth, lastSubwayArriveDate, lastSubwayArriveHour, lastSubwayArriveMinute)
         }
+        Timber.d("막차도착시간: ${lastSubwayArriveTime.year} / ${lastSubwayArriveTime.month} / ${lastSubwayArriveTime.date} / ${lastSubwayArriveTime.hour} / ${lastSubwayArriveTime.minute}")
+
+
 
         // 알림 시간, 막차 출발 시간 비교 -> '경로 보여줄 시간' 계산
         val showRouteTime = calShowRouteTime(alarmHour, alarmMinute, lastSubwayDepartTime)
         Timber.d("showRouteTime: $showRouteTime")
 
         // 경로 보여줄 시간, 현재 시간 비교 후 visibility 여부 체크
-        checkRouteVisibility(todayTime, showRouteTime, lastSubwayArriveTime)
+        checkRouteVisibility(todayTime, showRouteTime, lastSubwayDepartTime, lastSubwayArriveTime)
     }
 
     private fun calShowRouteTime(alarmHour: Long, alarmMinute: Long, lastSubwayDepartTime: LastSubwayDepartTime) : LocalTime {
@@ -189,10 +201,13 @@ class MainViewModel @Inject constructor(
         return time.minus(duration)
     }
 
-    private fun checkRouteVisibility(todayTime : TodayTime, showRouteTime : LocalTime, lastSubwayArriveTime : LastSubwayArriveTime) {
+    private fun checkRouteVisibility(todayTime : TodayTime, showRouteTime : LocalTime, lastSubwayDepartTime: LastSubwayDepartTime, lastSubwayArriveTime : LastSubwayArriveTime) {
         _todayAlarmOff.value = false
 
         val currentTime = getDayInfo()
+        val current = LocalDateTime.of(currentTime.year, currentTime.month, currentTime.date, currentTime.hour, currentTime.minute)
+
+
 
         val showRouteYear = todayTime.year
         val showRouteMonth = todayTime.month
@@ -200,7 +215,6 @@ class MainViewModel @Inject constructor(
         val showRouteHour = showRouteTime.hour
         val showRouteMinute = showRouteTime.minute
 
-        val current = LocalDateTime.of(currentTime.year, currentTime.month, currentTime.date, currentTime.hour, currentTime.minute)
         val showRoute : LocalDateTime
 
         if (showRouteHour == 24 || showRouteHour == 0) {
@@ -212,17 +226,36 @@ class MainViewModel @Inject constructor(
         } else {
             showRoute = LocalDateTime.of(showRouteYear, showRouteMonth, showRouteDate, showRouteHour, showRouteMinute)
         }
+        Timber.d("경로보여지는시간: ${showRoute.year} / ${showRoute.month} / ${showRoute.dayOfMonth} / ${showRoute.hour} / ${showRoute.minute}")
 
+
+
+
+        val subwayDepartTime = LocalDateTime.of(lastSubwayDepartTime.year, lastSubwayDepartTime.month, lastSubwayDepartTime.date, lastSubwayDepartTime.hour, lastSubwayDepartTime.minute)
+        Timber.d("막차출발시간-1: ${subwayDepartTime.year} / ${subwayDepartTime.month} / ${subwayDepartTime.dayOfMonth} / ${subwayDepartTime.hour} / ${subwayDepartTime.minute}")
+
+        // 경로 보여줄 시간
         if (current.isAfter(showRoute) || current.isEqual(showRoute)) {
             Timber.d("checkRouteVisibility: ${current} / ${showRoute}")
 
             _showRoute.value = true
 
+        } else {
+            Timber.d("OutOfRangeTime - checkRouteVisibility: ${current} / ${showRoute} ")
+        }
+
+
+        // 알림 초기화 시간
+        if (current.isAfter(subwayDepartTime) || current.isEqual(subwayDepartTime)) {
+            Timber.d("checkRouteVisibility: ${current} / ${subwayDepartTime}")
+
             if (prefs.getBoolean("pointAlarmOff", true)) {
 
                 // 여기서 오늘 설정한 알림 종료
-                prefs.edit().putBoolean("alarmOn", false).apply() // 알림 off
-                patchAlarmEnabled()
+                if (prefs.getBoolean("alarmOn", false)) {
+                    prefs.edit().putBoolean("alarmOn", false).apply() // 알림 off
+                    patchAlarmEnabled()
+                }
 
                 prefs.edit().putBoolean("pointAlarmOff", false).apply()
                 prefs.edit().putBoolean("todayAlarm", false).apply() // 원래는 알림 on 할 때마다 true 인데 -> 여기서 막차 show시간 됐을 때 알림 off하기 위해 -> false
@@ -233,8 +266,9 @@ class MainViewModel @Inject constructor(
             calHideRouteTime(todayTime, current, lastSubwayArriveTime) // 현재 시간, 막차 도착
 
         } else {
-            Timber.d("OutOfRangeTime - checkRouteVisibility: ${current} / ${showRoute} ")
+            Timber.d("OutOfRangeTime - checkAlarmReset: ${current} / ${subwayDepartTime} ")
         }
+
     }
 
     private fun calHideRouteTime(todayTime: TodayTime, current : LocalDateTime, lastSubwayArriveTime: LastSubwayArriveTime) {

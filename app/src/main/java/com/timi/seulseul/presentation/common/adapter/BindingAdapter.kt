@@ -73,7 +73,7 @@ fun ImageView.bindLineImage(line: String?) {
         "김포골드라인" -> setImageResource(R.drawable.ic_subway_route_line_gold)
         "인천2호선" -> setImageResource(R.drawable.ic_subway_route_line_incheon_2)
         "의정부선" -> setImageResource(R.drawable.ic_subway_route_line_uijeongbu)
-        "우이신설" -> setImageResource(R.drawable.ic_subway_route_line_ui)
+        "우이신설경전철" -> setImageResource(R.drawable.ic_subway_route_line_ui)
         "에버라인" -> setImageResource(R.drawable.ic_subway_route_line_ever)
         "신림선" -> setImageResource(R.drawable.ic_subway_route_line_sinlim)
     }
@@ -103,7 +103,7 @@ fun View.bindLineColor(line: String?) {
         "김포골드라인" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_gold))
         "인천2호선" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_incheon_2))
         "의정부선" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_uijeongbu))
-        "우이신설" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_ui))
+        "우이신설경전철" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_ui))
         "에버라인" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_ever))
         "신림선" -> setBackgroundColor(ContextCompat.getColor(context, R.color.subway_sinlim))
     }
