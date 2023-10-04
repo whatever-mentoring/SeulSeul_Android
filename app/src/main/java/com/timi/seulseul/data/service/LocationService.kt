@@ -25,6 +25,7 @@ import com.timi.seulseul.R
 import com.timi.seulseul.data.model.Location
 import com.timi.seulseul.data.model.PatchLocation
 import com.timi.seulseul.data.repository.LocationRepo
+import com.timi.seulseul.presentation.common.constants.BASE_ROUTE_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -76,7 +77,7 @@ class LocationService : Service() {
         // interval : 위치 업데이트 간격
         locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).apply {
             // 위치가 1미터 움직였을 때 위치 업데이트
-            setMinUpdateDistanceMeters(1F)
+            setMinUpdateDistanceMeters(200F)
             // 권한 수준에 따라 요청 세분화
             setGranularity(Granularity.GRANULARITY_PERMISSION_LEVEL)
             // 정확한 위치가 확인 될 때까지 대기
@@ -89,7 +90,7 @@ class LocationService : Service() {
                 GlobalScope.launch(Dispatchers.IO) {
 
 
-                    var baseRouteId = prefs.getLong("baseRouteId", 0)
+                    var baseRouteId = prefs.getLong(BASE_ROUTE_ID, 0)
 
                     // Check if baseRouteId is 0L and retry until it's not.
                     while (baseRouteId == 0L) {
