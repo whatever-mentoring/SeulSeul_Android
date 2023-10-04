@@ -1,4 +1,4 @@
-package com.timi.seulseul.presentation.main.adapter
+package com.timi.seulseul.data.model
 
 import androidx.recyclerview.widget.DiffUtil
 import com.timi.seulseul.data.model.response.BodyData

@@ -5,6 +5,8 @@ import com.timi.seulseul.data.api.AlarmService
 import com.timi.seulseul.data.api.ApiService
 import com.timi.seulseul.data.api.FcmTokenService
 import com.timi.seulseul.data.api.SubwayRouteService
+import com.timi.seulseul.presentation.common.constants.AUTH
+import com.timi.seulseul.presentation.common.constants.KEY_UUID
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -76,15 +78,15 @@ class HeaderInterceptor : Interceptor {
         val original = chain.request()
 
         // uuid 가져오기
-        var uuid = MainApplication.prefs.getString("KEY_UUID", null)
+        var uuid = MainApplication.prefs.getString(KEY_UUID, null)
         // 없다면 생성
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            MainApplication.prefs.edit().putString("KEY_UUID", uuid).apply()
+            MainApplication.prefs.edit().putString(KEY_UUID, uuid).apply()
         }
 
         // Headers 객체 생성
-        val headers = Headers.Builder().add("Auth", uuid).build()
+        val headers = Headers.Builder().add(AUTH, uuid).build()
 
         val requestBuilder =
             original.newBuilder().headers(headers).method(original.method, original.body)

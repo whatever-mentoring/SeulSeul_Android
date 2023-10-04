@@ -9,14 +9,11 @@ import android.webkit.WebViewClient
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityLocationSearchBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import com.timi.seulseul.presentation.common.constants.EXTRA_JIBUN_ADDR
+import com.timi.seulseul.presentation.common.constants.EXTRA_ROAD_ADDR
 
 class LocationSearchActivity :
     BaseActivity<ActivityLocationSearchBinding>(R.layout.activity_location_search) {
-
-    companion object {
-        const val EXTRA_ROAD_ADDR = "roadAddr"
-        const val EXTRA_JIBUN_ADDR = "jibunAddr"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,7 +7,7 @@
 
         <variable
             name="view"
-            type="com.timi.seulseul.presentation.MainActivity" />
+            type="com.timi.seulseul.presentation.main.activity.MainActivity" />
 
         <variable
             name="alarm"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".presentation.MainActivity">
+        tools:context=".presentation.main.activity.MainActivity">
 
         <TextView
             android:id="@+id/home_tv_location_setting"

@@ -12,6 +12,7 @@ import com.timi.seulseul.data.model.OnBoardingData
 import com.timi.seulseul.data.model.request.FcmTokenRequest
 import com.timi.seulseul.data.repository.AuthRepo
 import com.timi.seulseul.data.repository.FcmTokenRepo
+import com.timi.seulseul.presentation.common.constants.KEY_UUID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -35,12 +36,12 @@ class OnBoardingViewModel @Inject constructor(
 
     fun postAuth() {
         // uuid를 sp에서 가져온다.
-        var uuid = MainApplication.prefs.getString("KEY_UUID", null)
+        var uuid = MainApplication.prefs.getString(KEY_UUID, null)
 
         // 없다면 생성하고 sp에 저장한다.
         if (uuid == null) {
             uuid = UUID.randomUUID().toString()
-            MainApplication.prefs.edit().putString("KEY_UUID", uuid).apply()
+            MainApplication.prefs.edit().putString(KEY_UUID, uuid).apply()
         }
 
         viewModelScope.launch{

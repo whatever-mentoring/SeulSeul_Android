@@ -10,6 +10,9 @@ import androidx.core.content.ContextCompat
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.ActivityLocationDetailBinding
 import com.timi.seulseul.presentation.common.base.BaseActivity
+import com.timi.seulseul.presentation.common.constants.BASE_ROUTE_ID
+import com.timi.seulseul.presentation.common.constants.EXTRA_JIBUN_ADDR
+import com.timi.seulseul.presentation.common.constants.EXTRA_ROAD_ADDR
 import com.timi.seulseul.presentation.location.viewmodel.LocationDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
@@ -31,8 +34,8 @@ class LocationDetailActivity :
             finish()
         }
 
-        val roadAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_ROAD_ADDR)
-        val jibunAddr = intent.getStringExtra(LocationSearchActivity.EXTRA_JIBUN_ADDR)
+        val roadAddr = intent.getStringExtra(EXTRA_ROAD_ADDR)
+        val jibunAddr = intent.getStringExtra(EXTRA_JIBUN_ADDR)
 
         viewModel.setAddress(roadAddr!!, jibunAddr!!)
 
@@ -45,8 +48,8 @@ class LocationDetailActivity :
 
         viewModel.endLocationResponse.observe(this) { result ->
             if (result.isSuccess) {
-                prefs.edit().putLong("baseRouteId", result.getOrNull()!!.base_route_id).apply()
-                val baseRouteId = prefs.getLong("baseRouteId", 0)
+                prefs.edit().putLong(BASE_ROUTE_ID, result.getOrNull()!!.base_route_id).apply()
+                val baseRouteId = prefs.getLong(BASE_ROUTE_ID, 0)
                 Log.d("baseRouteId", baseRouteId.toString())
             }
         }

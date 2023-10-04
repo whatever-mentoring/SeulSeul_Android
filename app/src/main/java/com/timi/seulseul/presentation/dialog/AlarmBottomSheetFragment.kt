@@ -13,6 +13,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.timi.seulseul.MainApplication.Companion.prefs
 import com.timi.seulseul.R
 import com.timi.seulseul.databinding.FragmentAlarmBottomSheetDialogBinding
+import com.timi.seulseul.presentation.common.constants.ALARM_TERM
+import com.timi.seulseul.presentation.common.constants.ALARM_TIME
 import timber.log.Timber
 
 class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
@@ -45,8 +47,8 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
         initListener()
 
         // 기존 알림 데이터 가져오기
-        alarmTime = prefs.getInt("alarmTime", 0)
-        alarmTerm = prefs.getInt("alarmTerm", 0)
+        alarmTime = prefs.getInt(ALARM_TIME, 0)
+        alarmTerm = prefs.getInt(ALARM_TERM, 0)
         Timber.d("onViewCreated : $alarmTime / $alarmTerm")
 
         // 데이터 체크
@@ -97,8 +99,8 @@ class AlarmBottomSheetFragment : BottomSheetDialogFragment() {
     private fun initListener() {
         binding.homeClAlarmBottomSheetTvSettingOk.setOnClickListener{
             // 설정한 알림 데이터 저장
-            prefs.edit().putInt("alarmTime", alarmTime).apply()
-            prefs.edit().putInt("alarmTerm", alarmTerm).apply()
+            prefs.edit().putInt(ALARM_TIME, alarmTime).apply()
+            prefs.edit().putInt(ALARM_TERM, alarmTerm).apply()
             Timber.d("closeBottomSheet : $alarmTime / $alarmTerm")
 
             // main으로 설정한 데이터 전달

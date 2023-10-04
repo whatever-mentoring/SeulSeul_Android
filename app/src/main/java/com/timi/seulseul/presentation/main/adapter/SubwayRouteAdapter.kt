@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.timi.seulseul.data.model.SubwayRouteItem
 import com.timi.seulseul.data.model.response.BodyData
 import com.timi.seulseul.data.model.response.TotalTimeData
 import com.timi.seulseul.databinding.ItemSubwayBodyInfoBinding
