@@ -96,7 +96,7 @@ class LocationService : Service() {
                     while (baseRouteId == 0L) {
                         Log.d("jhb", "baserouteid while")
                         delay(1000) // Delay for a second before retrying
-                        baseRouteId = prefs.getLong("baseRouteId", 0)
+                        baseRouteId = prefs.getLong(BASE_ROUTE_ID, 0)
                     }
 
 
