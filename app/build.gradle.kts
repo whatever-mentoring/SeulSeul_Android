@@ -21,7 +21,7 @@ android {
         applicationId = "com.timi.seulseul"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
