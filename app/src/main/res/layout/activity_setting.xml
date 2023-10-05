@@ -49,7 +49,7 @@
                 android:paddingTop="@dimen/padding_12"
                 android:paddingBottom="@dimen/padding_12"
                 android:background="@drawable/border_location_bottom"
-                android:text="이용약관"/>
+                android:text="@string/setting_content1"/>
 
             <TextView
                 android:id="@+id/setting_content2"
@@ -58,7 +58,7 @@
                 android:paddingTop="@dimen/padding_12"
                 android:paddingBottom="@dimen/padding_12"
                 android:background="@drawable/border_location_bottom"
-                android:text="개인정보처리방침"/>
+                android:text="@string/setting_content2"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

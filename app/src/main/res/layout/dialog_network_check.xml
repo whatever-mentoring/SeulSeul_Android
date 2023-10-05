@@ -22,7 +22,7 @@
         android:fontFamily="@font/pretendard_semi_bold"
         android:gravity="center"
         android:lineSpacingExtra="3dp"
-        android:text="네트워크가 연결되지 않았습니다"
+        android:text="@string/dialog_network_title"
         android:textColor="@color/grey_600"
         android:textSize="@dimen/font_size_16" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
         android:fontFamily="@font/pretendard_regular"
-        android:text="Wi-Fi 또는 데이터를 활성화 해주세요"
+        android:text="@string/dialog_network_body"
         android:textColor="@color/grey_500"
         android:textSize="@dimen/font_size_14" />
 
@@ -42,6 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_12"
-        android:text="다시 시도" />
+        android:text="@string/dialog_network_retry_btn" />
 
 </LinearLayout>

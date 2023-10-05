@@ -32,6 +32,10 @@ import com.timi.seulseul.presentation.main.viewmodel.MainViewModel
 import com.timi.seulseul.presentation.permission.PermissionActivity
 import com.timi.seulseul.presentation.setting.SettingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -223,7 +227,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun showSubwayRoute() {
         // 서버 통신 (데이터 받아 오기)
-        viewModel.getSubwayRoute()
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(3000L)
+            viewModel.getSubwayRoute()
+        }
+
         viewModel.subwayData.observe(this, Observer { data ->
             if (data != null) {
                 subwayRouteAdapter = SubwayRouteAdapter()
