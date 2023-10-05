@@ -16,7 +16,7 @@
     <string name="permission_bullet">•</string>
     <string name="permission_explain1">\'정확한 위치 정보 허용\'은 막차 알림 서비스 제공을 위해 반드시 필요합니다. 권한을 허용하지 않은 경우 알림을 제한적으로 제공합니다.</string>
     <string name="permission_explain2">서비스 제공에 권한이 필요한 경우만 동의를 받고 있습니다.</string>
-    <string name="permission_explain3">비허용 시에도 서비스 이용이 제한적으로 가능합니다.</string>
+    <string name="permission_explain3">사용 중이 아니거나 종료된 상태일 때도 사용자의 위치 정보를 수집합니다. 이는 막차 경로와 알림을 정확하게 제공하기 위함입니다.</string>
 
     <!-- 메인 홈 페이지 -->
     <string name="home_location_setting">현재 거주하는 위치를 설정해주세요</string>
