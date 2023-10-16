@@ -22,13 +22,13 @@ class SettingActivity : AppCompatActivity() {
         }
 
         binding.settingContent1.setOnClickListener{
-            val url = "https://www.notion.so/9a3fc2938174449fa94f315b9fa7a746?pvs=4"
+            val url = "https://sites.google.com/view/seulseul-terms-use/%ED%99%88"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
         }
         binding.settingContent2.setOnClickListener{
-            val url = "https://www.notion.so/31de18d28df447968db59fc1439bed92?pvs=4"
+            val url = "https://sites.google.com/view/seulseul-privacy-policy/%ED%99%88"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
