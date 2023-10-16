@@ -183,7 +183,7 @@ class LocationService : Service() {
     private fun createNotification(): Notification {
         val channelID = "channelID"
         val notificationChannel =
-            NotificationChannel(channelID, "My Service", NotificationManager.IMPORTANCE_DEFAULT)
+            NotificationChannel(channelID, getString(R.string.channel_background_name), NotificationManager.IMPORTANCE_DEFAULT)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
         notificationManager?.createNotificationChannel(notificationChannel)
