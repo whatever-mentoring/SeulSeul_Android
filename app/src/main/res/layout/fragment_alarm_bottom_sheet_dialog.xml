@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.timi.seulseul.presentation.dialog.AlarmBottomSheetFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_cl_alarm_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_white_r40">
+
+        <View
+            android:id="@+id/home_cl_alarm_bottom_sheet_view_slide_bar"
+            android:layout_width="72dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_20"
+            android:background="@drawable/bg_grey_200_r20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/home_cl_alarm_bottom_sheet_scroll"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_40"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layout_constraintBottom_toTopOf="@id/home_cl_alarm_bottom_sheet_tv_setting_ok"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_view_slide_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/home_cl_alarm_bottom_sheet_ll_title_time_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="@string/alarm_bottom_sheet_essential"
+                        android:textColor="@color/green_500_main"
+                        android:textSize="@dimen/font_size_20" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_4"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="@string/alarm_bottom_sheet_preferred_time"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size_20" />
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/home_cl_alarm_bottom_sheet_rg_preferred_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:background="@drawable/bg_grey_100_r8"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_ll_title_time_setting">
+
+                    <RadioButton
+                        android:id="@+id/item_preferred_time_rb_before_one_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_16"
+                        android:bufferType="spannable"
+                        android:button="@drawable/selector_alarm_preferred_time_check"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:layoutDirection="rtl"
+                        android:paddingVertical="@dimen/padding_16"
+                        android:text="@string/alarm_bottom_sheet_time_before_one"
+                        android:textColor="@color/grey_600"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/item_preferred_time_view_line_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+                    <RadioButton
+                        android:id="@+id/item_preferred_time_rb_before_one_hour_half"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_16"
+                        android:bufferType="spannable"
+                        android:button="@drawable/selector_alarm_preferred_time_check"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:layoutDirection="rtl"
+                        android:paddingVertical="@dimen/padding_16"
+                        android:text="@string/alarm_bottom_sheet_time_before_one_half"
+                        android:textColor="@color/grey_600"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/item_preferred_time_view_line_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+                    <RadioButton
+                        android:id="@+id/item_preferred_time_rb_before_two_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_16"
+                        android:bufferType="spannable"
+                        android:button="@drawable/selector_alarm_preferred_time_check"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:layoutDirection="rtl"
+                        android:paddingVertical="@dimen/padding_16"
+                        android:text="@string/alarm_bottom_sheet_time_before_two"
+                        android:textColor="@color/grey_600"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/item_preferred_time_view_line_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+                    <RadioButton
+                        android:id="@+id/item_preferred_time_rb_before_two_hour_half"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_16"
+                        android:bufferType="spannable"
+                        android:button="@drawable/selector_alarm_preferred_time_check"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:layoutDirection="rtl"
+                        android:paddingVertical="@dimen/padding_16"
+                        android:text="@string/alarm_bottom_sheet_time_before_two_half"
+                        android:textColor="@color/grey_600"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:id="@+id/item_preferred_time_view_line_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey_200" />
+
+                    <RadioButton
+                        android:id="@+id/item_preferred_time_rb_before_three_hour"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_16"
+                        android:bufferType="spannable"
+                        android:button="@drawable/selector_alarm_preferred_time_check"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:layoutDirection="rtl"
+                        android:paddingVertical="@dimen/padding_16"
+                        android:text="@string/alarm_bottom_sheet_time_before_three"
+                        android:textColor="@color/grey_600"
+                        android:textSize="15sp" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/home_cl_alarm_bottom_sheet_tv_title_time_term"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_40"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="@string/alarm_bottom_sheet_time_term"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_rg_preferred_time" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_10"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_20"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_20"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_30"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_30"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_40"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_40"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_50"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_50"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <CheckBox
+                    android:id="@+id/item_time_term_cb_60"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_alarm_time_term_check"
+                    android:button="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_12"
+                    android:text="@string/alarm_bottom_sheet_time_term_60"
+                    android:textColor="@drawable/selector_alarm_time_term_text_color"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:id="@+id/home_cl_alarm_bottom_sheet_flow_term"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_20"
+                    app:constraint_referenced_ids="item_time_term_cb_10, item_time_term_cb_20, item_time_term_cb_30, item_time_term_cb_40, item_time_term_cb_50, item_time_term_cb_60"
+                    app:flow_horizontalGap="@dimen/margin_12"
+                    app:flow_maxElementsWrap="3"
+                    app:flow_verticalGap="@dimen/margin_12"
+                    app:flow_wrapMode="aligned"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_tv_title_time_term" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="73dp"
+                    android:background="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_cl_alarm_bottom_sheet_flow_term" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/home_cl_alarm_bottom_sheet_tv_setting_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:background="@drawable/bg_grey_200_r4"
+            android:enabled="false"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center"
+            android:padding="@dimen/padding_main_button"
+            android:text="@string/alarm_bottom_sheet_btn_ok"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

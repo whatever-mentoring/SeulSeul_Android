@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="transfer"
+            type="com.timi.seulseul.data.model.response.BodyData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="72dp">
+
+        <View
+            android:id="@+id/item_subway_transfer_view_connect_top_line"
+            android:layout_width="28dp"
+            android:layout_height="12dp"
+            android:background="@drawable/rotate_dotted_line_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/item_subway_transfer_iv_walk_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:background="@drawable/ic_subway_route_walk"
+            app:layout_constraintEnd_toEndOf="@id/item_subway_transfer_view_connect_top_line"
+            app:layout_constraintStart_toStartOf="@id/item_subway_transfer_view_connect_top_line"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_transfer_view_connect_top_line" />
+
+        <View
+            android:id="@+id/item_subway_transfer_view_connect_bottom_line"
+            android:layout_width="28dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="@dimen/margin_4"
+            android:background="@drawable/rotate_dotted_line_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_subway_transfer_iv_walk_man" />
+
+        <TextView
+            android:id="@+id/item_subway_transfer_tv_walk_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_18"
+            android:text="@{`도보 `+transfer.exWalkTime+`분`}"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_12"
+            android:fontFamily="@font/pretendard_medium"
+            app:layout_constraintBottom_toBottomOf="@id/item_subway_transfer_iv_walk_man"
+            app:layout_constraintStart_toEndOf="@id/item_subway_transfer_iv_walk_man"
+            app:layout_constraintTop_toTopOf="@id/item_subway_transfer_iv_walk_man" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

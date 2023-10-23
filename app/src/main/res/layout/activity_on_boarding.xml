@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="main"
+            type="com.timi.seulseul.presentation.onboarding.OnBoardingActivity"/>
+
+        <variable
+            name="viewmodel"
+            type="com.timi.seulseul.presentation.onboarding.OnBoardingViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.onboarding.OnBoardingActivity"
+        android:background="@color/white">
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager_onBoarding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_40"
+            android:elevation="6dp"
+            app:dotsColor="@color/grey_200"
+            app:selectedDotColor="@color/green_300"
+            app:dotsCornerRadius="@dimen/radius_8"
+            app:dotsSize="8dp"
+            app:dotsSpacing="@dimen/margin_4"
+            app:dotsWidthFactor="2.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_empty" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

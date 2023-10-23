@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.setting.SettingActivity">
+
+        <ImageView
+            android:id="@+id/setting_iv_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/setting_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@string/setting_title"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/setting_iv_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_40"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_tv_title">
+
+            <TextView
+                android:id="@+id/setting_content1"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:paddingTop="@dimen/padding_12"
+                android:paddingBottom="@dimen/padding_12"
+                android:background="@drawable/border_location_bottom"
+                android:text="@string/setting_content1"/>
+
+            <TextView
+                android:id="@+id/setting_content2"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:paddingTop="@dimen/padding_12"
+                android:paddingBottom="@dimen/padding_12"
+                android:background="@drawable/border_location_bottom"
+                android:text="@string/setting_content2"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.timi.seulseul.presentation.dialog.LocationBeforeDialogFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:minWidth="340dp"
+        android:minHeight="100dp"
+        android:background="@drawable/bg_white_r8"
+        android:paddingHorizontal="@dimen/padding_20"
+        android:paddingVertical="24dp">
+
+        <TextView
+            android:id="@+id/dialog_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/location_before_dialog_title"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/font_size_16" />
+
+        <TextView
+            android:id="@+id/dialog_tv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="@string/location_before_dialog_subtitle"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_tv_title" />
+
+        <TextView
+            android:id="@+id/dialog_tv_ok"
+            style="@style/NormalGreenButtonTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_12"
+            android:text="@string/location_before_dialog_ok"
+            android:onClick="@{() -> view.closeDialog()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_tv_subtitle" />
+
+    </LinearLayout>
+</layout>

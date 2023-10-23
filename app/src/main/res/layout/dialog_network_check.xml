@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_r8"
+    android:gravity="center"
+    android:minWidth="340dp"
+    android:minHeight="100dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_20"
+    android:paddingVertical="24dp"
+    tools:context=".presentation.splash.SplashActivity"
+    tools:ignore="MissingConstraints">
+
+    <TextView
+        android:id="@+id/network_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:text="@string/dialog_network_title"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/font_size_16" />
+
+    <TextView
+        android:id="@+id/network_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_12"
+        android:fontFamily="@font/pretendard_regular"
+        android:text="@string/dialog_network_body"
+        android:textColor="@color/grey_500"
+        android:textSize="@dimen/font_size_14" />
+
+    <TextView
+        android:id="@+id/network_btn"
+        style="@style/NormalGreenButtonTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_12"
+        android:text="@string/dialog_network_retry_btn" />
+
+</LinearLayout>

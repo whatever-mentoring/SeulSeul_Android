@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="page"
+            type="com.timi.seulseul.data.model.OnBoardingData" />
+
+        <variable
+            name="lastPage"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_onBoarding"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:imageResource="@{page.imageResId}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.66"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_onBoarding"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/onboarding_tv_searchbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:background="@drawable/bg_white_green_stroke_r20"
+            android:drawableStart="@drawable/ic_home_location"
+            android:drawablePadding="@dimen/padding_8"
+            android:fontFamily="@font/pretendard_medium"
+            android:paddingHorizontal="@dimen/padding_8"
+            android:paddingVertical="@dimen/padding_10"
+            android:text="@string/home_location_setting"
+            android:textColor="@color/grey_300"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_onBoarding"
+            app:layout_constraintTop_toBottomOf="@+id/iv_onBoarding" />
+
+
+        <TextView
+            android:id="@+id/tv_onBoarding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="68dp"
+            android:fontFamily="@font/pretendard_bold"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:text="@{page.title}"
+            android:textSize="@dimen/font_size_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_onBoarding" />
+
+
+        <TextView
+            android:id="@+id/btn_onBoarding"
+            style="@style/NormalGreenButtonTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="확인"
+            android:textSize="@dimen/font_size_16"
+            android:visibility="@{lastPage ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

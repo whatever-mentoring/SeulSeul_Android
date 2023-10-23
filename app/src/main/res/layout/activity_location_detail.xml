@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".presentation.location.activity.LocationActivity">
+
+        <ImageView
+            android:id="@+id/location_iv_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/location_detail_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_semi_bold"
+            android:text="@string/location_detail_title"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/location_iv_back" />
+
+        <ImageView
+            android:id="@+id/location_detail_iv_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:src="@drawable/ic_location_detail_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_detail_tv_title" />
+
+        <TextView
+            android:id="@+id/location_tv_short_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/location_detail_iv_line"
+            tools:text="판교역로 235" />
+
+        <TextView
+            android:id="@+id/location_tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4"
+            android:fontFamily="@font/pretendard_regular"
+            android:lineSpacingExtra="3dp"
+            android:text="도로명 :&#160;"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintStart_toStartOf="@id/location_tv_short_address"
+            app:layout_constraintTop_toBottomOf="@id/location_tv_short_address"
+            app:layout_goneMarginTop="@dimen/margin_4" />
+
+        <TextView
+            android:id="@+id/location_tv_long_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:fontFamily="@font/pretendard_regular"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/grey_500"
+            android:textSize="@dimen/font_size_14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_tv_address"
+            app:layout_constraintTop_toTopOf="@id/location_tv_address"
+            tools:text="경기 성남시 분당구 판교역로 235 (에이치스퀘어엔동)" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_home"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_20"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/location_detail_tv_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="@string/location_detail_home"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_14" />
+
+                <ImageView
+                    android:id="@+id/location_detail_iv_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:src="@drawable/ic_location_detail_home_default"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_one_room"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/location_detail_tv_one_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/location_detail_one_room"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_14" />
+
+                <ImageView
+                    android:id="@+id/location_detail_iv_one_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:src="@drawable/ic_location_detail_one_room_default" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_dormitory"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/location_detail_tv_dormitory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:lineSpacingExtra="3dp"
+                    android:text="@string/location_detail_dormitory"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_14" />
+
+                <ImageView
+                    android:id="@+id/location_detail_iv_dormitory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_24"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:src="@drawable/ic_location_detail_dormitory_default" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/location_detail_container_etc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_grey_100_r4"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHeight_percent="0.22"
+            app:layout_constraintWidth_percent="0.22"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/location_detail_tv_etc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_semi_bold"
+                    android:text="@string/location_detail_etc"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size_14" />
+
+                <ImageView
+                    android:id="@+id/location_detail_iv_etc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_4"
+                    android:src="@drawable/ic_location_detail_etc_default" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/test"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="32dp"
+            app:constraint_referenced_ids="location_detail_container_home, location_detail_container_one_room, location_detail_container_dormitory, location_detail_container_etc"
+            app:flow_horizontalGap="8dp"
+            app:flow_maxElementsWrap="4"
+            app:flow_wrapMode="aligned"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_tv_long_address" />
+
+        <TextView
+            android:id="@+id/location_detail_btn_complete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:background="@drawable/bg_grey_200_r4"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp"
+            android:padding="13dp"
+            android:text="@string/location_detail_complete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

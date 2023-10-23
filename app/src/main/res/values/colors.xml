@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#222222</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="green_50">#EBF6F4</color>
+    <color name="green_100">#CCF0E7</color>
+    <color name="green_200">#99E0CF</color>
+    <color name="green_300">#66D1B8</color>
+    <color name="green_400">#33C1A0</color>
+    <color name="green_500_main">#00B288</color>
+    <color name="green_600">#008E6D</color>
+
+    <color name="gradient_blue">#00A7B2</color>
+
+    <color name="grey_100">#F5F5F5</color>
+    <color name="grey_200">#E2E2E2</color>
+    <color name="grey_300">#CCCCCC</color>
+    <color name="grey_400">#999999</color>
+    <color name="grey_500">#666666</color>
+    <color name="grey_600">#333333</color>
+
+    <color name="subway_1">#2554B9</color>
+    <color name="subway_2">#50B54E</color>
+    <color name="subway_3">#FF9D42</color>
+    <color name="subway_4">#79BEE4</color>
+    <color name="subway_5">#A05EB5</color>
+    <color name="subway_6">#C75D28</color>
+    <color name="subway_7">#6D712E</color>
+    <color name="subway_8">#F481B7</color>
+    <color name="subway_9">#ACAA88</color>
+    <color name="subway_gyeongjung">#72C6A6</color>
+    <color name="subway_sinbundang">#BA0C2F</color>
+    <color name="subway_gyeongchun">#168C72</color>
+    <color name="subway_incheon_1">#759CCE</color>
+    <color name="subway_suin">#FFBA1C</color>
+    <color name="subway_airport">#44B0E7</color>
+    <color name="subway_gyeonggang">#1B76FD</color>
+    <color name="subway_magnetic">#FFAE43</color>
+    <color name="subway_west">#84BD00</color>
+    <color name="subway_gold">#AD8605</color>
+    <color name="subway_incheon_2">#F5A251</color>
+    <color name="subway_uijeongbu">#FFA60F</color>
+    <color name="subway_ui">#C7D138</color>
+    <color name="subway_ever">#89D875</color>
+    <color name="subway_sinlim">#558BCF</color>
+
 </resources>
